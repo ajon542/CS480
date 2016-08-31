@@ -41,6 +41,7 @@
             this.realUpDown.Name = "realUpDown";
             this.realUpDown.Size = new System.Drawing.Size(106, 20);
             this.realUpDown.TabIndex = 0;
+            this.realUpDown.ValueChanged += new System.EventHandler(this.RealUpDown_ValueChanged);
             // 
             // imagUpDown
             // 
@@ -48,6 +49,7 @@
             this.imagUpDown.Name = "imagUpDown";
             this.imagUpDown.Size = new System.Drawing.Size(106, 20);
             this.imagUpDown.TabIndex = 1;
+            this.imagUpDown.ValueChanged += new System.EventHandler(this.ImagUpDown_ValueChanged);
             // 
             // UpdateButton
             // 
