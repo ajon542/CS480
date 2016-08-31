@@ -86,8 +86,8 @@ namespace Mandelbrot
                     // Define the limits of the x-y coordinate system.
                     double xMax = 1.1;
                     double xMin = -2;
-                    double yMax = 1;
-                    double yMin = -1;
+                    double yMax = 1.3;
+                    double yMin = -1.3;
 
                     // Scale to width and height of the form.
                     double real = (xMax - xMin) / (Width - 1);
