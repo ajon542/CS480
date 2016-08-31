@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Mandelbrot
 {
+    /// <summary>
+    /// Class for displaying the Mandelbrot set in a form.
+    /// </summary>
     public partial class Mandelbrot : Form
     {
         private const int MaxMagnitude = 2;
@@ -19,6 +16,9 @@ namespace Mandelbrot
 
         /// <summary>
         /// Generate a color to match the number of iterations.
+        /// The colors generated here tend to be more reddish.
+        /// The lower the number of iterations, the darker the color.
+        /// The highest number of iteration will be very bright.
         /// </summary>
         private void FillColor()
         {
@@ -29,7 +29,7 @@ namespace Mandelbrot
                 {
                     gb += 2;
                 }
-                colors.Add(Color.FromArgb(255, gb, gb, i));
+                colors.Add(Color.FromArgb(255, i, gb, gb));
             }
         }
 
@@ -66,7 +66,12 @@ namespace Mandelbrot
         }
 
         /// <summary>
-        /// The event handler for drawing the scene.
+        /// Draw the Mandelbrot set.
+        /// The idea behind drawing the Mandelbrot set is an iterative process
+        /// where we take a parameter 'z', we square it and then add a constant
+        /// 'c'. We continue squaring the result and adding the constant until the
+        /// maximum number of iterations has been met, or the number grows too
+        /// large. It should be noted that 'z' and 'c' are complex numbers.
         /// </summary>
         /// <param name="sender">The sender of the event.</param>
         /// <param name="e">The paint event arguments.</param>
