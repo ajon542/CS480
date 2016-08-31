@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -12,7 +13,7 @@ namespace Mandelbrot
 {
     public partial class Mandelbrot : Form
     {
-        private const int MaxMagnitudeSquared = 4;
+        private const int MaxMagnitude = 2;
         private const int MaxIterations = 256;
         private List<Color> colors = new List<Color>();
 
@@ -47,6 +48,24 @@ namespace Mandelbrot
         }
 
         /// <summary>
+        /// Perform quadratic iteration.
+        /// Zn = Z^2 + C
+        /// </summary>
+        /// <param name="z">Complex number.</param>
+        /// <param name="c">Constant complex number.</param>
+        /// <returns>The number of iterations.</returns>
+        private int QuadraticIteration(Complex z, Complex c)
+        {
+            int iteration = 0;
+            while (iteration < MaxIterations && (Complex.Abs(z) < MaxMagnitude))
+            {
+                z = z * z + c;
+                iteration++;
+            }
+            return iteration;
+        }
+
+        /// <summary>
         /// The event handler for drawing the scene.
         /// </summary>
         /// <param name="sender">The sender of the event.</param>
@@ -56,9 +75,6 @@ namespace Mandelbrot
             // Ensure the graphics context is disposed.
             using (Graphics graphics = CreateGraphics())
             {
-                // For Mandelbrot, iterate from 0.
-                double zReal = 0, zImag = 0;
-
                 // Define the limits of the x-y coordinate system.
                 double xMax = 1.1;
                 double xMin = -2;
@@ -76,33 +92,13 @@ namespace Mandelbrot
                     double d = yMin;
                     for (int y = 0; y < Height; ++y)
                     {
-                        double a = zReal;
-                        double b = zImag;
-                        double a2 = 0;
-                        double b2 = 0;
-                        int iteration = 0;
-
-                        // If we start the initial values of z at zero, and plot the values
-                        // that we're using for the two components of c on the horizontal
-                        // and vertical axes of a graph – if we set AB to zero – graphing CD
-                        // gives us the Mandelbrot Set.
-                        //  Z = a + ib;
-                        //  C = c + id;
-                        // Zn = Z^2 + C;
-                        //    = (a + ib)^2 + (c + id);
-                        //    = ((a * a) - (b * b) + c) + (i * ((2 * a * b) + d));
-                        //    = (a2 - b2 + c) + (i * ((2 * a * b) + d));
-                        while (iteration < MaxIterations && (a2 + b2 < MaxMagnitudeSquared))
-                        {
-                            a2 = a * a;
-                            b2 = b * b;
-                            b = 2 * a * b + d;
-                            a = a2 - b2 + c;
-                            iteration++;
-                        }
+                        // Perform the iterations. For Mandelbrot, iterate from z = 0.
+                        Complex Z = new Complex(0, 0);
+                        Complex C = new Complex(c, d);
+                        int iterations = QuadraticIteration(Z, C);
 
                         // Draw color.
-                        SolidBrush brush = new SolidBrush(colors[iteration % colors.Count]);
+                        SolidBrush brush = new SolidBrush(colors[iterations % colors.Count]);
                         Rectangle rect = new Rectangle(x, y, 1, 1);
                         graphics.FillRectangle(brush, rect);
 
