@@ -32,7 +32,7 @@ namespace Mandelbrot
                 {
                     gb += 2;
                 }
-                colors.Add(Color.FromArgb(255, i, gb, gb));
+                colors.Add(Color.FromArgb(255, gb, gb, i));
             }
         }
 
@@ -55,10 +55,10 @@ namespace Mandelbrot
 
             FillColor();
 
-            Paint += new PaintEventHandler(Form1_Paint);
+            Paint += new PaintEventHandler(Mandelbrot_Paint);
         }
 
-        private void Form1_Paint(object sender, PaintEventArgs e)
+        private void Mandelbrot_Paint(object sender, PaintEventArgs e)
         {
             // Define the limits of the x-y coordinate system.
             double xMax = 1.1;
@@ -70,30 +70,29 @@ namespace Mandelbrot
             double real = (xMax - xMin) / (Width - 1);
             double imag = (yMax - yMin) / (Height - 1);
 
-            double ReaC = xMin;
+            double realC = xMin;
             for (int x = 0; x < Width; ++x)
             {
-                double ImaC = yMin;
+                double imagC = yMin;
 
                 for (int y = 0; y < Height; ++y)
                 {
-                    double ReaZ = Zr;
-                    double ImaZ = Zim;
+                    double realZ = Zr;
+                    double imagZ = Zim;
                     double ReaZ2 = Z2r;
                     double ImaZ2 = Z2im;
                     int iteration = 0;
 
-                    // Zn = (a + ib)(a + ib) + c + id;
+                    // Zn = (a + ib)^2 + (c + id);
                     //    = ((a * a) - (b * b) + c) + (i * ((2 * a * b) + d));
 
                     while (iteration < MaxIterations && (ReaZ2 + ImaZ2 < MaxMagnitudeSquared))
                     {
-                        ReaZ2 = ReaZ * ReaZ;
-                        ImaZ2 = ImaZ * ImaZ;
-                        ImaZ = 2 * ImaZ * ReaZ + ImaC;
-                        ReaZ = ReaZ2 - ImaZ2 + ReaC;
+                        ReaZ2 = realZ * realZ;
+                        ImaZ2 = imagZ * imagZ;
+                        imagZ = 2 * imagZ * realZ + imagC;
+                        realZ = ReaZ2 - ImaZ2 + realC;
 
-                        //Fn(ref a, ref b, real, imag);
                         iteration++;
                     }
 
@@ -102,10 +101,9 @@ namespace Mandelbrot
                     Rectangle rect = new Rectangle(x, y, 1, 1);
                     graphics.FillRectangle(brush, rect);
 
-                    ImaC += imag;
-                    //magSquared = MagnitudeSquared(a, b);
+                    imagC += imag;
                 }
-                ReaC += real;
+                realC += real;
             }
         }
     }
