@@ -25,10 +25,15 @@ namespace Mandelbrot
         /// </summary>
         private void FillColor()
         {
-            colors.Add(Color.Red);
-            colors.Add(Color.Blue);
-            colors.Add(Color.Yellow);
-            colors.Add(Color.Black);
+            int gb = 0;
+            for (int i = 0; i < MaxIterations; ++i)
+            {
+                if (i % 3 == 0)
+                {
+                    gb += 2;
+                }
+                colors.Add(Color.FromArgb(255, i, gb, gb));
+            }
         }
 
         private void Fn(ref double a, ref double b, double x, double y)
@@ -90,11 +95,6 @@ namespace Mandelbrot
 
                         //Fn(ref a, ref b, real, imag);
                         iteration++;
-                    }
-
-                    if (iteration >= MaxIterations)
-                    {
-                        iteration = MaxIterations - 1;
                     }
 
                     // Draw color.
