@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
 using System.Windows.Forms;
@@ -6,7 +7,7 @@ using System.Windows.Forms;
 namespace JuliaSet
 {
     /// <summary>
-    /// Class for displaying the Mandelbrot set in a form.
+    /// Class for displaying the Julia set in a form.
     /// </summary>
     public partial class JuliaSet : Form
     {
@@ -16,9 +17,6 @@ namespace JuliaSet
 
         /// <summary>
         /// Generate a color to match the number of iterations.
-        /// The colors generated here tend to be more reddish.
-        /// The lower the number of iterations, the darker the color.
-        /// The highest number of iteration will be very bright.
         /// </summary>
         private void FillColor()
         {
@@ -39,6 +37,17 @@ namespace JuliaSet
         public JuliaSet()
         {
             InitializeComponent();
+
+            // Set parameters for the numeric input controls.
+            realUpDown.DecimalPlaces = 3;
+            realUpDown.Increment = 0.001M;
+            realUpDown.Maximum = 5;
+            realUpDown.Minimum = -5;
+
+            imagUpDown.Maximum = 5;
+            imagUpDown.Minimum = -5;
+            imagUpDown.DecimalPlaces = 3;
+            imagUpDown.Increment = 0.001M;
 
             // Generate some colors for the plot.
             FillColor();
@@ -67,7 +76,7 @@ namespace JuliaSet
 
         /// <summary>
         /// Draw the JuliaSet set.
-        /// The idea behind drawing the Mandelbrot set is an iterative process
+        /// The idea behind drawing the JuliaSet is an iterative process
         /// where we take a parameter 'z', we square it and then add a constant
         /// 'c'. We continue squaring the result and adding the constant until the
         /// maximum number of iterations has been met, or the number grows too
@@ -77,6 +86,12 @@ namespace JuliaSet
         /// <param name="e">The paint event arguments.</param>
         private void JuliaSet_Paint(object sender, PaintEventArgs e)
         {
+            // No need to update if nothing has changed.
+            if (dirty == false)
+            {
+                return;
+            }
+
             // Ensure the graphics context is disposed.
             using (Graphics graphics = CreateGraphics())
             {
@@ -102,7 +117,14 @@ namespace JuliaSet
                         {
                             // Perform the iterations. For JuliaSet, iterate from z = 0.
                             Complex Z = new Complex(c, d);
-                            Complex C = new Complex(-1.037, 0.17);
+
+                            // Interesting defaults:
+                            // -0.52 + 0.57
+                            // 0.295 + 0.55
+                            // -0.624 + 0.435
+                            // -1.037, 0.17
+
+                            Complex C = new Complex(cReal, cImag);
                             int iterations = QuadraticIteration(Z, C);
 
                             // Set pixel color on bitmap.
@@ -117,6 +139,36 @@ namespace JuliaSet
                     e.Graphics.DrawImage(bitmap, 0, 0, bitmap.Width, bitmap.Height);
                 }
             }
+
+            dirty = false;
+        }
+
+        /// <summary>
+        /// Update the value of the real component.
+        /// </summary>
+        private double cReal = 0;
+        private void RealUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            cReal = (double)realUpDown.Value;
+        }
+
+        /// <summary>
+        /// Update the value of the imaginary component.
+        /// </summary>
+        private double cImag = 0;
+        private void ImagUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            cImag = (double)imagUpDown.Value;
+        }
+
+        /// <summary>
+        /// Mark the region as dirty and force the re-draw.
+        /// </summary>
+        private bool dirty = true;
+        private void UpdateButton_Click(object sender, EventArgs e)
+        {
+            Invalidate();
+            dirty = true;
         }
     }
 }
