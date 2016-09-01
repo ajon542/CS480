@@ -11,6 +11,7 @@ namespace JuliaSet
     /// </summary>
     public partial class JuliaSet : Form
     {
+        private double bounds = 2;
         private const int MaxMagnitude = 20;
         private const int MaxIterations = 1024;
         private List<Color> colors = new List<Color>();
@@ -36,6 +37,24 @@ namespace JuliaSet
                 Color color = initial.Lerp(final, lerpValue);
                 colors.Add(color);
                 lerpValue += lerpDelta;
+            }
+        }
+
+        private Color GetColor(int iteration)
+        {
+            double v = 765 * iteration / 200;
+
+            if (v > 510)
+            {
+                return Color.FromArgb(255, 255, 255, (int)(v % 255));
+            }
+            else if (v > 255)
+            {
+                return Color.FromArgb(255, 255, (int)(v % 255), 0);
+            }
+            else
+            {
+                return Color.FromArgb(255, (int)(v % 255), 0, 0);
             }
         }
 
@@ -107,10 +126,10 @@ namespace JuliaSet
                 using (Bitmap bitmap = new Bitmap(Width, Height))
                 {
                     // Define the limits of the x-y coordinate system.
-                    double xMax = 2;
-                    double xMin = -2;
-                    double yMax = 2;
-                    double yMin = -2;
+                    double xMax = bounds;
+                    double xMin = -bounds;
+                    double yMax = bounds;
+                    double yMin = -bounds;
 
                     // Determine the delta values for x and y.
                     double xDelta = (xMax - xMin) / (Width - 1);
@@ -129,7 +148,7 @@ namespace JuliaSet
                             int iterations = QuadraticIteration(Z, C);
 
                             // Set pixel color on bitmap.
-                            bitmap.SetPixel(x, y, colors[iterations % colors.Count]);
+                            bitmap.SetPixel(x, y, GetColor(iterations));
 
                             d += yDelta;
                         }

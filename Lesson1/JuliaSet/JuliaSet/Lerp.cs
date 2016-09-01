@@ -6,6 +6,7 @@ namespace JuliaSet
     {
         private static float Lerp(float a, float b, float value)
         {
+            Clamp(ref value);
             return (a * (1 - value)) + (b * value);
         }
 
@@ -23,7 +24,6 @@ namespace JuliaSet
 
         public static Color Lerp(this Color color, Color other, float value)
         {
-            Clamp(ref value);
             float r = Lerp(color.R, other.R, value);
             float g = Lerp(color.G, other.G, value);
             float b = Lerp(color.B, other.B, value);
