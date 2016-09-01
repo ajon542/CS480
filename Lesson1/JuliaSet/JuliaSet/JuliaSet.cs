@@ -25,36 +25,25 @@ namespace JuliaSet
         /// numbers that diverge to infinity. The numbers along the boundaries
         /// are colored darker because they diverge slowly.
         /// </remarks>
-        private void FillColor()
-        {
-            Color initial = Color.Black;
-            Color final = Color.White;
-            float lerpDelta = 1.0f / MaxIterations;
-            float lerpValue = 0.0f;
-
-            for (int i = 0; i < MaxIterations; ++i)
-            {
-                Color color = initial.Lerp(final, lerpValue);
-                colors.Add(color);
-                lerpValue += lerpDelta;
-            }
-        }
-
         private Color GetColor(int iteration)
         {
-            double v = 765 * iteration / 200;
+            double v = 3.5 * iteration;
+            int component = (int)(v % 255);
 
-            if (v > 510)
+            if (v > 700)
             {
-                return Color.FromArgb(255, 255, 255, (int)(v % 255));
+                // High iterations.
+                return Color.FromArgb(255, 255, 255, component);
             }
             else if (v > 255)
             {
-                return Color.FromArgb(255, 255, (int)(v % 255), 0);
+                // Medium iterations.
+                return Color.FromArgb(255, 255, component, 0);
             }
             else
             {
-                return Color.FromArgb(255, (int)(v % 255), 0, 0);
+                // Low iterations.
+                return Color.FromArgb(255, component, 0, 0);
             }
         }
 
@@ -75,9 +64,6 @@ namespace JuliaSet
             imagUpDown.Minimum = -2;
             imagUpDown.DecimalPlaces = 3;
             imagUpDown.Increment = 0.001M;
-
-            // Generate some colors for the plot.
-            FillColor();
 
             // Add the paint event handler.
             Paint += new PaintEventHandler(JuliaSet_Paint);
