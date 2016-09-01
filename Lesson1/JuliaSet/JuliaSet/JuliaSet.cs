@@ -18,6 +18,12 @@ namespace JuliaSet
         /// <summary>
         /// Generate a color to match the number of iterations.
         /// </summary>
+        /// <remarks>
+        /// The graph is colored so that the brighter areas indicate
+        /// complex numbers that are bounded. The black area represents
+        /// numbers that diverge to infinity. The numbers along the boundaries
+        /// are colored darker because they diverge slowly.
+        /// </remarks>
         private void FillColor()
         {
             Color initial = Color.Black;

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Numerics;
-using System.Windows.Forms;
+﻿using System.Drawing;
 
 namespace JuliaSet
 {
@@ -10,7 +6,7 @@ namespace JuliaSet
     {
         private static float Lerp(float a, float b, float value)
         {
-            return (a * value) + (b * (1 - value));
+            return (a * (1 - value)) + (b * value);
         }
 
         private static void Clamp(ref float value)
