@@ -11,8 +11,8 @@ namespace JuliaSet
     /// </summary>
     public partial class JuliaSet : Form
     {
-        private const int MaxMagnitude = 2;
-        private const int MaxIterations = 256;
+        private const int MaxMagnitude = 20;
+        private const int MaxIterations = 1024;
         private List<Color> colors = new List<Color>();
 
         /// <summary>
@@ -20,14 +20,16 @@ namespace JuliaSet
         /// </summary>
         private void FillColor()
         {
-            int col = 0;
+            Color initial = Color.Black;
+            Color final = Color.White;
+            float lerpDelta = 1.0f / MaxIterations;
+            float lerpValue = 0.0f;
+
             for (int i = 0; i < MaxIterations; ++i)
             {
-                if (i < 50)
-                {
-                    col += 3;
-                }
-                colors.Add(Color.FromArgb(255, col, col, col));
+                Color color = initial.Lerp(final, lerpValue);
+                colors.Add(color);
+                lerpValue += lerpDelta;
             }
         }
 
@@ -41,11 +43,11 @@ namespace JuliaSet
             // Set parameters for the numeric input controls.
             realUpDown.DecimalPlaces = 3;
             realUpDown.Increment = 0.001M;
-            realUpDown.Maximum = 5;
-            realUpDown.Minimum = -5;
+            realUpDown.Maximum = 2;
+            realUpDown.Minimum = -2;
 
-            imagUpDown.Maximum = 5;
-            imagUpDown.Minimum = -5;
+            imagUpDown.Maximum = 2;
+            imagUpDown.Minimum = -2;
             imagUpDown.DecimalPlaces = 3;
             imagUpDown.Increment = 0.001M;
 
@@ -104,9 +106,9 @@ namespace JuliaSet
                     double yMax = 2;
                     double yMin = -2;
 
-                    // Scale to width and height of the form.
-                    double real = (xMax - xMin) / (Width - 1);
-                    double imag = (yMax - yMin) / (Height - 1);
+                    // Determine the delta values for x and y.
+                    double xDelta = (xMax - xMin) / (Width - 1);
+                    double yDelta = (yMax - yMin) / (Height - 1);
 
                     // Determine the color of each pixel.
                     double c = xMin;
@@ -115,24 +117,17 @@ namespace JuliaSet
                         double d = yMin;
                         for (int y = 0; y < Height; ++y)
                         {
-                            // Perform the iterations. For JuliaSet, iterate from z = 0.
+                            // Perform the iterations.
                             Complex Z = new Complex(c, d);
-
-                            // Interesting defaults:
-                            // -0.52 + 0.57
-                            // 0.295 + 0.55
-                            // -0.624 + 0.435
-                            // -1.037, 0.17
-
                             Complex C = new Complex(cReal, cImag);
                             int iterations = QuadraticIteration(Z, C);
 
                             // Set pixel color on bitmap.
                             bitmap.SetPixel(x, y, colors[iterations % colors.Count]);
 
-                            d += imag;
+                            d += yDelta;
                         }
-                        c += real;
+                        c += xDelta;
                     }
 
                     // Draw bitmap image.
@@ -146,7 +141,7 @@ namespace JuliaSet
         /// <summary>
         /// Update the value of the real component.
         /// </summary>
-        private double cReal = 0;
+        private double cReal = -0.8;
         private void RealUpDown_ValueChanged(object sender, EventArgs e)
         {
             cReal = (double)realUpDown.Value;
@@ -155,7 +150,7 @@ namespace JuliaSet
         /// <summary>
         /// Update the value of the imaginary component.
         /// </summary>
-        private double cImag = 0;
+        private double cImag = 0.156;
         private void ImagUpDown_ValueChanged(object sender, EventArgs e)
         {
             cImag = (double)imagUpDown.Value;
