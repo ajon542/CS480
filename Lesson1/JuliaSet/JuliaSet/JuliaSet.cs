@@ -18,6 +18,8 @@ namespace JuliaSet
 
         /// <summary>
         /// Generate a color to match the number of iterations.
+        /// http://www.fractalforums.com/programming/newbie-how-to-map-colors-in-the-mandelbrot-set/
+        /// A linear color band is not good for julia sets.
         /// </summary>
         /// <remarks>
         /// The graph is colored so that the brighter areas indicate
