@@ -69,6 +69,9 @@ namespace JuliaSet
 
             // Add the paint event handler.
             Paint += new PaintEventHandler(JuliaSet_Paint);
+
+            // Add mouse click event handler to 'zoom'.
+            MouseClick += new MouseEventHandler(JuliaSet_MouseClick);
         }
 
         /// <summary>
@@ -87,6 +90,18 @@ namespace JuliaSet
                 iteration++;
             }
             return iteration;
+        }
+
+        /// <summary>
+        /// On mouse click, perform a simple 'zoom' operation.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="e">The mouse click event arguments.</param>
+        private void JuliaSet_MouseClick(object sender, MouseEventArgs e)
+        {
+            bounds /= 2;
+            Invalidate();
+            dirty = true;
         }
 
         /// <summary>
