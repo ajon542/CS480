@@ -52,7 +52,6 @@
     <Compile Include="JuliaSet.Designer.cs">
       <DependentUpon>JuliaSet.cs</DependentUpon>
     </Compile>
-    <Compile Include="Lerp.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="JuliaSet.resx">
