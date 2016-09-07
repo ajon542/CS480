@@ -17,64 +17,6 @@ namespace JuliaSet
         private List<Color> colors = new List<Color>();
 
         /// <summary>
-        /// Generate a color to match the number of iterations.
-        /// http://www.fractalforums.com/programming/newbie-how-to-map-colors-in-the-mandelbrot-set/
-        /// A linear color band is not good for julia sets.
-        /// </summary>
-        /// <remarks>
-        /// The graph is colored so that the brighter areas indicate
-        /// complex numbers that are bounded. The black area represents
-        /// numbers that diverge to infinity. The numbers along the boundaries
-        /// are colored darker because they diverge slowly.
-        /// </remarks>
-        private Color GetColor(int iteration)
-        {
-            double v = 3.5 * iteration;
-            int component = (int)(v % 255);
-
-            if (v > 700)
-            {
-                // High iterations.
-                return Color.FromArgb(255, 255, 255, component);
-            }
-            else if (v > 255)
-            {
-                // Medium iterations.
-                return Color.FromArgb(255, 255, component, 0);
-            }
-            else
-            {
-                // Low iterations.
-                return Color.FromArgb(255, component, 0, 0);
-            }
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="JuliaSet"/> class.
-        /// </summary>
-        public JuliaSet()
-        {
-            InitializeComponent();
-
-            // Set parameters for the numeric input controls.
-            realUpDown.DecimalPlaces = 3;
-            realUpDown.Increment = 0.001M;
-            realUpDown.Maximum = 2;
-            realUpDown.Minimum = -2;
-
-            imagUpDown.Maximum = 2;
-            imagUpDown.Minimum = -2;
-            imagUpDown.DecimalPlaces = 3;
-            imagUpDown.Increment = 0.001M;
-
-            // Add the paint event handler.
-            Paint += new PaintEventHandler(JuliaSet_Paint);
-
-            // Add mouse click event handler to 'zoom'.
-            MouseClick += new MouseEventHandler(JuliaSet_MouseClick);
-        }
-
-        /// <summary>
         /// Perform quadratic iteration.
         /// Zn = Z^2 + C
         /// </summary>
@@ -90,18 +32,6 @@ namespace JuliaSet
                 iteration++;
             }
             return iteration;
-        }
-
-        /// <summary>
-        /// On mouse click, perform a simple 'zoom' operation.
-        /// </summary>
-        /// <param name="sender">The sender of the event.</param>
-        /// <param name="e">The mouse click event arguments.</param>
-        private void JuliaSet_MouseClick(object sender, MouseEventArgs e)
-        {
-            bounds /= 2;
-            Invalidate();
-            dirty = true;
         }
 
         /// <summary>
@@ -167,9 +97,66 @@ namespace JuliaSet
         }
 
         /// <summary>
+        /// Generate a color to match the number of iterations.
+        /// http://www.fractalforums.com/programming/newbie-how-to-map-colors-in-the-mandelbrot-set/
+        /// A linear color band is not good for julia sets.
+        /// </summary>
+        /// <remarks>
+        /// The graph is colored so that the brighter areas indicate
+        /// complex numbers that are bounded. The black area represents
+        /// numbers that diverge to infinity. The numbers along the boundaries
+        /// are colored darker because they diverge slowly.
+        /// </remarks>
+        private Color GetColor(int iteration)
+        {
+            double v = 3.5 * iteration;
+            int component = (int)(v % 255);
+
+            if (v > 900)
+            {
+                // High iterations.
+                return Color.FromArgb(255, 255, 255, component);
+            }
+            else if (v > 255)
+            {
+                // Medium iterations.
+                return Color.FromArgb(255, 255, component, 0);
+            }
+            else
+            {
+                // Low iterations.
+                return Color.FromArgb(255, component, 0, 0);
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JuliaSet"/> class.
+        /// </summary>
+        public JuliaSet()
+        {
+            InitializeComponent();
+
+            // Set parameters for the numeric input controls.
+            realUpDown.DecimalPlaces = 10;
+            realUpDown.Increment = 0.01M;
+            realUpDown.Maximum = 2;
+            realUpDown.Minimum = -2;
+
+            imagUpDown.Maximum = 2;
+            imagUpDown.Minimum = -2;
+            imagUpDown.DecimalPlaces = 10;
+            imagUpDown.Increment = 0.01M;
+
+            // Add the paint event handler.
+            Paint += new PaintEventHandler(JuliaSet_Paint);
+        }
+
+        #region Form Controls
+
+        /// <summary>
         /// Update the value of the real component.
         /// </summary>
-        private double cReal = -0.8;
+        private double cReal = 0.27334;
         private void RealUpDown_ValueChanged(object sender, EventArgs e)
         {
             cReal = (double)realUpDown.Value;
@@ -178,7 +165,7 @@ namespace JuliaSet
         /// <summary>
         /// Update the value of the imaginary component.
         /// </summary>
-        private double cImag = 0.156;
+        private double cImag = 0.00742;
         private void ImagUpDown_ValueChanged(object sender, EventArgs e)
         {
             cImag = (double)imagUpDown.Value;
@@ -193,5 +180,7 @@ namespace JuliaSet
             Invalidate();
             dirty = true;
         }
+
+        #endregion
     }
 }
