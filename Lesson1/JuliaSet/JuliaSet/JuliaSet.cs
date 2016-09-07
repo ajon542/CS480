@@ -143,7 +143,7 @@ namespace JuliaSet
         /// <summary>
         /// Update the value of the real component.
         /// </summary>
-        private double cReal = 0.27334;
+        private double cReal = 0;
         private void RealUpDown_ValueChanged(object sender, EventArgs e)
         {
             cReal = (double)realUpDown.Value;
@@ -152,7 +152,7 @@ namespace JuliaSet
         /// <summary>
         /// Update the value of the imaginary component.
         /// </summary>
-        private double cImag = 0.00742;
+        private double cImag = 0;
         private void ImagUpDown_ValueChanged(object sender, EventArgs e)
         {
             cImag = (double)imagUpDown.Value;
