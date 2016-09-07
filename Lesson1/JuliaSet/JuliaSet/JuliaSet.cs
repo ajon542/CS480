@@ -81,35 +81,31 @@ namespace JuliaSet
                 return;
             }
 
-            // Ensure the graphics context is disposed.
-            using (Graphics graphics = CreateGraphics())
+            // Ensure the bitmap is disposed after using.
+            using (Bitmap bitmap = new Bitmap(Width, Height))
             {
-                // Ensure the bitmap is disposed after using.
-                using (Bitmap bitmap = new Bitmap(Width, Height))
+                // Determine the color of each pixel.
+                double c = xMin;
+                for (int x = 0; x < Width; ++x)
                 {
-                    // Determine the color of each pixel.
-                    double c = xMin;
-                    for (int x = 0; x < Width; ++x)
+                    double d = yMin;
+                    for (int y = 0; y < Height; ++y)
                     {
-                        double d = yMin;
-                        for (int y = 0; y < Height; ++y)
-                        {
-                            // Perform the iterations.
-                            Complex Z = new Complex(c, d);
-                            Complex C = new Complex(cReal, cImag);
-                            int iterations = quadraticIterator.Iterate(Z, C);
+                        // Perform the iterations.
+                        Complex Z = new Complex(c, d);
+                        Complex C = new Complex(cReal, cImag);
+                        int iterations = quadraticIterator.Iterate(Z, C);
 
-                            // Set pixel color on bitmap.
-                            bitmap.SetPixel(x, y, GetColor(iterations));
+                        // Set pixel color on bitmap.
+                        bitmap.SetPixel(x, y, GetColor(iterations));
 
-                            d += yDelta;
-                        }
-                        c += xDelta;
+                        d += yDelta;
                     }
-
-                    // Draw bitmap image.
-                    e.Graphics.DrawImage(bitmap, 0, 0, bitmap.Width, bitmap.Height);
+                    c += xDelta;
                 }
+
+                // Draw bitmap image.
+                e.Graphics.DrawImage(bitmap, 0, 0, bitmap.Width, bitmap.Height);
             }
 
             dirty = false;
