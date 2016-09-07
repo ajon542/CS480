@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
 using System.Windows.Forms;
@@ -14,25 +13,6 @@ namespace JuliaSet
         private double bounds = 2;
         private const int MaxMagnitude = 20;
         private const int MaxIterations = 1024;
-        private List<Color> colors = new List<Color>();
-
-        /// <summary>
-        /// Perform quadratic iteration.
-        /// Zn = Z^2 + C
-        /// </summary>
-        /// <param name="z">Complex number.</param>
-        /// <param name="c">Constant complex number.</param>
-        /// <returns>The number of iterations.</returns>
-        private int QuadraticIteration(Complex z, Complex c)
-        {
-            int iteration = 0;
-            while (iteration < MaxIterations && (Complex.Abs(z) < MaxMagnitude))
-            {
-                z = z * z + c;
-                iteration++;
-            }
-            return iteration;
-        }
 
         /// <summary>
         /// Draw the JuliaSet set.
@@ -51,6 +31,13 @@ namespace JuliaSet
             {
                 return;
             }
+
+            // Create the iterator.
+            IIterator quadraticIterator = new QuadraticIterator
+            {
+                MaxIterations = MaxIterations,
+                MaxMagnitude = MaxMagnitude
+            };
 
             // Ensure the graphics context is disposed.
             using (Graphics graphics = CreateGraphics())
@@ -78,7 +65,7 @@ namespace JuliaSet
                             // Perform the iterations.
                             Complex Z = new Complex(c, d);
                             Complex C = new Complex(cReal, cImag);
-                            int iterations = QuadraticIteration(Z, C);
+                            int iterations = quadraticIterator.Iterate(Z, C);
 
                             // Set pixel color on bitmap.
                             bitmap.SetPixel(x, y, GetColor(iterations));

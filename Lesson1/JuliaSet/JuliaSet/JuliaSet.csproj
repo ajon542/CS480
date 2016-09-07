@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IIterator.cs" />
     <Compile Include="JuliaSet.cs">
       <SubType>Form</SubType>
     </Compile>
