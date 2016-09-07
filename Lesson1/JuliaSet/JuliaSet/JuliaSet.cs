@@ -85,23 +85,23 @@ namespace JuliaSet
             using (Bitmap bitmap = new Bitmap(Width, Height))
             {
                 // Determine the color of each pixel.
-                double c = xMin;
+                double zReal = xMin;
                 for (int x = 0; x < Width; ++x)
                 {
-                    double d = yMin;
+                    double zImag = yMin;
                     for (int y = 0; y < Height; ++y)
                     {
                         // Perform the iterations.
-                        Complex Z = new Complex(c, d);
-                        Complex C = new Complex(cReal, cImag);
-                        int iterations = quadraticIterator.Iterate(Z, C);
+                        Complex z = new Complex(zReal, zImag);
+                        Complex c = new Complex(cReal, cImag);
+                        int iterations = quadraticIterator.Iterate(z, c);
 
                         // Set pixel color on bitmap.
                         bitmap.SetPixel(x, y, GetColor(iterations));
 
-                        d += yDelta;
+                        zImag += yDelta;
                     }
-                    c += xDelta;
+                    zReal += xDelta;
                 }
 
                 // Draw bitmap image.
