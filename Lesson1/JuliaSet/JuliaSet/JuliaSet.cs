@@ -14,13 +14,62 @@ namespace JuliaSet
         private const int MaxMagnitude = 20;
         private const int MaxIterations = 1024;
 
+        private double xMax;
+        private double xMin;
+        private double yMax;
+        private double yMin;
+        private double xDelta;
+        private double yDelta;
+
+        private IIterator quadraticIterator;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JuliaSet"/> class.
+        /// </summary>
+        public JuliaSet()
+        {
+            InitializeComponent();
+
+            // Set parameters for the numeric input controls.
+            realUpDown.DecimalPlaces = 10;
+            realUpDown.Increment = 0.01M;
+            realUpDown.Maximum = 2;
+            realUpDown.Minimum = -2;
+
+            imagUpDown.Maximum = 2;
+            imagUpDown.Minimum = -2;
+            imagUpDown.DecimalPlaces = 10;
+            imagUpDown.Increment = 0.01M;
+
+            // Define the limits of the x-y coordinate system.
+            xMax = bounds;
+            xMin = -bounds;
+            yMax = bounds;
+            yMin = -bounds;
+
+            // Determine the delta values for x and y.
+            xDelta = (xMax - xMin) / (Width - 1);
+            yDelta = (yMax - yMin) / (Height - 1);
+
+            // Create the iterator.
+            quadraticIterator = new QuadraticIterator
+            {
+                MaxIterations = MaxIterations,
+                MaxMagnitude = MaxMagnitude
+            };
+
+            // Add the paint event handler.
+            Paint += new PaintEventHandler(JuliaSet_Paint);
+        }
+
+
         /// <summary>
         /// Draw the JuliaSet set.
         /// The idea behind drawing the JuliaSet is an iterative process
         /// where we take a parameter 'z', we square it and then add a constant
         /// 'c'. We continue squaring the result and adding the constant until the
-        /// maximum number of iterations has been met, or the number grows too
-        /// large. It should be noted that 'z' and 'c' are complex numbers.
+        /// maximum number of iterations has been met, or the magnitude of the vector
+        /// grows too large. It should be noted that 'z' and 'c' are complex numbers.
         /// </summary>
         /// <param name="sender">The sender of the event.</param>
         /// <param name="e">The paint event arguments.</param>
@@ -32,29 +81,12 @@ namespace JuliaSet
                 return;
             }
 
-            // Create the iterator.
-            IIterator quadraticIterator = new QuadraticIterator
-            {
-                MaxIterations = MaxIterations,
-                MaxMagnitude = MaxMagnitude
-            };
-
             // Ensure the graphics context is disposed.
             using (Graphics graphics = CreateGraphics())
             {
                 // Ensure the bitmap is disposed after using.
                 using (Bitmap bitmap = new Bitmap(Width, Height))
                 {
-                    // Define the limits of the x-y coordinate system.
-                    double xMax = bounds;
-                    double xMin = -bounds;
-                    double yMax = bounds;
-                    double yMin = -bounds;
-
-                    // Determine the delta values for x and y.
-                    double xDelta = (xMax - xMin) / (Width - 1);
-                    double yDelta = (yMax - yMin) / (Height - 1);
-
                     // Determine the color of each pixel.
                     double c = xMin;
                     for (int x = 0; x < Width; ++x)
@@ -114,28 +146,6 @@ namespace JuliaSet
                 // Low iterations.
                 return Color.FromArgb(255, component, 0, 0);
             }
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="JuliaSet"/> class.
-        /// </summary>
-        public JuliaSet()
-        {
-            InitializeComponent();
-
-            // Set parameters for the numeric input controls.
-            realUpDown.DecimalPlaces = 10;
-            realUpDown.Increment = 0.01M;
-            realUpDown.Maximum = 2;
-            realUpDown.Minimum = -2;
-
-            imagUpDown.Maximum = 2;
-            imagUpDown.Minimum = -2;
-            imagUpDown.DecimalPlaces = 10;
-            imagUpDown.Increment = 0.01M;
-
-            // Add the paint event handler.
-            Paint += new PaintEventHandler(JuliaSet_Paint);
         }
 
         #region Form Controls
