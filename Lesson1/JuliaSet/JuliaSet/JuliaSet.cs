@@ -22,6 +22,8 @@ namespace JuliaSet
         private double xDelta;
         private double yDelta;
 
+        private Color[,] colors;
+
         private IIterator quadraticIterator;
 
         /// <summary>
@@ -30,6 +32,8 @@ namespace JuliaSet
         public JuliaSet()
         {
             InitializeComponent();
+
+            colors = new Color[DrawRegion.Width, DrawRegion.Height];
 
             // Set parameters for the numeric input controls.
             realUpDown.DecimalPlaces = 10;
@@ -65,28 +69,31 @@ namespace JuliaSet
 
         /// <summary>
         /// Draw the JuliaSet set.
-        /// The idea behind drawing the JuliaSet is an iterative process
-        /// where we take a parameter 'z', we square it and then add a constant
-        /// 'c'. We continue squaring the result and adding the constant until the
-        /// maximum number of iterations has been met, or the magnitude of the vector
-        /// grows too large. It should be noted that 'z' and 'c' are complex numbers.
         /// </summary>
-        /// <param name="sender">The sender of the event.</param>
-        /// <param name="e">The paint event arguments.</param>
         private void JuliaSet_Paint(object sender, PaintEventArgs e)
         {
-            // Get the width and height of draw region.
-            int width = DrawRegion.Width;
-            int height = DrawRegion.Height;
+            // Fill the draw region with the calculated colors.
+            for (int x = 0; x < DrawRegion.Width; ++x)
+            {
+                for (int y = 0; y < DrawRegion.Height; ++y)
+                {
+                    Brush color = new SolidBrush(colors[x, y]);
+                    e.Graphics.FillRectangle(color, x, y, 1, 1);
+                }
+            }
+        }
 
-            Color[,] colors = new Color[width, height];
-
+        /// <summary>
+        /// Calculate the Julia set colors.
+        /// </summary>
+        private void CalculateButton_Click(object sender, EventArgs e)
+        {
             // Determine the color of each pixel.
-            for (int x = 0; x < width; ++x)
+            for (int x = 0; x < DrawRegion.Width; ++x)
             //Parallel.For(0, width, x =>
             {
                 //for (int y = 0; y < height; ++y)
-                Parallel.For(0, height, y =>
+                Parallel.For(0, DrawRegion.Height, y =>
                 {
                     // Calculate real and imaginary components for z.
                     double zReal = -bounds + (x * xDelta);
@@ -102,15 +109,8 @@ namespace JuliaSet
                 });
             }
 
-            // Fill the draw region with the previously calculated colors.
-            for (int x = 0; x < width; ++x)
-            {
-                for (int y = 0; y < height; ++y)
-                {
-                    Brush color = new SolidBrush(colors[x, y]);
-                    e.Graphics.FillRectangle(color, x, y, 1, 1);
-                }
-            }
+            // Force re-draw.
+            DrawRegion.Invalidate();
         }
 
         /// <summary>
@@ -144,8 +144,6 @@ namespace JuliaSet
             }
         }
 
-        #region Form Controls
-
         /// <summary>
         /// Update the value of the real component.
         /// </summary>
@@ -163,15 +161,5 @@ namespace JuliaSet
         {
             cImag = (double)imagUpDown.Value;
         }
-
-        /// <summary>
-        /// Force the re-draw.
-        /// </summary>
-        private void CalculateButton_Click(object sender, EventArgs e)
-        {
-            DrawRegion.Invalidate();
-        }
-
-        #endregion
     }
 }
