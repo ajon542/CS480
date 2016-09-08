@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Numerics;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace JuliaSet
@@ -78,25 +79,37 @@ namespace JuliaSet
             int width = DrawRegion.Width;
             int height = DrawRegion.Height;
 
+            Color[,] colors = new Color[width, height];
+
             // Determine the color of each pixel.
-            double zReal = xMin;
             for (int x = 0; x < width; ++x)
+            //Parallel.For(0, width, x =>
             {
-                double zImag = yMin;
-                for (int y = 0; y < height; ++y)
+                //for (int y = 0; y < height; ++y)
+                Parallel.For(0, height, y =>
                 {
+                    // Calculate real and imaginary components for z.
+                    double zReal = -bounds + (x * xDelta);
+                    double zImag = -bounds + (y * yDelta);
+
                     // Perform the iterations.
                     Complex z = new Complex(zReal, zImag);
                     Complex c = new Complex(cReal, cImag);
                     int iterations = quadraticIterator.Iterate(z, c);
 
-                    // Set pixel color.
-                    Brush color = new SolidBrush(GetColor(iterations));
-                    e.Graphics.FillRectangle(color, x, y, 1, 1);
+                    // Store pixel color.
+                    colors[x, y] = GetColor(iterations);
+                });
+            }
 
-                    zImag += yDelta;
+            // Fill the draw region with the previously calculated colors.
+            for (int x = 0; x < width; ++x)
+            {
+                for (int y = 0; y < height; ++y)
+                {
+                    Brush color = new SolidBrush(colors[x, y]);
+                    e.Graphics.FillRectangle(color, x, y, 1, 1);
                 }
-                zReal += xDelta;
             }
         }
 
