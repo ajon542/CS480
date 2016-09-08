@@ -48,8 +48,8 @@ namespace JuliaSet
             yMin = -bounds;
 
             // Determine the delta values for x and y.
-            xDelta = (xMax - xMin) / (Width - 1);
-            yDelta = (yMax - yMin) / (Height - 1);
+            xDelta = (xMax - xMin) / (DrawRegion.Width - 1);
+            yDelta = (yMax - yMin) / (DrawRegion.Height - 1);
 
             // Create the iterator.
             quadraticIterator = new QuadraticIterator
@@ -59,9 +59,8 @@ namespace JuliaSet
             };
 
             // Add the paint event handler.
-            Paint += new PaintEventHandler(JuliaSet_Paint);
+            DrawRegion.Paint += new PaintEventHandler(JuliaSet_Paint);
         }
-
 
         /// <summary>
         /// Draw the JuliaSet set.
@@ -75,46 +74,34 @@ namespace JuliaSet
         /// <param name="e">The paint event arguments.</param>
         private void JuliaSet_Paint(object sender, PaintEventArgs e)
         {
-            // No need to update if nothing has changed.
-            if (dirty == false)
-            {
-                return;
-            }
+            // Get the width and height of draw region.
+            int width = DrawRegion.Width;
+            int height = DrawRegion.Height;
 
-            // Ensure the bitmap is disposed after using.
-            using (Bitmap bitmap = new Bitmap(Width, Height))
+            // Determine the color of each pixel.
+            double zReal = xMin;
+            for (int x = 0; x < width; ++x)
             {
-                // Determine the color of each pixel.
-                double zReal = xMin;
-                for (int x = 0; x < Width; ++x)
+                double zImag = yMin;
+                for (int y = 0; y < height; ++y)
                 {
-                    double zImag = yMin;
-                    for (int y = 0; y < Height; ++y)
-                    {
-                        // Perform the iterations.
-                        Complex z = new Complex(zReal, zImag);
-                        Complex c = new Complex(cReal, cImag);
-                        int iterations = quadraticIterator.Iterate(z, c);
+                    // Perform the iterations.
+                    Complex z = new Complex(zReal, zImag);
+                    Complex c = new Complex(cReal, cImag);
+                    int iterations = quadraticIterator.Iterate(z, c);
 
-                        // Set pixel color on bitmap.
-                        bitmap.SetPixel(x, y, GetColor(iterations));
+                    // Set pixel color.
+                    Brush color = new SolidBrush(GetColor(iterations));
+                    e.Graphics.FillRectangle(color, x, y, 1, 1);
 
-                        zImag += yDelta;
-                    }
-                    zReal += xDelta;
+                    zImag += yDelta;
                 }
-
-                // Draw bitmap image.
-                e.Graphics.DrawImage(bitmap, 0, 0, bitmap.Width, bitmap.Height);
+                zReal += xDelta;
             }
-
-            dirty = false;
         }
 
         /// <summary>
         /// Generate a color to match the number of iterations.
-        /// http://www.fractalforums.com/programming/newbie-how-to-map-colors-in-the-mandelbrot-set/
-        /// A linear color band is not good for julia sets.
         /// </summary>
         /// <remarks>
         /// The graph is colored so that the brighter areas indicate
@@ -165,13 +152,11 @@ namespace JuliaSet
         }
 
         /// <summary>
-        /// Mark the region as dirty and force the re-draw.
+        /// Force the re-draw.
         /// </summary>
-        private bool dirty = true;
-        private void UpdateButton_Click(object sender, EventArgs e)
+        private void CalculateButton_Click(object sender, EventArgs e)
         {
-            Invalidate();
-            dirty = true;
+            DrawRegion.Invalidate();
         }
 
         #endregion
