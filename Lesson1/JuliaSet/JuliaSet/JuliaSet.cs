@@ -111,6 +111,11 @@ namespace JuliaSet
             DrawRegion.Invalidate();
         }
 
+        private static double Lerp(double a, double b, double value)
+        {
+            return (a * value) + (b * (1 - value));
+        }
+
         /// <summary>
         /// Generate a color to match the number of iterations.
         /// </summary>
@@ -122,7 +127,18 @@ namespace JuliaSet
         /// </remarks>
         private Color GetColor(int iteration)
         {
-            double v = 3.5 * iteration;
+            double log = Math.Log(iteration, 2);
+
+            double r = Lerp(Color.LightBlue.R, Color.Black.R, log / 20);
+            double g = Lerp(Color.LightBlue.G, Color.Black.G, log / 20);
+            double b = Lerp(Color.LightBlue.B, Color.Black.B, log / 20);
+
+            return Color.FromArgb(255, (int)r, (int)g, (int)b);
+
+            //int lerp = (int)((255.0 / 20.0) * log);
+            //return Color.FromArgb(255, lerp, lerp, lerp);
+
+            /*double v = 3.5 * iteration;
             int component = (int)(v % 255);
 
             if (v > 900)
@@ -139,7 +155,7 @@ namespace JuliaSet
             {
                 // Low iterations.
                 return Color.FromArgb(255, component, 0, 0);
-            }
+            }*/
         }
 
         /// <summary>
