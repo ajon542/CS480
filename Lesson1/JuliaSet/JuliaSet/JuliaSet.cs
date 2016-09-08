@@ -89,11 +89,9 @@ namespace JuliaSet
         private void CalculateButton_Click(object sender, EventArgs e)
         {
             // Determine the color of each pixel.
-            for (int x = 0; x < DrawRegion.Width; ++x)
-            //Parallel.For(0, width, x =>
+            Parallel.For(0, DrawRegion.Width, x =>
             {
-                //for (int y = 0; y < height; ++y)
-                Parallel.For(0, DrawRegion.Height, y =>
+                for (int y = 0; y < DrawRegion.Height; ++y)
                 {
                     // Calculate real and imaginary components for z.
                     double zReal = -bounds + (x * xDelta);
@@ -106,8 +104,8 @@ namespace JuliaSet
 
                     // Store pixel color.
                     colors[x, y] = GetColor(iterations);
-                });
-            }
+                }
+            });
 
             // Force re-draw.
             DrawRegion.Invalidate();
