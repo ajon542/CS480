@@ -115,33 +115,11 @@ namespace JuliaSet
         {
             double log = Math.Log(iteration, 2);
 
-            double r = Lerp(Color.LightBlue.R, Color.Black.R, log / 16);
-            double g = Lerp(Color.LightBlue.G, Color.Black.G, log / 16);
-            double b = Lerp(Color.LightBlue.B, Color.Black.B, log / 16);
+            double r = Lerp(Color.Yellow.R, Color.Black.R, log / 16);
+            double g = Lerp(Color.Yellow.G, Color.Black.G, log / 16);
+            double b = Lerp(Color.Yellow.B, Color.Black.B, log / 16);
 
             return Color.FromArgb(255, (int)r, (int)g, (int)b);
-
-            //int lerp = (int)((255.0 / 20.0) * log);
-            //return Color.FromArgb(255, lerp, lerp, lerp);
-
-            /*double v = 3.5 * iteration;
-            int component = (int)(v % 255);
-
-            if (v > 900)
-            {
-                // High iterations.
-                return Color.FromArgb(255, 255, 255, component);
-            }
-            else if (v > 255)
-            {
-                // Medium iterations.
-                return Color.FromArgb(255, 255, component, 0);
-            }
-            else
-            {
-                // Low iterations.
-                return Color.FromArgb(255, component, 0, 0);
-            }*/
         }
 
         /// <summary>
@@ -167,7 +145,7 @@ namespace JuliaSet
         /// </summary>
         private void JuliaSet_MouseClick(Object sender, MouseEventArgs e)
         {
-            // Convert screen coords to bounds coords.
+            // Convert mouse click screen coords to bounds coords.
             double boundsX = xMin + (e.X * xDelta);
             double boundsY = yMin + (e.Y * yDelta);
 
@@ -179,6 +157,22 @@ namespace JuliaSet
             xMax = boundsX + (bounds / 2);
             yMin = boundsY - (bounds / 2);
             yMax = boundsY + (bounds / 2);
+
+            // Calculate iterations on that point for display.
+            Complex z = new Complex(boundsX, boundsY);
+            Complex c = new Complex(cReal, cImag);
+            int iterations = quadraticIterator.Iterate(z, c);
+
+            // Display the point. Debug.
+            System.Text.StringBuilder messageBoxCS = new System.Text.StringBuilder();
+            messageBoxCS.AppendLine();
+            messageBoxCS.AppendFormat("Screen ({0}, {1})", e.X, e.Y);
+            messageBoxCS.AppendLine();
+            messageBoxCS.AppendFormat("Actual ({0}, {1})", boundsX, boundsY);
+            messageBoxCS.AppendLine();
+            messageBoxCS.AppendFormat("Iterations {0}", iterations);
+            messageBoxCS.AppendLine();
+            MessageBox.Show(messageBoxCS.ToString(), "Zoom");
 
             // Force re-draw.
             DrawRegion.Invalidate();
