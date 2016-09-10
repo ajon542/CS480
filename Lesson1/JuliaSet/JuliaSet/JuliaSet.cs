@@ -22,6 +22,7 @@ namespace JuliaSet
         private double xDelta;
         private double yDelta;
 
+        private ColorScheme colorScheme = ColorScheme.BlueToGold;
         private Color[,] colors;
 
         private IIterator quadraticIterator;
@@ -45,6 +46,9 @@ namespace JuliaSet
             imagUpDown.Minimum = -2;
             imagUpDown.DecimalPlaces = 10;
             imagUpDown.Increment = 0.01M;
+
+            // Set the combo box data source for the color scheme.
+            comboBox1.DataSource = Enum.GetValues(typeof(ColorScheme));
 
             // Create the iterator.
             quadraticIterator = new QuadraticIterator
@@ -84,7 +88,7 @@ namespace JuliaSet
                     int iterations = quadraticIterator.Iterate(z, c);
 
                     // Store pixel color.
-                    colors[x, y] = ColorHelper.GetColor(iterations);
+                    colors[x, y] = ColorHelper.GetColor(colorScheme, iterations);
                 }
             });
 
@@ -184,5 +188,14 @@ namespace JuliaSet
         }
 
         #endregion
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Set the color scheme based on the combo box selection.
+            colorScheme = (ColorScheme)comboBox1.SelectedItem;
+
+            // Force re-draw.
+            DrawRegion.Invalidate();
+        }
     }
 }

@@ -1,7 +1,15 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace JuliaSet
 {
+    public enum ColorScheme
+    {
+        BlueToGold,
+        BlackToWhite,
+        Red
+    }
+
     public static class ColorHelper
     {
         public static double Lerp(double a, double b, double value)
@@ -31,39 +39,56 @@ namespace JuliaSet
         /// numbers that diverge to infinity. The numbers along the boundaries
         /// are colored darker because they diverge slowly.
         /// </remarks>
-        public static Color GetColor(int iteration)
+        public static Color GetColor(ColorScheme colorScheme, int iteration)
         {
-            //double log = Math.Log(iteration, 2);
-
-            //double r = Lerp(Color.Yellow.R, Color.Black.R, log / 16);
-            //double g = Lerp(Color.Yellow.G, Color.Black.G, log / 16);
-            //double b = Lerp(Color.Yellow.B, Color.Black.B, log / 16);
-
             Color color;
 
-            if (iteration < 20)
+            if (colorScheme == ColorScheme.BlackToWhite)
             {
-                color = Lerp(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 255, 200, 0), GetPerc(0, 20, iteration));
-                return color;
+                double log = Math.Log(iteration, 2);
+
+                double r = Lerp(Color.Black.R, Color.White.R, log / 16);
+                double g = Lerp(Color.Black.G, Color.White.G, log / 16);
+                double b = Lerp(Color.Black.B, Color.White.B, log / 16);
+                color = Color.FromArgb(255, (int)r, (int)g, (int)b);
             }
-            else if (iteration < 40)
+            else if (colorScheme == ColorScheme.BlueToGold)
             {
-                color = Lerp(Color.FromArgb(255, 255, 200, 0), Color.FromArgb(255, 255, 255, 255), GetPerc(20, 40, iteration));
-                return color;
-            }
-            else if (iteration < 80)
-            {
-                color = Lerp(Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 0, 0, 255), GetPerc(40, 80, iteration));
-                return color;
-            }
-            else if (iteration < 200)
-            {
-                color = Lerp(Color.FromArgb(255, 0, 0, 255), Color.FromArgb(255, 0, 0, 128), GetPerc(80, 200, iteration));
-                return color;
+                if (iteration < 20)
+                {
+                    color = Lerp(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 255, 200, 0), GetPerc(0, 20, iteration));
+                    return color;
+                }
+                else if (iteration < 40)
+                {
+                    color = Lerp(Color.FromArgb(255, 255, 200, 0), Color.FromArgb(255, 255, 255, 255), GetPerc(20, 40, iteration));
+                    return color;
+                }
+                else if (iteration < 80)
+                {
+                    color = Lerp(Color.FromArgb(255, 255, 255, 255), Color.FromArgb(255, 0, 0, 255), GetPerc(40, 80, iteration));
+                    return color;
+                }
+                else if (iteration < 200)
+                {
+                    color = Lerp(Color.FromArgb(255, 0, 0, 255), Color.FromArgb(255, 0, 0, 128), GetPerc(80, 200, iteration));
+                    return color;
+                }
+                else
+                {
+                    color = Lerp(Color.FromArgb(255, 0, 0, 128), Color.FromArgb(255, 255, 255, 255), GetPerc(200, 1024, iteration));
+                }
             }
             else
             {
-                color = Lerp(Color.FromArgb(255, 0, 0, 128), Color.FromArgb(255, 255, 255, 255), GetPerc(200, 1024, iteration));
+                if (iteration > 100)
+                {
+                    color = Color.FromArgb(255, 128, 0, 0);
+                }
+                else
+                {
+                    color = Color.FromArgb(255, 0, 0, 0);
+                }
             }
 
             return color;

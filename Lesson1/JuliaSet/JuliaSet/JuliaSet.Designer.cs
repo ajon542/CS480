@@ -36,6 +36,8 @@
             this.DrawRegion = new System.Windows.Forms.PictureBox();
             this.ResetButton = new System.Windows.Forms.Button();
             this.Help = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.ColorSchemeLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.realUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imagUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DrawRegion)).BeginInit();
@@ -113,11 +115,35 @@
             this.Help.TabIndex = 7;
             this.Help.Text = "Click on a region of the screen to zoom";
             // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Red",
+            "Black to White",
+            "Blue to Gold"});
+            this.comboBox1.Location = new System.Drawing.Point(32, 150);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(106, 21);
+            this.comboBox1.TabIndex = 8;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // ColorSchemeLabel
+            // 
+            this.ColorSchemeLabel.AutoSize = true;
+            this.ColorSchemeLabel.Location = new System.Drawing.Point(32, 131);
+            this.ColorSchemeLabel.Name = "ColorSchemeLabel";
+            this.ColorSchemeLabel.Size = new System.Drawing.Size(73, 13);
+            this.ColorSchemeLabel.TabIndex = 9;
+            this.ColorSchemeLabel.Text = "Color Scheme";
+            // 
             // JuliaSet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(976, 820);
+            this.Controls.Add(this.ColorSchemeLabel);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.Help);
             this.Controls.Add(this.ResetButton);
             this.Controls.Add(this.DrawRegion);
@@ -146,6 +172,8 @@
         private System.Windows.Forms.PictureBox DrawRegion;
         private System.Windows.Forms.Button ResetButton;
         private System.Windows.Forms.Label Help;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label ColorSchemeLabel;
     }
 }
 
