@@ -35,6 +35,7 @@
             this.C1 = new System.Windows.Forms.Label();
             this.DrawRegion = new System.Windows.Forms.PictureBox();
             this.ResetButton = new System.Windows.Forms.Button();
+            this.Help = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.realUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imagUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DrawRegion)).BeginInit();
@@ -102,11 +103,22 @@
             this.ResetButton.UseVisualStyleBackColor = true;
             this.ResetButton.Click += new System.EventHandler(this.ResetButton_Click);
             // 
+            // Help
+            // 
+            this.Help.AutoSize = true;
+            this.Help.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Help.Location = new System.Drawing.Point(174, 14);
+            this.Help.Name = "Help";
+            this.Help.Size = new System.Drawing.Size(283, 20);
+            this.Help.TabIndex = 7;
+            this.Help.Text = "Click on a region of the screen to zoom";
+            // 
             // JuliaSet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(976, 820);
+            this.Controls.Add(this.Help);
             this.Controls.Add(this.ResetButton);
             this.Controls.Add(this.DrawRegion);
             this.Controls.Add(this.C1);
@@ -133,6 +145,7 @@
         private System.Windows.Forms.Label C1;
         private System.Windows.Forms.PictureBox DrawRegion;
         private System.Windows.Forms.Button ResetButton;
+        private System.Windows.Forms.Label Help;
     }
 }
 
