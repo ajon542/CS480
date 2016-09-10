@@ -15,10 +15,10 @@ namespace JuliaSet
         private const int MaxMagnitude = 20;
         private const int MaxIterations = 1024;
 
-        private double xMax;
-        private double xMin;
-        private double yMax;
-        private double yMin;
+        private double xMax = 2;
+        private double xMin = -2;
+        private double yMax = 2;
+        private double yMin = -2;
         private double xDelta;
         private double yDelta;
 
@@ -46,16 +46,6 @@ namespace JuliaSet
             imagUpDown.DecimalPlaces = 10;
             imagUpDown.Increment = 0.01M;
 
-            // Define the limits of the x-y coordinate system.
-            xMax = bounds;
-            xMin = -bounds;
-            yMax = bounds;
-            yMin = -bounds;
-
-            // Determine the delta values for x and y.
-            xDelta = (xMax - xMin) / (DrawRegion.Width - 1);
-            yDelta = (yMax - yMin) / (DrawRegion.Height - 1);
-
             // Create the iterator.
             quadraticIterator = new QuadraticIterator
             {
@@ -65,6 +55,7 @@ namespace JuliaSet
 
             // Add the paint event handler.
             DrawRegion.Paint += new PaintEventHandler(JuliaSet_Paint);
+            DrawRegion.MouseClick += new MouseEventHandler(JuliaSet_MouseClick);
         }
 
         /// <summary>
@@ -72,30 +63,18 @@ namespace JuliaSet
         /// </summary>
         private void JuliaSet_Paint(object sender, PaintEventArgs e)
         {
-            // Fill the draw region with the calculated colors.
-            for (int x = 0; x < DrawRegion.Width; ++x)
-            {
-                for (int y = 0; y < DrawRegion.Height; ++y)
-                {
-                    Brush color = new SolidBrush(colors[x, y]);
-                    e.Graphics.FillRectangle(color, x, y, 1, 1);
-                }
-            }
-        }
+            // Determine the delta values for x and y.
+            xDelta = (xMax - xMin) / (DrawRegion.Width - 1);
+            yDelta = (yMax - yMin) / (DrawRegion.Height - 1);
 
-        /// <summary>
-        /// Calculate the Julia set colors.
-        /// </summary>
-        private void CalculateButton_Click(object sender, EventArgs e)
-        {
             // Determine the color of each pixel.
             Parallel.For(0, DrawRegion.Width, x =>
             {
                 for (int y = 0; y < DrawRegion.Height; ++y)
                 {
                     // Calculate real and imaginary components for z.
-                    double zReal = -bounds + (x * xDelta);
-                    double zImag = -bounds + (y * yDelta);
+                    double zReal = xMin + (x * xDelta);
+                    double zImag = yMin + (y * yDelta);
 
                     // Perform the iterations.
                     Complex z = new Complex(zReal, zImag);
@@ -107,8 +86,15 @@ namespace JuliaSet
                 }
             });
 
-            // Force re-draw.
-            DrawRegion.Invalidate();
+            // Fill the draw region with the calculated colors.
+            for (int x = 0; x < DrawRegion.Width; ++x)
+            {
+                for (int y = 0; y < DrawRegion.Height; ++y)
+                {
+                    Brush color = new SolidBrush(colors[x, y]);
+                    e.Graphics.FillRectangle(color, x, y, 1, 1);
+                }
+            }
         }
 
         private static double Lerp(double a, double b, double value)
@@ -129,9 +115,9 @@ namespace JuliaSet
         {
             double log = Math.Log(iteration, 2);
 
-            double r = Lerp(Color.LightBlue.R, Color.Black.R, log / 20);
-            double g = Lerp(Color.LightBlue.G, Color.Black.G, log / 20);
-            double b = Lerp(Color.LightBlue.B, Color.Black.B, log / 20);
+            double r = Lerp(Color.LightBlue.R, Color.Black.R, log / 16);
+            double g = Lerp(Color.LightBlue.G, Color.Black.G, log / 16);
+            double b = Lerp(Color.LightBlue.B, Color.Black.B, log / 16);
 
             return Color.FromArgb(255, (int)r, (int)g, (int)b);
 
@@ -174,6 +160,52 @@ namespace JuliaSet
         private void ImagUpDown_ValueChanged(object sender, EventArgs e)
         {
             cImag = (double)imagUpDown.Value;
+        }
+
+        /// <summary>
+        /// Perform a simple zoom by dividing the view region in half.
+        /// </summary>
+        private void JuliaSet_MouseClick(Object sender, MouseEventArgs e)
+        {
+            // Convert screen coords to bounds coords.
+            double boundsX = xMin + (e.X * xDelta);
+            double boundsY = yMin + (e.Y * yDelta);
+
+            // Zoom the bounds by a factor of 2.
+            bounds /= 2;
+
+            // Center view around that point.
+            xMin = boundsX - (bounds / 2);
+            xMax = boundsX + (bounds / 2);
+            yMin = boundsY - (bounds / 2);
+            yMax = boundsY + (bounds / 2);
+
+            // Force re-draw.
+            DrawRegion.Invalidate();
+        }
+
+        /// <summary>
+        /// Reset the zoom.
+        /// </summary>
+        private void ResetButton_Click(object sender, EventArgs e)
+        {
+            bounds = 2;
+            xMin = -bounds;
+            xMax = bounds;
+            yMin = -bounds;
+            yMax = bounds;
+
+            // Force re-draw.
+            DrawRegion.Invalidate();
+        }
+
+        /// <summary>
+        /// Calculate the Julia set colors.
+        /// </summary>
+        private void CalculateButton_Click(object sender, EventArgs e)
+        {
+            // Force re-draw.
+            DrawRegion.Invalidate();
         }
     }
 }

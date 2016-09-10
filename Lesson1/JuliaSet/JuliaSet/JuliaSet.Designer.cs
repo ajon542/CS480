@@ -34,6 +34,7 @@
             this.C0 = new System.Windows.Forms.Label();
             this.C1 = new System.Windows.Forms.Label();
             this.DrawRegion = new System.Windows.Forms.PictureBox();
+            this.ResetButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.realUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imagUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DrawRegion)).BeginInit();
@@ -91,11 +92,22 @@
             this.DrawRegion.TabIndex = 5;
             this.DrawRegion.TabStop = false;
             // 
+            // ResetButton
+            // 
+            this.ResetButton.Location = new System.Drawing.Point(32, 93);
+            this.ResetButton.Name = "ResetButton";
+            this.ResetButton.Size = new System.Drawing.Size(106, 23);
+            this.ResetButton.TabIndex = 6;
+            this.ResetButton.Text = "Reset";
+            this.ResetButton.UseVisualStyleBackColor = true;
+            this.ResetButton.Click += new System.EventHandler(this.ResetButton_Click);
+            // 
             // JuliaSet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(976, 820);
+            this.Controls.Add(this.ResetButton);
             this.Controls.Add(this.DrawRegion);
             this.Controls.Add(this.C1);
             this.Controls.Add(this.C0);
@@ -120,6 +132,7 @@
         private System.Windows.Forms.Label C0;
         private System.Windows.Forms.Label C1;
         private System.Windows.Forms.PictureBox DrawRegion;
+        private System.Windows.Forms.Button ResetButton;
     }
 }
 
