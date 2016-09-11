@@ -7,6 +7,11 @@ namespace JuliaSet
     /// </summary>
     public static class ColorHelper
     {
+        public static double GetPerc(double start, double end, double mid)
+        {
+            return (mid - start) / (end - start);
+        }
+
         public static double Lerp(double a, double b, double value)
         {
             return (a * (1 - value)) + (b * value);

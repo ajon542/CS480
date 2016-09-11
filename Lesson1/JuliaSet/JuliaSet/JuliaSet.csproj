@@ -58,6 +58,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Range.cs" />
     <EmbeddedResource Include="JuliaSet.resx">
       <DependentUpon>JuliaSet.cs</DependentUpon>
     </EmbeddedResource>
