@@ -225,6 +225,40 @@ namespace JuliaSet
             DrawRegion.Invalidate();
         }
 
+        /// <summary>
+        /// Handle the samples combo box item selected event.
+        /// </summary>
+        private void SamplesComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string sample = (string)sampleCombo.SelectedItem;
+
+            // TODO: We could create a string parser for this.
+            if (sample == "-1.476 + 0i")
+            {
+                cReal = -1.476;
+                cImag = 0;
+                realUpDown.Value = (Decimal)cReal;
+                imagUpDown.Value = (Decimal)cImag;
+            }
+            else if (sample == "-0.12 - 0.77i")
+            {
+                cReal = -0.12;
+                cImag = -0.77;
+                realUpDown.Value = (Decimal)cReal;
+                imagUpDown.Value = (Decimal)cImag;
+            }
+            else if (sample == "-0.162 + 1.04i")
+            {
+                cReal = -0.162;
+                cImag = 1.04;
+                realUpDown.Value = (Decimal)cReal;
+                imagUpDown.Value = (Decimal)cImag;
+            }
+
+            // Force re-draw.
+            DrawRegion.Invalidate();
+        }
+
         #endregion
     }
 }

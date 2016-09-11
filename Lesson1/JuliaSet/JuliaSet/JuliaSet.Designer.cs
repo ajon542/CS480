@@ -46,6 +46,8 @@
             this.IterationCountLabel = new System.Windows.Forms.Label();
             this.TimeLabel = new System.Windows.Forms.Label();
             this.DrawTimeLabel = new System.Windows.Forms.Label();
+            this.SampleLabel = new System.Windows.Forms.Label();
+            this.sampleCombo = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.realUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imagUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DrawRegion)).BeginInit();
@@ -145,20 +147,20 @@
             this.ColorSchemeLabel.TabIndex = 9;
             this.ColorSchemeLabel.Text = "Color Scheme";
             // 
-            // XCoord
+            // XLabel
             // 
             this.XLabel.AutoSize = true;
             this.XLabel.Location = new System.Drawing.Point(32, 776);
-            this.XLabel.Name = "XCoord";
+            this.XLabel.Name = "XLabel";
             this.XLabel.Size = new System.Drawing.Size(43, 13);
             this.XLabel.TabIndex = 10;
             this.XLabel.Text = "XCoord";
             // 
-            // YCoord
+            // YLabel
             // 
             this.YLabel.AutoSize = true;
             this.YLabel.Location = new System.Drawing.Point(32, 789);
-            this.YLabel.Name = "YCoord";
+            this.YLabel.Name = "YLabel";
             this.YLabel.Size = new System.Drawing.Size(43, 13);
             this.YLabel.TabIndex = 11;
             this.YLabel.Text = "YCoord";
@@ -217,11 +219,35 @@
             this.DrawTimeLabel.TabIndex = 17;
             this.DrawTimeLabel.Text = "DrawTime";
             // 
+            // SampleLabel
+            // 
+            this.SampleLabel.AutoSize = true;
+            this.SampleLabel.Location = new System.Drawing.Point(32, 178);
+            this.SampleLabel.Name = "SampleLabel";
+            this.SampleLabel.Size = new System.Drawing.Size(49, 13);
+            this.SampleLabel.TabIndex = 18;
+            this.SampleLabel.Text = "Samples";
+            // 
+            // sampleCombo
+            // 
+            this.sampleCombo.FormattingEnabled = true;
+            this.sampleCombo.Items.AddRange(new object[] {
+            "-1.476 + 0i",
+            "-0.12 - 0.77i",
+            "-0.162 + 1.04i"});
+            this.sampleCombo.Location = new System.Drawing.Point(32, 195);
+            this.sampleCombo.Name = "sampleCombo";
+            this.sampleCombo.Size = new System.Drawing.Size(106, 21);
+            this.sampleCombo.TabIndex = 19;
+            this.sampleCombo.SelectedIndexChanged += new System.EventHandler(this.SamplesComboBox_SelectedIndexChanged);
+            // 
             // JuliaSet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(976, 820);
+            this.Controls.Add(this.sampleCombo);
+            this.Controls.Add(this.SampleLabel);
             this.Controls.Add(this.DrawTimeLabel);
             this.Controls.Add(this.TimeLabel);
             this.Controls.Add(this.IterationCountLabel);
@@ -271,6 +297,8 @@
         private System.Windows.Forms.Label IterationCountLabel;
         private System.Windows.Forms.Label TimeLabel;
         private System.Windows.Forms.Label DrawTimeLabel;
+        private System.Windows.Forms.Label SampleLabel;
+        private System.Windows.Forms.ComboBox sampleCombo;
     }
 }
 
