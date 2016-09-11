@@ -161,8 +161,8 @@ namespace JuliaSet
             int iterations = quadraticIterator.Iterate(z, c);
 
             // Display the data.
-            XCoordLabel.Text = boundsX.ToString();
-            YCoordLabel.Text = boundsY.ToString();
+            XLabel.Text = boundsX.ToString();
+            YLabel.Text = boundsY.ToString();
             IterationCountLabel.Text = iterations.ToString();
             DrawTimeLabel.Text = paintTime.ToString(@"ss") + "s, " + paintTime.ToString(@"fff") + "ms";
         }

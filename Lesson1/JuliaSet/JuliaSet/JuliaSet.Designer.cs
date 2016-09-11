@@ -38,8 +38,8 @@
             this.Help = new System.Windows.Forms.Label();
             this.colorSchemeCombo = new System.Windows.Forms.ComboBox();
             this.ColorSchemeLabel = new System.Windows.Forms.Label();
-            this.XCoordLabel = new System.Windows.Forms.Label();
-            this.YCoordLabel = new System.Windows.Forms.Label();
+            this.XLabel = new System.Windows.Forms.Label();
+            this.YLabel = new System.Windows.Forms.Label();
             this.xCoordLabel = new System.Windows.Forms.Label();
             this.yCoordLabel = new System.Windows.Forms.Label();
             this.IterationsLabel = new System.Windows.Forms.Label();
@@ -147,21 +147,21 @@
             // 
             // XCoord
             // 
-            this.XCoordLabel.AutoSize = true;
-            this.XCoordLabel.Location = new System.Drawing.Point(32, 776);
-            this.XCoordLabel.Name = "XCoord";
-            this.XCoordLabel.Size = new System.Drawing.Size(43, 13);
-            this.XCoordLabel.TabIndex = 10;
-            this.XCoordLabel.Text = "XCoord";
+            this.XLabel.AutoSize = true;
+            this.XLabel.Location = new System.Drawing.Point(32, 776);
+            this.XLabel.Name = "XCoord";
+            this.XLabel.Size = new System.Drawing.Size(43, 13);
+            this.XLabel.TabIndex = 10;
+            this.XLabel.Text = "XCoord";
             // 
             // YCoord
             // 
-            this.YCoordLabel.AutoSize = true;
-            this.YCoordLabel.Location = new System.Drawing.Point(32, 789);
-            this.YCoordLabel.Name = "YCoord";
-            this.YCoordLabel.Size = new System.Drawing.Size(43, 13);
-            this.YCoordLabel.TabIndex = 11;
-            this.YCoordLabel.Text = "YCoord";
+            this.YLabel.AutoSize = true;
+            this.YLabel.Location = new System.Drawing.Point(32, 789);
+            this.YLabel.Name = "YCoord";
+            this.YLabel.Size = new System.Drawing.Size(43, 13);
+            this.YLabel.TabIndex = 11;
+            this.YLabel.Text = "YCoord";
             // 
             // xCoordLabel
             // 
@@ -228,8 +228,8 @@
             this.Controls.Add(this.IterationsLabel);
             this.Controls.Add(this.yCoordLabel);
             this.Controls.Add(this.xCoordLabel);
-            this.Controls.Add(this.YCoordLabel);
-            this.Controls.Add(this.XCoordLabel);
+            this.Controls.Add(this.YLabel);
+            this.Controls.Add(this.XLabel);
             this.Controls.Add(this.ColorSchemeLabel);
             this.Controls.Add(this.colorSchemeCombo);
             this.Controls.Add(this.Help);
@@ -263,8 +263,8 @@
         private System.Windows.Forms.Label Help;
         private System.Windows.Forms.ComboBox colorSchemeCombo;
         private System.Windows.Forms.Label ColorSchemeLabel;
-        private System.Windows.Forms.Label XCoordLabel;
-        private System.Windows.Forms.Label YCoordLabel;
+        private System.Windows.Forms.Label XLabel;
+        private System.Windows.Forms.Label YLabel;
         private System.Windows.Forms.Label xCoordLabel;
         private System.Windows.Forms.Label yCoordLabel;
         private System.Windows.Forms.Label IterationsLabel;
