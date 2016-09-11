@@ -9,8 +9,9 @@ namespace JuliaSet
     {
         BlueToGold,
         BlackToWhite,
-        BlackToGreen,
-        Red
+        Red,
+        Green,
+        Blue,
     }
 
     /// <summary>
@@ -27,21 +28,25 @@ namespace JuliaSet
         {
             IColorGenerator colorGen;
 
-            if (colorScheme == ColorScheme.BlackToWhite)
-            {
-                colorGen = new BlackToWhiteColorGenerator();
-            }
-            else if (colorScheme == ColorScheme.BlackToGreen)
-            {
-                colorGen = new BlackToGreenColorGenerator();
-            }
-            else if (colorScheme == ColorScheme.BlueToGold)
+            if (colorScheme == ColorScheme.BlueToGold)
             {
                 colorGen = new BlueToGoldColorGenerator();
             }
-            else
+            else if (colorScheme == ColorScheme.BlackToWhite)
+            {
+                colorGen = new BlackToWhiteColorGenerator();
+            }
+            else if (colorScheme == ColorScheme.Red)
             {
                 colorGen = new RedColorGenerator();
+            }
+            else if (colorScheme == ColorScheme.Green)
+            {
+                colorGen = new GreenColorGenerator();
+            }
+            else
+            {
+                colorGen = new BlueColorGenerator();
             }
 
             return colorGen.GetColor(iterations);
