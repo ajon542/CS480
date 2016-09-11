@@ -9,6 +9,7 @@ namespace JuliaSet
     {
         BlueToGold,
         BlackToWhite,
+        BlackToGreen,
         Red
     }
 
@@ -29,6 +30,10 @@ namespace JuliaSet
             if (colorScheme == ColorScheme.BlackToWhite)
             {
                 colorGen = new BlackToWhiteColorGenerator();
+            }
+            else if (colorScheme == ColorScheme.BlackToGreen)
+            {
+                colorGen = new BlackToGreenColorGenerator();
             }
             else if (colorScheme == ColorScheme.BlueToGold)
             {
