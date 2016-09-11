@@ -57,9 +57,10 @@ namespace JuliaSet
                 MaxMagnitude = MaxMagnitude
             };
 
-            // Add the paint and mouse click event handlers.
+            // Add the paint, mouse click and mouse move event handlers.
             DrawRegion.Paint += new PaintEventHandler(JuliaSet_Paint);
             DrawRegion.MouseClick += new MouseEventHandler(JuliaSet_MouseClick);
+            DrawRegion.MouseMove += new MouseEventHandler(JuliaSet_MouseMove);
         }
 
         #region Event Handlers
@@ -121,24 +122,28 @@ namespace JuliaSet
             yMin = boundsY - (bounds / 2);
             yMax = boundsY + (bounds / 2);
 
-            // Calculate iterations on that point for display.
+            // Force re-draw.
+            DrawRegion.Invalidate();
+        }
+
+        /// <summary>
+        /// Handle the mouse move event for live updates on mouse position.
+        /// </summary>
+        private void JuliaSet_MouseMove(Object sender, MouseEventArgs e)
+        {
+            // Calculate the x-y bounds coords.
+            double boundsX = xMin + (e.X * xDelta);
+            double boundsY = yMin + (e.Y * yDelta);
+
+            // Calculate the iterations.
             Complex z = new Complex(boundsX, boundsY);
             Complex c = new Complex(cReal, cImag);
             int iterations = quadraticIterator.Iterate(z, c);
 
-            // Display the point. Debug.
-            System.Text.StringBuilder messageBoxCS = new System.Text.StringBuilder();
-            messageBoxCS.AppendLine();
-            messageBoxCS.AppendFormat("Screen ({0}, {1})", e.X, e.Y);
-            messageBoxCS.AppendLine();
-            messageBoxCS.AppendFormat("Actual ({0}, {1})", boundsX, boundsY);
-            messageBoxCS.AppendLine();
-            messageBoxCS.AppendFormat("Iterations {0}", iterations);
-            messageBoxCS.AppendLine();
-            MessageBox.Show(messageBoxCS.ToString(), "Zoom");
-
-            // Force re-draw.
-            DrawRegion.Invalidate();
+            // Display the data.
+            XCoord.Text = boundsX.ToString();
+            YCoord.Text = boundsY.ToString();
+            IterationCountLabel.Text = iterations.ToString();
         }
 
         #endregion
