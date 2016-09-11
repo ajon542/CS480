@@ -38,12 +38,14 @@
             this.Help = new System.Windows.Forms.Label();
             this.colorSchemeCombo = new System.Windows.Forms.ComboBox();
             this.ColorSchemeLabel = new System.Windows.Forms.Label();
-            this.XCoord = new System.Windows.Forms.Label();
-            this.YCoord = new System.Windows.Forms.Label();
+            this.XCoordLabel = new System.Windows.Forms.Label();
+            this.YCoordLabel = new System.Windows.Forms.Label();
             this.xCoordLabel = new System.Windows.Forms.Label();
             this.yCoordLabel = new System.Windows.Forms.Label();
             this.IterationsLabel = new System.Windows.Forms.Label();
             this.IterationCountLabel = new System.Windows.Forms.Label();
+            this.TimeLabel = new System.Windows.Forms.Label();
+            this.DrawTimeLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.realUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imagUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DrawRegion)).BeginInit();
@@ -80,7 +82,7 @@
             this.C0.AutoSize = true;
             this.C0.Location = new System.Drawing.Point(6, 14);
             this.C0.Name = "C0";
-            this.C0.Size = new System.Drawing.Size(20, 13);
+            this.C0.Size = new System.Drawing.Size(19, 13);
             this.C0.TabIndex = 3;
             this.C0.Text = "C0";
             // 
@@ -89,7 +91,7 @@
             this.C1.AutoSize = true;
             this.C1.Location = new System.Drawing.Point(6, 40);
             this.C1.Name = "C1";
-            this.C1.Size = new System.Drawing.Size(20, 13);
+            this.C1.Size = new System.Drawing.Size(19, 13);
             this.C1.TabIndex = 4;
             this.C1.Text = "C1";
             // 
@@ -139,34 +141,34 @@
             this.ColorSchemeLabel.AutoSize = true;
             this.ColorSchemeLabel.Location = new System.Drawing.Point(32, 131);
             this.ColorSchemeLabel.Name = "ColorSchemeLabel";
-            this.ColorSchemeLabel.Size = new System.Drawing.Size(73, 13);
+            this.ColorSchemeLabel.Size = new System.Drawing.Size(79, 13);
             this.ColorSchemeLabel.TabIndex = 9;
             this.ColorSchemeLabel.Text = "Color Scheme";
             // 
             // XCoord
             // 
-            this.XCoord.AutoSize = true;
-            this.XCoord.Location = new System.Drawing.Point(32, 776);
-            this.XCoord.Name = "XCoord";
-            this.XCoord.Size = new System.Drawing.Size(42, 13);
-            this.XCoord.TabIndex = 10;
-            this.XCoord.Text = "XCoord";
+            this.XCoordLabel.AutoSize = true;
+            this.XCoordLabel.Location = new System.Drawing.Point(32, 776);
+            this.XCoordLabel.Name = "XCoord";
+            this.XCoordLabel.Size = new System.Drawing.Size(43, 13);
+            this.XCoordLabel.TabIndex = 10;
+            this.XCoordLabel.Text = "XCoord";
             // 
             // YCoord
             // 
-            this.YCoord.AutoSize = true;
-            this.YCoord.Location = new System.Drawing.Point(32, 789);
-            this.YCoord.Name = "YCoord";
-            this.YCoord.Size = new System.Drawing.Size(42, 13);
-            this.YCoord.TabIndex = 11;
-            this.YCoord.Text = "YCoord";
+            this.YCoordLabel.AutoSize = true;
+            this.YCoordLabel.Location = new System.Drawing.Point(32, 789);
+            this.YCoordLabel.Name = "YCoord";
+            this.YCoordLabel.Size = new System.Drawing.Size(43, 13);
+            this.YCoordLabel.TabIndex = 11;
+            this.YCoordLabel.Text = "YCoord";
             // 
             // xCoordLabel
             // 
             this.xCoordLabel.AutoSize = true;
             this.xCoordLabel.Location = new System.Drawing.Point(9, 776);
             this.xCoordLabel.Name = "xCoordLabel";
-            this.xCoordLabel.Size = new System.Drawing.Size(15, 13);
+            this.xCoordLabel.Size = new System.Drawing.Size(19, 13);
             this.xCoordLabel.TabIndex = 12;
             this.xCoordLabel.Text = "x:";
             // 
@@ -175,7 +177,7 @@
             this.yCoordLabel.AutoSize = true;
             this.yCoordLabel.Location = new System.Drawing.Point(9, 789);
             this.yCoordLabel.Name = "yCoordLabel";
-            this.yCoordLabel.Size = new System.Drawing.Size(15, 13);
+            this.yCoordLabel.Size = new System.Drawing.Size(19, 13);
             this.yCoordLabel.TabIndex = 13;
             this.yCoordLabel.Text = "y:";
             // 
@@ -184,30 +186,50 @@
             this.IterationsLabel.AutoSize = true;
             this.IterationsLabel.Location = new System.Drawing.Point(6, 753);
             this.IterationsLabel.Name = "IterationsLabel";
-            this.IterationsLabel.Size = new System.Drawing.Size(53, 13);
+            this.IterationsLabel.Size = new System.Drawing.Size(37, 13);
             this.IterationsLabel.TabIndex = 14;
-            this.IterationsLabel.Text = "Iterations:";
+            this.IterationsLabel.Text = "Iter:";
             // 
             // IterationCountLabel
             // 
             this.IterationCountLabel.AutoSize = true;
-            this.IterationCountLabel.Location = new System.Drawing.Point(65, 753);
+            this.IterationCountLabel.Location = new System.Drawing.Point(47, 753);
             this.IterationCountLabel.Name = "IterationCountLabel";
-            this.IterationCountLabel.Size = new System.Drawing.Size(73, 13);
+            this.IterationCountLabel.Size = new System.Drawing.Size(91, 13);
             this.IterationCountLabel.TabIndex = 15;
             this.IterationCountLabel.Text = "IterationCount";
+            // 
+            // TimeLabel
+            // 
+            this.TimeLabel.AutoSize = true;
+            this.TimeLabel.Location = new System.Drawing.Point(6, 740);
+            this.TimeLabel.Name = "TimeLabel";
+            this.TimeLabel.Size = new System.Drawing.Size(37, 13);
+            this.TimeLabel.TabIndex = 16;
+            this.TimeLabel.Text = "Time:";
+            // 
+            // DrawTimeLabel
+            // 
+            this.DrawTimeLabel.AutoSize = true;
+            this.DrawTimeLabel.Location = new System.Drawing.Point(47, 740);
+            this.DrawTimeLabel.Name = "DrawTimeLabel";
+            this.DrawTimeLabel.Size = new System.Drawing.Size(55, 13);
+            this.DrawTimeLabel.TabIndex = 17;
+            this.DrawTimeLabel.Text = "DrawTime";
             // 
             // JuliaSet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(976, 820);
+            this.Controls.Add(this.DrawTimeLabel);
+            this.Controls.Add(this.TimeLabel);
             this.Controls.Add(this.IterationCountLabel);
             this.Controls.Add(this.IterationsLabel);
             this.Controls.Add(this.yCoordLabel);
             this.Controls.Add(this.xCoordLabel);
-            this.Controls.Add(this.YCoord);
-            this.Controls.Add(this.XCoord);
+            this.Controls.Add(this.YCoordLabel);
+            this.Controls.Add(this.XCoordLabel);
             this.Controls.Add(this.ColorSchemeLabel);
             this.Controls.Add(this.colorSchemeCombo);
             this.Controls.Add(this.Help);
@@ -218,6 +240,7 @@
             this.Controls.Add(this.CalculateButton);
             this.Controls.Add(this.imagUpDown);
             this.Controls.Add(this.realUpDown);
+            this.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "JuliaSet";
             this.Text = "Julia Set Generator";
             ((System.ComponentModel.ISupportInitialize)(this.realUpDown)).EndInit();
@@ -240,12 +263,14 @@
         private System.Windows.Forms.Label Help;
         private System.Windows.Forms.ComboBox colorSchemeCombo;
         private System.Windows.Forms.Label ColorSchemeLabel;
-        private System.Windows.Forms.Label XCoord;
-        private System.Windows.Forms.Label YCoord;
+        private System.Windows.Forms.Label XCoordLabel;
+        private System.Windows.Forms.Label YCoordLabel;
         private System.Windows.Forms.Label xCoordLabel;
         private System.Windows.Forms.Label yCoordLabel;
         private System.Windows.Forms.Label IterationsLabel;
         private System.Windows.Forms.Label IterationCountLabel;
+        private System.Windows.Forms.Label TimeLabel;
+        private System.Windows.Forms.Label DrawTimeLabel;
     }
 }
 

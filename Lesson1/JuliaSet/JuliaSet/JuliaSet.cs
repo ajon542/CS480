@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Numerics;
 using System.Threading.Tasks;
@@ -11,6 +12,8 @@ namespace JuliaSet
     /// </summary>
     public partial class JuliaSet : Form
     {
+        #region Julia Set Members
+
         private double bounds = 2;
         private const int MaxMagnitude = 20;
         private const int MaxIterations = 1024;
@@ -26,6 +29,12 @@ namespace JuliaSet
         private Color[,] colors;
 
         private IIterator quadraticIterator;
+
+        private TimeSpan paintTime;
+
+        #endregion
+
+        #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JuliaSet"/> class.
@@ -63,6 +72,8 @@ namespace JuliaSet
             DrawRegion.MouseMove += new MouseEventHandler(JuliaSet_MouseMove);
         }
 
+        #endregion
+
         #region Event Handlers
 
         /// <summary>
@@ -70,6 +81,10 @@ namespace JuliaSet
         /// </summary>
         private void JuliaSet_Paint(object sender, PaintEventArgs e)
         {
+            // Keep track of how long it takes to draw the scene.
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             // Determine the delta values for x and y.
             xDelta = (xMax - xMin) / (DrawRegion.Width - 1);
             yDelta = (yMax - yMin) / (DrawRegion.Height - 1);
@@ -94,14 +109,19 @@ namespace JuliaSet
             });
 
             // Fill the draw region with the calculated colors.
+            SolidBrush brush = new SolidBrush(Color.Black);
             for (int x = 0; x < DrawRegion.Width; ++x)
             {
                 for (int y = 0; y < DrawRegion.Height; ++y)
                 {
-                    Brush color = new SolidBrush(colors[x, y]);
-                    e.Graphics.FillRectangle(color, x, y, 1, 1);
+                    brush.Color = colors[x, y];
+                    e.Graphics.FillRectangle(brush, x, y, 1, 1);
                 }
             }
+
+            // Stop timing.
+            stopwatch.Stop();
+            paintTime = stopwatch.Elapsed;
         }
 
         /// <summary>
@@ -127,11 +147,11 @@ namespace JuliaSet
         }
 
         /// <summary>
-        /// Handle the mouse move event for live updates on mouse position.
+        /// Handle the mouse move event for live updates on mouse position and iteration count.
         /// </summary>
         private void JuliaSet_MouseMove(Object sender, MouseEventArgs e)
         {
-            // Calculate the x-y bounds coords.
+            // Convert mouse position screen coords to bounds coords.
             double boundsX = xMin + (e.X * xDelta);
             double boundsY = yMin + (e.Y * yDelta);
 
@@ -141,9 +161,10 @@ namespace JuliaSet
             int iterations = quadraticIterator.Iterate(z, c);
 
             // Display the data.
-            XCoord.Text = boundsX.ToString();
-            YCoord.Text = boundsY.ToString();
+            XCoordLabel.Text = boundsX.ToString();
+            YCoordLabel.Text = boundsY.ToString();
             IterationCountLabel.Text = iterations.ToString();
+            DrawTimeLabel.Text = paintTime.ToString(@"ss") + "s, " + paintTime.ToString(@"fff") + "ms";
         }
 
         #endregion
