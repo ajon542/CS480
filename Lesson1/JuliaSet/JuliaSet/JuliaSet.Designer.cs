@@ -36,7 +36,7 @@
             this.DrawRegion = new System.Windows.Forms.PictureBox();
             this.ResetButton = new System.Windows.Forms.Button();
             this.Help = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.colorSchemeCombo = new System.Windows.Forms.ComboBox();
             this.ColorSchemeLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.realUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imagUpDown)).BeginInit();
@@ -117,16 +117,16 @@
             // 
             // comboBox1
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.colorSchemeCombo.FormattingEnabled = true;
+            this.colorSchemeCombo.Items.AddRange(new object[] {
             "Red",
             "Black to White",
             "Blue to Gold"});
-            this.comboBox1.Location = new System.Drawing.Point(32, 150);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(106, 21);
-            this.comboBox1.TabIndex = 8;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.colorSchemeCombo.Location = new System.Drawing.Point(32, 150);
+            this.colorSchemeCombo.Name = "comboBox1";
+            this.colorSchemeCombo.Size = new System.Drawing.Size(106, 21);
+            this.colorSchemeCombo.TabIndex = 8;
+            this.colorSchemeCombo.SelectedIndexChanged += new System.EventHandler(this.ColorSchemeComboBox_SelectedIndexChanged);
             // 
             // ColorSchemeLabel
             // 
@@ -143,7 +143,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(976, 820);
             this.Controls.Add(this.ColorSchemeLabel);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.colorSchemeCombo);
             this.Controls.Add(this.Help);
             this.Controls.Add(this.ResetButton);
             this.Controls.Add(this.DrawRegion);
@@ -172,7 +172,7 @@
         private System.Windows.Forms.PictureBox DrawRegion;
         private System.Windows.Forms.Button ResetButton;
         private System.Windows.Forms.Label Help;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox colorSchemeCombo;
         private System.Windows.Forms.Label ColorSchemeLabel;
     }
 }

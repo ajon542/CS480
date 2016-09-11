@@ -48,7 +48,7 @@ namespace JuliaSet
             imagUpDown.Increment = 0.01M;
 
             // Set the combo box data source for the color scheme.
-            comboBox1.DataSource = Enum.GetValues(typeof(ColorScheme));
+            colorSchemeCombo.DataSource = Enum.GetValues(typeof(ColorScheme));
 
             // Create the iterator.
             quadraticIterator = new QuadraticIterator
@@ -88,7 +88,7 @@ namespace JuliaSet
                     int iterations = quadraticIterator.Iterate(z, c);
 
                     // Store pixel color.
-                    colors[x, y] = ColorHelper.GetColor(colorScheme, iterations);
+                    colors[x, y] = ColorFactory.GetColor(colorScheme, iterations);
                 }
             });
 
@@ -187,15 +187,18 @@ namespace JuliaSet
             DrawRegion.Invalidate();
         }
 
-        #endregion
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        /// <summary>
+        /// Handle the color scheme change.
+        /// </summary>
+        private void ColorSchemeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Set the color scheme based on the combo box selection.
-            colorScheme = (ColorScheme)comboBox1.SelectedItem;
+            colorScheme = (ColorScheme)colorSchemeCombo.SelectedItem;
 
             // Force re-draw.
             DrawRegion.Invalidate();
         }
+
+        #endregion
     }
 }
