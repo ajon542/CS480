@@ -232,7 +232,7 @@ namespace JuliaSet
         {
             string sample = (string)sampleCombo.SelectedItem;
 
-            // TODO: We could create a string parser for this.
+            // TODO: Create a string parser for this.
             if (sample == "-1.476 + 0i")
             {
                 cReal = -1.476;
@@ -251,6 +251,20 @@ namespace JuliaSet
             {
                 cReal = -0.162;
                 cImag = 1.04;
+                realUpDown.Value = (Decimal)cReal;
+                imagUpDown.Value = (Decimal)cImag;
+            }
+            else if (sample == "-1.25 + 0i")
+            {
+                cReal = -1.25;
+                cImag = 0;
+                realUpDown.Value = (Decimal)cReal;
+                imagUpDown.Value = (Decimal)cImag;
+            }
+            else if (sample == "0.11 + 0.6557i")
+            {
+                cReal = 0.11;
+                cImag = 0.6557;
                 realUpDown.Value = (Decimal)cReal;
                 imagUpDown.Value = (Decimal)cImag;
             }

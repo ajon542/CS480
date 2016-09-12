@@ -234,7 +234,9 @@
             this.sampleCombo.Items.AddRange(new object[] {
             "-1.476 + 0i",
             "-0.12 - 0.77i",
-            "-0.162 + 1.04i"});
+            "-0.162 + 1.04i",
+            "-1.25 + 0i",
+            "0.11 + 0.6557i"});
             this.sampleCombo.Location = new System.Drawing.Point(32, 195);
             this.sampleCombo.Name = "sampleCombo";
             this.sampleCombo.Size = new System.Drawing.Size(106, 21);
