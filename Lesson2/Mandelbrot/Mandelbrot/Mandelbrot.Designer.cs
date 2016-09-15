@@ -47,10 +47,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.DrawRegion)).BeginInit();
             this.SuspendLayout();
             // 
-            // realUpDown
+            // zoomFactor
             // 
-            this.zoomFactor.Location = new System.Drawing.Point(32, 12);
-            this.zoomFactor.Name = "realUpDown";
+            this.zoomFactor.Location = new System.Drawing.Point(50, 12);
+            this.zoomFactor.Name = "zoomFactor";
             this.zoomFactor.Size = new System.Drawing.Size(106, 20);
             this.zoomFactor.TabIndex = 0;
             // 
@@ -60,9 +60,9 @@
             this.C0.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.C0.Location = new System.Drawing.Point(6, 14);
             this.C0.Name = "C0";
-            this.C0.Size = new System.Drawing.Size(19, 13);
+            this.C0.Size = new System.Drawing.Size(31, 13);
             this.C0.TabIndex = 3;
-            this.C0.Text = "C0";
+            this.C0.Text = "Zoom";
             // 
             // DrawRegion
             // 
@@ -76,7 +76,7 @@
             // ResetButton
             // 
             this.ResetButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.ResetButton.Location = new System.Drawing.Point(32, 38);
+            this.ResetButton.Location = new System.Drawing.Point(50, 38);
             this.ResetButton.Name = "ResetButton";
             this.ResetButton.Size = new System.Drawing.Size(106, 23);
             this.ResetButton.TabIndex = 6;
@@ -102,7 +102,7 @@
             "Red",
             "Black to White",
             "Blue to Gold"});
-            this.colorSchemeCombo.Location = new System.Drawing.Point(32, 110);
+            this.colorSchemeCombo.Location = new System.Drawing.Point(50, 110);
             this.colorSchemeCombo.Name = "colorSchemeCombo";
             this.colorSchemeCombo.Size = new System.Drawing.Size(106, 21);
             this.colorSchemeCombo.TabIndex = 8;
@@ -112,7 +112,7 @@
             // 
             this.ColorSchemeLabel.AutoSize = true;
             this.ColorSchemeLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.ColorSchemeLabel.Location = new System.Drawing.Point(32, 91);
+            this.ColorSchemeLabel.Location = new System.Drawing.Point(47, 94);
             this.ColorSchemeLabel.Name = "ColorSchemeLabel";
             this.ColorSchemeLabel.Size = new System.Drawing.Size(79, 13);
             this.ColorSchemeLabel.TabIndex = 9;
