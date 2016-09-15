@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.realUpDown = new System.Windows.Forms.NumericUpDown();
+            this.zoomFactor = new System.Windows.Forms.NumericUpDown();
             this.C0 = new System.Windows.Forms.Label();
             this.DrawRegion = new System.Windows.Forms.PictureBox();
             this.ResetButton = new System.Windows.Forms.Button();
@@ -43,17 +43,16 @@
             this.IterationCountLabel = new System.Windows.Forms.Label();
             this.TimeLabel = new System.Windows.Forms.Label();
             this.DrawTimeLabel = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.realUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.zoomFactor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DrawRegion)).BeginInit();
             this.SuspendLayout();
             // 
             // realUpDown
             // 
-            this.realUpDown.Location = new System.Drawing.Point(32, 12);
-            this.realUpDown.Name = "realUpDown";
-            this.realUpDown.Size = new System.Drawing.Size(106, 20);
-            this.realUpDown.TabIndex = 0;
-            this.realUpDown.ValueChanged += new System.EventHandler(this.RealUpDown_ValueChanged);
+            this.zoomFactor.Location = new System.Drawing.Point(32, 12);
+            this.zoomFactor.Name = "realUpDown";
+            this.zoomFactor.Size = new System.Drawing.Size(106, 20);
+            this.zoomFactor.TabIndex = 0;
             // 
             // C0
             // 
@@ -218,11 +217,11 @@
             this.Controls.Add(this.ResetButton);
             this.Controls.Add(this.DrawRegion);
             this.Controls.Add(this.C0);
-            this.Controls.Add(this.realUpDown);
+            this.Controls.Add(this.zoomFactor);
             this.Font = new System.Drawing.Font("Consolas", 8.25F);
             this.Name = "Mandelbrot";
             this.Text = "Mandelbrot Set Generator";
-            ((System.ComponentModel.ISupportInitialize)(this.realUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.zoomFactor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DrawRegion)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -231,7 +230,7 @@
 
         #endregion
 
-        private System.Windows.Forms.NumericUpDown realUpDown;
+        private System.Windows.Forms.NumericUpDown zoomFactor;
         private System.Windows.Forms.Label C0;
         private System.Windows.Forms.PictureBox DrawRegion;
         private System.Windows.Forms.Button ResetButton;

@@ -46,10 +46,11 @@ namespace Mandelbrot
             colors = new Color[DrawRegion.Width, DrawRegion.Height];
 
             // Set parameters for the numeric input controls.
-            realUpDown.DecimalPlaces = 10;
-            realUpDown.Increment = 0.01M;
-            realUpDown.Maximum = 2;
-            realUpDown.Minimum = -2;
+            zoomFactor.DecimalPlaces = 3;
+            zoomFactor.Increment = 0.01M;
+            zoomFactor.Maximum = 2;
+            zoomFactor.Minimum = 0.001M;
+            zoomFactor.Value = 0.5M;
 
             // Set the combo box data source for the color scheme.
             colorSchemeCombo.DataSource = Enum.GetValues(typeof(ColorScheme));
@@ -128,8 +129,8 @@ namespace Mandelbrot
             double boundsX = xMin + (e.X * xDelta);
             double boundsY = yMin + (e.Y * yDelta);
 
-            // Zoom the bounds by a factor of 2.
-            bounds /= 2;
+            // Zoom the bounds by a factor the specified value.
+            bounds *= (double)zoomFactor.Value;
 
             // Center view around that point.
             xMin = boundsX - (bounds / 2);
@@ -165,15 +166,6 @@ namespace Mandelbrot
         #endregion
 
         #region Component Controls
-
-        /// <summary>
-        /// Update the value of the real component.
-        /// </summary>
-        private double cReal = 0;
-        private void RealUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            cReal = (double)realUpDown.Value;
-        }
 
         /// <summary>
         /// Reset the zoom.
