@@ -51,11 +51,6 @@ namespace Mandelbrot
             realUpDown.Maximum = 2;
             realUpDown.Minimum = -2;
 
-            imagUpDown.Maximum = 2;
-            imagUpDown.Minimum = -2;
-            imagUpDown.DecimalPlaces = 10;
-            imagUpDown.Increment = 0.01M;
-
             // Set the combo box data source for the color scheme.
             colorSchemeCombo.DataSource = Enum.GetValues(typeof(ColorScheme));
 
@@ -94,13 +89,13 @@ namespace Mandelbrot
             {
                 for (int y = 0; y < DrawRegion.Height; ++y)
                 {
-                    // Calculate real and imaginary components for z.
-                    double zReal = xMin + (x * xDelta);
-                    double zImag = yMin + (y * yDelta);
+                    // Calculate real and imaginary components for c.
+                    double cReal = xMin + (x * xDelta);
+                    double cImag = yMin + (y * yDelta);
 
                     // Perform the iterations.
                     Complex z = new Complex(0, 0);
-                    Complex c = new Complex(zReal, zImag);
+                    Complex c = new Complex(cReal, cImag);
                     int iterations = quadraticIterator.Iterate(z, c);
 
                     // Store pixel color.
@@ -156,8 +151,8 @@ namespace Mandelbrot
             double boundsY = yMin + (e.Y * yDelta);
 
             // Calculate the iterations.
-            Complex z = new Complex(boundsX, boundsY);
-            Complex c = new Complex(cReal, cImag);
+            Complex z = new Complex(0, 0);
+            Complex c = new Complex(boundsX, boundsY);
             int iterations = quadraticIterator.Iterate(z, c);
 
             // Display the data.
@@ -181,15 +176,6 @@ namespace Mandelbrot
         }
 
         /// <summary>
-        /// Update the value of the imaginary component.
-        /// </summary>
-        private double cImag = 0;
-        private void ImagUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            cImag = (double)imagUpDown.Value;
-        }
-
-        /// <summary>
         /// Reset the zoom.
         /// </summary>
         private void ResetButton_Click(object sender, EventArgs e)
@@ -205,69 +191,12 @@ namespace Mandelbrot
         }
 
         /// <summary>
-        /// Calculate the Mandelbrot set colors.
-        /// </summary>
-        private void CalculateButton_Click(object sender, EventArgs e)
-        {
-            // Force re-draw.
-            DrawRegion.Invalidate();
-        }
-
-        /// <summary>
         /// Handle the color scheme change.
         /// </summary>
         private void ColorSchemeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Set the color scheme based on the combo box selection.
             colorScheme = (ColorScheme)colorSchemeCombo.SelectedItem;
-
-            // Force re-draw.
-            DrawRegion.Invalidate();
-        }
-
-        /// <summary>
-        /// Handle the samples combo box item selected event.
-        /// </summary>
-        private void SamplesComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string sample = (string)sampleCombo.SelectedItem;
-
-            // TODO: Create a string parser for this.
-            if (sample == "-1.476 + 0i")
-            {
-                cReal = -1.476;
-                cImag = 0;
-                realUpDown.Value = (Decimal)cReal;
-                imagUpDown.Value = (Decimal)cImag;
-            }
-            else if (sample == "-0.12 - 0.77i")
-            {
-                cReal = -0.12;
-                cImag = -0.77;
-                realUpDown.Value = (Decimal)cReal;
-                imagUpDown.Value = (Decimal)cImag;
-            }
-            else if (sample == "-0.162 + 1.04i")
-            {
-                cReal = -0.162;
-                cImag = 1.04;
-                realUpDown.Value = (Decimal)cReal;
-                imagUpDown.Value = (Decimal)cImag;
-            }
-            else if (sample == "-1.25 + 0i")
-            {
-                cReal = -1.25;
-                cImag = 0;
-                realUpDown.Value = (Decimal)cReal;
-                imagUpDown.Value = (Decimal)cImag;
-            }
-            else if (sample == "0.11 + 0.6557i")
-            {
-                cReal = 0.11;
-                cImag = 0.6557;
-                realUpDown.Value = (Decimal)cReal;
-                imagUpDown.Value = (Decimal)cImag;
-            }
 
             // Force re-draw.
             DrawRegion.Invalidate();

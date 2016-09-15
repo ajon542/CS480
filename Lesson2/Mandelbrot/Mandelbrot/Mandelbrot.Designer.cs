@@ -43,14 +43,8 @@
             this.IterationCountLabel = new System.Windows.Forms.Label();
             this.TimeLabel = new System.Windows.Forms.Label();
             this.DrawTimeLabel = new System.Windows.Forms.Label();
-            this.C1 = new System.Windows.Forms.Label();
-            this.CalculateButton = new System.Windows.Forms.Button();
-            this.imagUpDown = new System.Windows.Forms.NumericUpDown();
-            this.sampleCombo = new System.Windows.Forms.ComboBox();
-            this.SampleLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.realUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DrawRegion)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imagUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // realUpDown
@@ -83,7 +77,7 @@
             // ResetButton
             // 
             this.ResetButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.ResetButton.Location = new System.Drawing.Point(32, 93);
+            this.ResetButton.Location = new System.Drawing.Point(32, 38);
             this.ResetButton.Name = "ResetButton";
             this.ResetButton.Size = new System.Drawing.Size(106, 23);
             this.ResetButton.TabIndex = 6;
@@ -109,7 +103,7 @@
             "Red",
             "Black to White",
             "Blue to Gold"});
-            this.colorSchemeCombo.Location = new System.Drawing.Point(32, 150);
+            this.colorSchemeCombo.Location = new System.Drawing.Point(32, 110);
             this.colorSchemeCombo.Name = "colorSchemeCombo";
             this.colorSchemeCombo.Size = new System.Drawing.Size(106, 21);
             this.colorSchemeCombo.TabIndex = 8;
@@ -119,7 +113,7 @@
             // 
             this.ColorSchemeLabel.AutoSize = true;
             this.ColorSchemeLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.ColorSchemeLabel.Location = new System.Drawing.Point(32, 131);
+            this.ColorSchemeLabel.Location = new System.Drawing.Point(32, 91);
             this.ColorSchemeLabel.Name = "ColorSchemeLabel";
             this.ColorSchemeLabel.Size = new System.Drawing.Size(79, 13);
             this.ColorSchemeLabel.TabIndex = 9;
@@ -205,67 +199,11 @@
             this.DrawTimeLabel.TabIndex = 17;
             this.DrawTimeLabel.Text = "DrawTime";
             // 
-            // C1
-            // 
-            this.C1.AutoSize = true;
-            this.C1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.C1.Location = new System.Drawing.Point(6, 40);
-            this.C1.Name = "C1";
-            this.C1.Size = new System.Drawing.Size(19, 13);
-            this.C1.TabIndex = 4;
-            this.C1.Text = "C1";
-            // 
-            // CalculateButton
-            // 
-            this.CalculateButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.CalculateButton.Location = new System.Drawing.Point(32, 64);
-            this.CalculateButton.Name = "CalculateButton";
-            this.CalculateButton.Size = new System.Drawing.Size(106, 23);
-            this.CalculateButton.TabIndex = 2;
-            this.CalculateButton.Text = "Calculate";
-            this.CalculateButton.UseVisualStyleBackColor = true;
-            this.CalculateButton.Click += new System.EventHandler(this.CalculateButton_Click);
-            // 
-            // imagUpDown
-            // 
-            this.imagUpDown.Location = new System.Drawing.Point(32, 38);
-            this.imagUpDown.Name = "imagUpDown";
-            this.imagUpDown.Size = new System.Drawing.Size(106, 20);
-            this.imagUpDown.TabIndex = 1;
-            this.imagUpDown.ValueChanged += new System.EventHandler(this.ImagUpDown_ValueChanged);
-            // 
-            // sampleCombo
-            // 
-            this.sampleCombo.FormattingEnabled = true;
-            this.sampleCombo.Items.AddRange(new object[] {
-            "-1.476 + 0i",
-            "-0.12 - 0.77i",
-            "-0.162 + 1.04i",
-            "-1.25 + 0i",
-            "0.11 + 0.6557i"});
-            this.sampleCombo.Location = new System.Drawing.Point(32, 195);
-            this.sampleCombo.Name = "sampleCombo";
-            this.sampleCombo.Size = new System.Drawing.Size(106, 21);
-            this.sampleCombo.TabIndex = 19;
-            this.sampleCombo.SelectedIndexChanged += new System.EventHandler(this.SamplesComboBox_SelectedIndexChanged);
-            // 
-            // SampleLabel
-            // 
-            this.SampleLabel.AutoSize = true;
-            this.SampleLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.SampleLabel.Location = new System.Drawing.Point(32, 178);
-            this.SampleLabel.Name = "SampleLabel";
-            this.SampleLabel.Size = new System.Drawing.Size(49, 13);
-            this.SampleLabel.TabIndex = 18;
-            this.SampleLabel.Text = "Samples";
-            // 
             // Mandelbrot
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(976, 820);
-            this.Controls.Add(this.sampleCombo);
-            this.Controls.Add(this.SampleLabel);
             this.Controls.Add(this.DrawTimeLabel);
             this.Controls.Add(this.TimeLabel);
             this.Controls.Add(this.IterationCountLabel);
@@ -279,18 +217,13 @@
             this.Controls.Add(this.Help);
             this.Controls.Add(this.ResetButton);
             this.Controls.Add(this.DrawRegion);
-            this.Controls.Add(this.C1);
             this.Controls.Add(this.C0);
-            this.Controls.Add(this.CalculateButton);
-            this.Controls.Add(this.imagUpDown);
             this.Controls.Add(this.realUpDown);
             this.Font = new System.Drawing.Font("Consolas", 8.25F);
-            this.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.Name = "Mandelbrot";
             this.Text = "Mandelbrot Set Generator";
             ((System.ComponentModel.ISupportInitialize)(this.realUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DrawRegion)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imagUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -313,11 +246,6 @@
         private System.Windows.Forms.Label IterationCountLabel;
         private System.Windows.Forms.Label TimeLabel;
         private System.Windows.Forms.Label DrawTimeLabel;
-        private System.Windows.Forms.Label C1;
-        private System.Windows.Forms.Button CalculateButton;
-        private System.Windows.Forms.NumericUpDown imagUpDown;
-        private System.Windows.Forms.ComboBox sampleCombo;
-        private System.Windows.Forms.Label SampleLabel;
     }
 }
 
