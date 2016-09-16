@@ -19,7 +19,7 @@ namespace Windmill
         {
             InitializeComponent();
 
-            DrawRegion.Paint += new PaintEventHandler(DrawRegion_Paint);
+            Paint += new PaintEventHandler(DrawRegion_Paint);
             DrawRegion.MouseMove += new MouseEventHandler(DrawRegion_MouseMove);
         }
 
@@ -31,6 +31,29 @@ namespace Windmill
             // Keep track of how long it takes to draw the scene.
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
+
+            // This example assumes the existence of a form called Form1.
+            BufferedGraphicsContext currentContext;
+            BufferedGraphics myBuffer;
+            // Gets a reference to the current BufferedGraphicsContext
+            currentContext = BufferedGraphicsManager.Current;
+            // Creates a BufferedGraphics instance associated with Form1, and with 
+            // dimensions the same size as the drawing surface of Form1.
+            myBuffer = currentContext.Allocate(DrawRegion.CreateGraphics(),
+               DrawRegion.DisplayRectangle);
+
+            // Draws an ellipse to the graphics buffer.
+            myBuffer.Graphics.DrawEllipse(Pens.Blue, new Rectangle(100, 100, 400, 400));
+
+            // This example assumes the existence of a BufferedGraphics instance
+            // called myBuffer.
+            // Renders the contents of the buffer to the drawing surface associated 
+            // with the buffer.
+            myBuffer.Render();
+            // Renders the contents of the buffer to the specified drawing surface.
+            myBuffer.Render(DrawRegion.CreateGraphics());
+
+            myBuffer.Dispose();
 
             // Stop timing.
             stopwatch.Stop();
