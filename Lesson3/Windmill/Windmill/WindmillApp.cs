@@ -3,9 +3,21 @@ using System.Drawing;
 
 namespace Windmill
 {
+    public class Vector2
+    {
+        public double x;
+        public double y;
+
+        public Vector2(double x, double y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+    }
+    
     public class WindmillApp : GameApp
     {
-        private Point[] points;
+        private Vector2[] vectors;
         private double elapsedTime;
 
         /// <summary>
@@ -13,12 +25,12 @@ namespace Windmill
         /// </summary>
         public override void Initialize()
         {
-            points = new Point[4]
+            vectors = new Vector2[4]
             {
-                new Point(200, 200),
-                new Point(200, 600),
-                new Point(600, 600),
-                new Point(600, 200)
+                new Vector2(200, 200),
+                new Vector2(200, 600),
+                new Vector2(600, 600),
+                new Vector2(600, 200)
             };
         }
 
@@ -28,11 +40,12 @@ namespace Windmill
         public override void Update()
         {
             elapsedTime += DeltaTime;
+
             if (elapsedTime > 0.01)
             {
-                for (int i = 0; i < points.Length; ++i)
+                for (int i = 0; i < vectors.Length; ++i)
                 {
-                    points[i] = Rotate(points[i], new Point(400, 400), 1);
+                    vectors[i] = Rotate(vectors[i], new Vector2(400, 400), 1);
                 }
                 elapsedTime = 0;
             }
@@ -48,6 +61,12 @@ namespace Windmill
         /// <param name="buffer">THe graphics buffer.</param>
         public override void Render(BufferedGraphics buffer)
         {
+            Point[] points = new Point[4];
+            for (int i = 0; i < vectors.Length; ++i)
+            {
+                points[i] = new Point((int)vectors[i].x, (int)vectors[i].y);
+            }
+
             buffer.Graphics.DrawPolygon(Pens.Blue, points);
         }
 
@@ -58,19 +77,19 @@ namespace Windmill
         /// <param name="anchor">The anchor to rotate about.</param>
         /// <param name="angle">The angle to rotate in degrees.</param>
         /// <returns>The rotated point.</returns>
-        private Point Rotate(Point point, Point anchor, float angle)
+        private Vector2 Rotate(Vector2 point, Vector2 anchor, float angle)
         {
-            float x = point.X;
-            float y = point.Y;
+            double x = point.x;
+            double y = point.y;
 
-            float x1 = anchor.X;
-            float y1 = anchor.Y;
+            double x1 = anchor.x;
+            double y1 = anchor.y;
 
             double rad = angle * Math.PI / 180;
-            float x2 = (float)Math.Cos(rad) * (x - x1) + (float)Math.Sin(rad) * (y1 - y) + x1;
-            float y2 = (float)Math.Sin(rad) * (x - x1) + (float)Math.Cos(rad) * (y - y1) + y1;
+            double x2 = Math.Cos(rad) * (x - x1) + Math.Sin(rad) * (y1 - y) + x1;
+            double y2 = Math.Sin(rad) * (x - x1) + Math.Cos(rad) * (y - y1) + y1;
 
-            Point result = new Point((int)x2, (int)y2);
+            Vector2 result = new Vector2(x2, y2);
             return result;
         }
     }
