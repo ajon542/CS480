@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
+
+using Windmill.Shapes;
 
 namespace Windmill
 {
     public class WindmillApp : GameApp
     {
-        private Shape rectangle;
+        private List<Shape> shapes = new List<Shape>();
         private double elapsedTime;
 
         /// <summary>
@@ -14,7 +15,8 @@ namespace Windmill
         /// </summary>
         public override void Initialize()
         {
-            rectangle = new Rectangle(100, 100, 200, 400);
+            shapes.Add(new Shapes.Rectangle(100, 100, 200, 400));
+            shapes.Add(new Shapes.Circle(new Vector2(400, 400), 100));
         }
 
         /// <summary>
@@ -26,7 +28,7 @@ namespace Windmill
 
             if (elapsedTime > 0.01)
             {
-                rectangle.Rotate(new Vector2(400, 400), 1);
+                //rectangle.Rotate(new Vector2(400, 400), 1);
                 elapsedTime = 0;
             }
         }
@@ -41,7 +43,10 @@ namespace Windmill
         /// <param name="buffer">THe graphics buffer.</param>
         public override void Render(BufferedGraphics buffer)
         {
-            buffer.Graphics.DrawPolygon(Pens.Blue, rectangle.GetPoints());
+            foreach(Shape shape in shapes)
+            {
+                buffer.Graphics.DrawPolygon(Pens.Blue, shape.GetPoints());
+            }
         }
     }
 }

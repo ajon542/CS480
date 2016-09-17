@@ -2,33 +2,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace Windmill
+namespace Windmill.Shapes
 {
-    public class Rectangle : Shape
-    {
-        public Rectangle(double x, double y, double width, double height)
-        {
-            Points.Add(new Vector2(x, y));
-            Points.Add(new Vector2(x, y + height));
-            Points.Add(new Vector2(x + width, y + height));
-            Points.Add(new Vector2(x + width, y));
-        }
-    }
-
-    public class Circle : Shape
-    {
-        public Circle(Vector2 center, double radius)
-        {
-            Vector2 point = new Vector2(center.x + radius, center.y);
-            Points.Add(point);
-            for (int i = 1; i < 360; ++i)
-            {
-                point = Shape.Rotate(point, center, 1);
-                Points.Add(point);
-            }
-        }
-    }
-
     public class Shape
     {
         public List<Vector2> Points { get; set; }
