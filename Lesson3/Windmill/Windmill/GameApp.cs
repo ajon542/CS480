@@ -10,7 +10,7 @@ namespace Windmill
         /// <summary>
         /// The time since the last update.
         /// </summary>
-        public float DeltaTime { get; set; }
+        public double DeltaTime { get; set; }
 
         /// <summary>
         /// Initialize the game application.

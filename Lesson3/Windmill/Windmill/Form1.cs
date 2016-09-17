@@ -15,36 +15,22 @@ namespace Windmill
 {
     public partial class Form1 : Form
     {
-        private float elapsedTime = 0;
+        private double elapsedTime = 0;
         private int frames = 0;
-        private float fps = 0;
-        private Stopwatch stopWatch;
+        private double fps = 0;
+        private Stopwatch stopwatch = new Stopwatch();
 
         private BufferedGraphicsContext currentContext;
         private BufferedGraphics buffer;
 
         private GameApp gameApp = new WindmillApp();
 
-        [StructLayout(LayoutKind.Sequential)]
-        public struct NativeMessage
-        {
-            public IntPtr Handle;
-            public uint Message;
-            public IntPtr WParameter;
-            public IntPtr LParameter;
-            public uint Time;
-            public Point Location;
-        }
-
-        [DllImport("user32.dll")]
-        public static extern int PeekMessage(out NativeMessage message, IntPtr window, uint filterMin, uint filterMax, uint remove);
-
         public Form1()
         {
             InitializeComponent();
 
             Application.ApplicationExit += OnApplicationExit;
-            Application.Idle += OnApplicationIdle;
+            DrawRegion.Paint += new PaintEventHandler(DrawRegion_Paint);
 
             // Get a reference to the current BufferedGraphicsContext.
             currentContext = BufferedGraphicsManager.Current;
@@ -52,50 +38,40 @@ namespace Windmill
             // Create a BufferedGraphics instance associated with the DrawRegion.
             buffer = currentContext.Allocate(DrawRegion.CreateGraphics(), DrawRegion.DisplayRectangle);
 
-            stopWatch = new Stopwatch();
-
             gameApp.Initialize();
         }
 
-        private bool IsApplicationIdle()
+        private void DrawRegion_Paint(object sender, PaintEventArgs e)
         {
-            NativeMessage result;
-            return PeekMessage(out result, IntPtr.Zero, (uint)0, (uint)0, (uint)0) == 0;
-        }
+            // Clear the buffer.
+            buffer.Graphics.Clear(Color.Black);
 
-        private void OnApplicationIdle(object sender, EventArgs e)
-        {
-            while (IsApplicationIdle())
+            // Render the game application.
+            gameApp.Render(buffer);
+
+            // Render the contents of the buffer to the drawing surface.
+            buffer.Render(e.Graphics);
+
+            gameApp.DeltaTime = stopwatch.Elapsed.TotalSeconds;
+
+            // Update the game application.
+            gameApp.Update();
+
+            stopwatch.Restart();
+
+            // Calculate and display frames per second.
+            frames++;
+            //gameApp.DeltaTime = stopWatch.ElapsedMilliseconds;
+            elapsedTime += gameApp.DeltaTime;
+            if (elapsedTime > 1)
             {
-                stopWatch.Reset();
-                stopWatch.Start();
-
-                // Update the game application.
-                gameApp.Update();
-
-                // Clear the buffer.
-                buffer.Graphics.Clear(Color.Black);
-
-                // Render the game application.
-                gameApp.Render(buffer);
-
-                // Render the contents of the buffer to the drawing surface.
-                buffer.Render();
-
-                stopWatch.Stop();
-
-                // Calculate and display frames per second.
-                float renderTime = stopWatch.ElapsedMilliseconds;
-                elapsedTime += renderTime;
-                if (elapsedTime > 500)
-                {
-                    fps = 1000f / (elapsedTime / frames);
-                    DrawTimeLabel.Text = string.Format("fps: {0:000.00}", fps);
-                    frames = 0;
-                    elapsedTime = 0;
-                }
-                frames++;
+                fps = 1f / (elapsedTime / frames);
+                DrawTimeLabel.Text = string.Format("fps: {0:000.00}", fps);
+                frames = 0;
+                elapsedTime = 0;
             }
+
+            DrawRegion.Invalidate();
         }
 
         private void OnApplicationExit(object sender, EventArgs e)
