@@ -13,19 +13,23 @@ namespace Windmill
         private double elapsedTime;
 
         /// <summary>
-        /// Initialize the game application.
+        /// Initialize the scene.
         /// </summary>
         public override void Initialize()
         {
             for (int i = 0; i < 50; ++i)
             {
-                Vector2 center = new Vector2(random.Next(100, 700), random.Next(100, 700));
-                shapes.Add(new Shapes.Circle(center, random.Next(10, 100)));
+                Shape rectangle = new Shapes.Rectangle(
+                    random.Next(200, 600),
+                    random.Next(200, 600),
+                    random.Next(10, 100),
+                    random.Next(10, 100));
+                shapes.Add(rectangle);
             }
         }
 
         /// <summary>
-        /// Update the game application.
+        /// Update the scene.
         /// </summary>
         public override void Update()
         {
@@ -33,19 +37,17 @@ namespace Windmill
 
             if (elapsedTime > 0.01)
             {
-                //rectangle.Rotate(new Vector2(400, 400), 1);
+                foreach (Shape shape in shapes)
+                {
+                    shape.Rotate(new Vector2(400, 400), 1);
+                }
                 elapsedTime = 0;
             }
         }
 
         /// <summary>
-        /// Render the game application.
+        /// Render the scene.
         /// </summary>
-        /// <remarks>
-        /// Normally I wouldn't want the graphics buffer to pervade the system
-        /// but for this small application, it should be fine.
-        /// </remarks>
-        /// <param name="buffer">THe graphics buffer.</param>
         public override void Render(BufferedGraphics buffer)
         {
             foreach(Shape shape in shapes)
