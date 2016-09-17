@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 using Windmill.Shapes;
@@ -7,6 +8,7 @@ namespace Windmill
 {
     public class WindmillApp : GameApp
     {
+        private Random random = new Random();
         private List<Shape> shapes = new List<Shape>();
         private double elapsedTime;
 
@@ -15,8 +17,11 @@ namespace Windmill
         /// </summary>
         public override void Initialize()
         {
-            shapes.Add(new Shapes.Rectangle(100, 100, 200, 400));
-            shapes.Add(new Shapes.Circle(new Vector2(400, 400), 100));
+            for (int i = 0; i < 50; ++i)
+            {
+                Vector2 center = new Vector2(random.Next(100, 700), random.Next(100, 700));
+                shapes.Add(new Shapes.Circle(center, random.Next(10, 100)));
+            }
         }
 
         /// <summary>
