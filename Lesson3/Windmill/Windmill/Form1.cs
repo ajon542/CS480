@@ -15,7 +15,6 @@ namespace Windmill
 {
     public partial class Form1 : Form
     {
-        private int i = 0;
         private float elapsedTime = 0;
         private int frames = 0;
         private float fps = 0;
@@ -23,6 +22,8 @@ namespace Windmill
 
         private BufferedGraphicsContext currentContext;
         private BufferedGraphics buffer;
+
+        private GameApp gameApp = new WindmillApp();
 
         [StructLayout(LayoutKind.Sequential)]
         public struct NativeMessage
@@ -52,6 +53,8 @@ namespace Windmill
             buffer = currentContext.Allocate(DrawRegion.CreateGraphics(), DrawRegion.DisplayRectangle);
 
             stopWatch = new Stopwatch();
+
+            gameApp.Initialize();
         }
 
         private bool IsApplicationIdle()
@@ -67,15 +70,15 @@ namespace Windmill
                 stopWatch.Reset();
                 stopWatch.Start();
 
+                // Update the game application.
+                gameApp.Update();
+
                 // Clear the buffer.
                 buffer.Graphics.Clear(Color.Black);
 
-                // Draw an ellipse to the graphics buffer.
-                for (int j = 0; j < 100; ++j)
-                    buffer.Graphics.DrawEllipse(Pens.Blue, new Rectangle(i, 100, 400, 400));
-                i++;
-                if (i > 400)
-                    i = 0;
+                // Render the game application.
+                gameApp.Render(buffer);
+
                 // Render the contents of the buffer to the drawing surface.
                 buffer.Render();
 
@@ -98,6 +101,7 @@ namespace Windmill
         private void OnApplicationExit(object sender, EventArgs e)
         {
             buffer.Dispose();
+            gameApp.Shutdown();
         }
     }
 }
