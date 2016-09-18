@@ -17,15 +17,18 @@ namespace Windmill
         /// </summary>
         public override void Initialize()
         {
-            for (int i = 0; i < 50; ++i)
-            {
-                Shape rectangle = new Shapes.Rectangle(
-                    random.Next(200, 600),
-                    random.Next(200, 600),
-                    random.Next(10, 100),
-                    random.Next(10, 100));
-                shapes.Add(rectangle);
-            }
+            // Create the propeller from two scaled circles.
+            Vector2 position = new Vector2(400, 200);
+            Shape leftBlade = new Circle(position, 50);
+            Shape rightBlade = new Circle(position, 50);
+            leftBlade.Scale(position, new Vector2(2, 0.3));
+            rightBlade.Scale(position, new Vector2(2, 0.3));
+
+            leftBlade.Translate(new Vector2(-100, 0));
+            rightBlade.Translate(new Vector2(100, 0));
+
+            shapes.Add(leftBlade);
+            shapes.Add(rightBlade);
         }
 
         /// <summary>
@@ -39,7 +42,7 @@ namespace Windmill
             {
                 foreach (Shape shape in shapes)
                 {
-                    shape.Rotate(new Vector2(400, 400), 1);
+                    shape.Rotate(new Vector2(400, 200), 1);
                 }
                 elapsedTime = 0;
             }
