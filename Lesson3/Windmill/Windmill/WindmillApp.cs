@@ -65,7 +65,7 @@ namespace Windmill
             elapsedTime += DeltaTime;
 
             // Rotate the blades.
-            if (elapsedTime > 0.01)
+            if (elapsedTime > 10)
             {
                 foreach (Shape shape in blades)
                 {
