@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-
-using Windmill.Shapes;
+﻿using System.Drawing;
 
 namespace Windmill
 {
@@ -11,15 +7,8 @@ namespace Windmill
     /// </summary>
     public class WindmillApp : GameApp
     {
-        private List<Shape> blades = new List<Shape>();
-        private double elapsedTime;
-        private Shape stand;
-
-        private SolidBrush silverBrush = new SolidBrush(Color.Silver);
-        private SolidBrush brownBrush = new SolidBrush(Color.Brown);
-        private SolidBrush greenBrush = new SolidBrush(Color.DarkGreen);
-        private SolidBrush blueBrush = new SolidBrush(Color.LightBlue);
-        private SolidBrush whiteBrush = new SolidBrush(Color.WhiteSmoke);
+        private WindmillGameObject windmill1 = new WindmillGameObject();
+        private WindmillGameObject windmill2 = new WindmillGameObject();
 
         private Bitmap background;
 
@@ -31,46 +20,22 @@ namespace Windmill
             // Load the background image.
             background = new Bitmap("Assets/Background.jpg");
 
-            // Create the propeller blades from triangles.
-            Shape lBlade = new Shapes.Triangle(new Vector2(0, 0), new Vector2(150, 0), new Vector2(10, 20));
-            Shape rBlade = new Shapes.Triangle(new Vector2(0, 0), new Vector2(150, 0), new Vector2(10, 20));
-            Shape tBlade = new Shapes.Triangle(new Vector2(0, 0), new Vector2(150, 0), new Vector2(10, 20));
+            // Initialize the windmill game object.
+            windmill1.Transform.Position = new Vector2(400, 200);
+            windmill1.Initialize();
 
-            // Create the base of the windmill.
-            stand = new Shapes.Triangle(new Vector2(0, 0), new Vector2(-20, 300), new Vector2(20, 300));
-
-            // Rotate the blades so they are 120 degrees apart.
-            rBlade.Rotate(new Vector2(0, 0), 120);
-            tBlade.Rotate(new Vector2(0, 0), 240);
-
-            // Translate the blades to their location.
-            lBlade.Translate(new Vector2(400, 200));
-            rBlade.Translate(new Vector2(400, 200));
-            tBlade.Translate(new Vector2(400, 200));
-            stand.Translate(new Vector2(400, 200));
-
-            // Add the blades to the list of shapes for rendering.
-            blades.Add(lBlade);
-            blades.Add(rBlade);
-            blades.Add(tBlade);
+            windmill2.Transform.Position = new Vector2(500, 300);
+            windmill2.Transform.Scale = new Vector2(0.5, 0.5);
+            windmill2.Initialize();
         }
 
         /// <summary>
         /// Update the scene.
         /// </summary>
-        public override void Update()
+        public override void Update(double deltaTime)
         {
-            elapsedTime += DeltaTime;
-
-            // Rotate the blades.
-            if (elapsedTime > 10)
-            {
-                foreach (Shape shape in blades)
-                {
-                    shape.Rotate(new Vector2(400, 200), -1);
-                }
-                elapsedTime = 0;
-            }
+            windmill1.Update(deltaTime);
+            windmill2.Update(deltaTime);
         }
 
         /// <summary>
@@ -79,11 +44,9 @@ namespace Windmill
         public override void Render(Graphics graphics)
         {
             graphics.DrawImage(background, 0, 0);
-            graphics.FillPolygon(brownBrush, stand.GetPoints(), FillMode.Winding);
-            foreach(Shape blade in blades)
-            {
-                graphics.FillPolygon(silverBrush, blade.GetPoints(), FillMode.Winding);
-            }
+
+            windmill1.Render(graphics);
+            windmill2.Render(graphics);
         }
 
         /// <summary>

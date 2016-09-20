@@ -8,11 +8,6 @@ namespace Windmill
     public class GameApp
     {
         /// <summary>
-        /// The time since the last update.
-        /// </summary>
-        public double DeltaTime { get; set; }
-
-        /// <summary>
         /// Initialize the game application.
         /// </summary>
         public virtual void Initialize() { }
@@ -20,7 +15,7 @@ namespace Windmill
         /// <summary>
         /// Update the game application.
         /// </summary>
-        public virtual void Update() { }
+        public virtual void Update(double deltaTime) { }
 
         /// <summary>
         /// Render the game application.

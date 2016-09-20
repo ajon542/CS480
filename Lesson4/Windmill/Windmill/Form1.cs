@@ -34,11 +34,8 @@ namespace Windmill
             // Render the game application.
             gameApp.Render(e.Graphics);
 
-            // Keep track of the time taken to render the scene.
-            gameApp.DeltaTime = stopwatch.ElapsedMilliseconds;
-
             // Update the game application.
-            gameApp.Update();
+            gameApp.Update(stopwatch.ElapsedMilliseconds);
 
             // Restart the stopwatch.
             stopwatch.Restart();
