@@ -64,6 +64,7 @@ namespace Windmill
         {
             elapsedTime += DeltaTime;
 
+            // Rotate the blades.
             if (elapsedTime > 0.01)
             {
                 foreach (Shape shape in blades)
@@ -77,14 +78,15 @@ namespace Windmill
         /// <summary>
         /// Render the scene.
         /// </summary>
-        public override void Render(BufferedGraphics buffer)
+        public override void Render(Graphics graphics)
         {
-            buffer.Graphics.FillPolygon(blueBrush, sky.GetPoints(), FillMode.Winding);
-            buffer.Graphics.FillPolygon(greenBrush, grass.GetPoints(), FillMode.Winding);
-            buffer.Graphics.FillPolygon(brownBrush, stand.GetPoints(), FillMode.Winding);
+            // Draw the grass, sky, windmill stand and blades.
+            graphics.FillPolygon(blueBrush, sky.GetPoints(), FillMode.Winding);
+            graphics.FillPolygon(greenBrush, grass.GetPoints(), FillMode.Winding);
+            graphics.FillPolygon(brownBrush, stand.GetPoints(), FillMode.Winding);
             foreach(Shape blade in blades)
             {
-                buffer.Graphics.FillPolygon(silverBrush, blade.GetPoints(), FillMode.Winding);
+                graphics.FillPolygon(silverBrush, blade.GetPoints(), FillMode.Winding);
             }
         }
     }

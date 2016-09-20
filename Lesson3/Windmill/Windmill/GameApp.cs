@@ -25,12 +25,8 @@ namespace Windmill
         /// <summary>
         /// Render the game application.
         /// </summary>
-        /// <remarks>
-        /// Normally I wouldn't want the graphics buffer to pervade the system
-        /// but for this small application, it should be fine.
-        /// </remarks>
         /// <param name="graphics">THe graphics buffer.</param>
-        public virtual void Render(BufferedGraphics graphics) { }
+        public virtual void Render(Graphics graphics) { }
 
         /// <summary>
         /// Shutdown the game application.
