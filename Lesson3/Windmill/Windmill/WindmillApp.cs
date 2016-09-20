@@ -46,11 +46,11 @@ namespace Windmill
             // Create the clouds. (Probably a little inefficient to use circles).
             cloud = new List<Shape>();
             cloud.Add(new Circle(new Vector2(0, 0), 50));
-            cloud.Add(new Circle(new Vector2(60, 0), 35));
-            cloud.Add(new Circle(new Vector2(100, 0), 25));
+            cloud.Add(new Circle(new Vector2(60, 10), 35));
+            cloud.Add(new Circle(new Vector2(100, 10), 25));
             cloud.Add(new Circle(new Vector2(0, 0), 50));
-            cloud.Add(new Circle(new Vector2(-60, 0), 40));
-            cloud.Add(new Circle(new Vector2(-100, 0), 20));
+            cloud.Add(new Circle(new Vector2(-60, 10), 40));
+            cloud.Add(new Circle(new Vector2(-100, 15), 20));
             foreach (Shape shape in cloud)
             {
                 shape.Translate(new Vector2(100, 100));
