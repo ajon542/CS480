@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
 using System.Windows.Forms;
 
 namespace Windmill
@@ -29,6 +21,7 @@ namespace Windmill
         {
             InitializeComponent();
 
+            // Setup the event handlers.
             Application.ApplicationExit += OnApplicationExit;
             DrawRegion.Paint += new PaintEventHandler(DrawRegion_Paint);
 
@@ -52,16 +45,17 @@ namespace Windmill
             // Render the contents of the buffer to the drawing surface.
             buffer.Render(e.Graphics);
 
+            // Keep track of the time taken to redner the scene.
             gameApp.DeltaTime = stopwatch.Elapsed.TotalSeconds;
 
             // Update the game application.
             gameApp.Update();
 
+            // Restart the stopwatch.
             stopwatch.Restart();
 
             // Calculate and display frames per second.
             frames++;
-            //gameApp.DeltaTime = stopWatch.ElapsedMilliseconds;
             elapsedTime += gameApp.DeltaTime;
             if (elapsedTime > 1)
             {
@@ -71,9 +65,13 @@ namespace Windmill
                 elapsedTime = 0;
             }
 
+            // Invalidate the draw region.
             DrawRegion.Invalidate();
         }
 
+        /// <summary>
+        /// Dispose of the buffer and notify application to shutdown.
+        /// </summary>
         private void OnApplicationExit(object sender, EventArgs e)
         {
             buffer.Dispose();
