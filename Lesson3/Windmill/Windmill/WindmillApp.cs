@@ -16,11 +16,13 @@ namespace Windmill
         private Shape stand;
         private Shape grass;
         private Shape sky;
+        private List<Shape> cloud;
 
         private SolidBrush silverBrush = new SolidBrush(Color.Silver);
         private SolidBrush brownBrush = new SolidBrush(Color.Brown);
         private SolidBrush greenBrush = new SolidBrush(Color.DarkGreen);
         private SolidBrush blueBrush = new SolidBrush(Color.LightBlue);
+        private SolidBrush whiteBrush = new SolidBrush(Color.WhiteSmoke);
 
         /// <summary>
         /// Initialize the scene.
@@ -40,6 +42,19 @@ namespace Windmill
 
             // Create the sky.
             sky = new Shapes.Rectangle(0, 0, 800, 500);
+
+            // Create the clouds. (Probably a little inefficient to use circles).
+            cloud = new List<Shape>();
+            cloud.Add(new Circle(new Vector2(0, 0), 50));
+            cloud.Add(new Circle(new Vector2(60, 0), 35));
+            cloud.Add(new Circle(new Vector2(100, 0), 25));
+            cloud.Add(new Circle(new Vector2(0, 0), 50));
+            cloud.Add(new Circle(new Vector2(-60, 0), 40));
+            cloud.Add(new Circle(new Vector2(-100, 0), 20));
+            foreach (Shape shape in cloud)
+            {
+                shape.Translate(new Vector2(100, 100));
+            }
 
             // Rotate the blades so they are 120 degrees apart.
             rBlade.Rotate(new Vector2(0, 0), 120);
@@ -67,6 +82,11 @@ namespace Windmill
             // Rotate the blades.
             if (elapsedTime > 10)
             {
+                foreach (Shape shape in cloud)
+                {
+                    shape.Translate(new Vector2(0.2, 0));
+                }
+
                 foreach (Shape shape in blades)
                 {
                     shape.Rotate(new Vector2(400, 200), -1);
@@ -84,6 +104,12 @@ namespace Windmill
             graphics.FillPolygon(blueBrush, sky.GetPoints(), FillMode.Winding);
             graphics.FillPolygon(greenBrush, grass.GetPoints(), FillMode.Winding);
             graphics.FillPolygon(brownBrush, stand.GetPoints(), FillMode.Winding);
+
+            foreach (Shape shape in cloud)
+            {
+                graphics.FillPolygon(whiteBrush, shape.GetPoints(), FillMode.Winding);
+            }
+
             foreach(Shape blade in blades)
             {
                 graphics.FillPolygon(silverBrush, blade.GetPoints(), FillMode.Winding);
