@@ -9,7 +9,7 @@ namespace Windmill
 {
     public class WindmillApp : GameApp
     {
-        private List<Shape> shapes = new List<Shape>();
+        private List<Shape> blades = new List<Shape>();
         private double elapsedTime;
         private Shape stand;
 
@@ -39,9 +39,9 @@ namespace Windmill
             stand.Translate(new Vector2(400, 200));
 
             // Add the blades to the list of shapes for rendering.
-            shapes.Add(lBlade);
-            shapes.Add(rBlade);
-            shapes.Add(tBlade);
+            blades.Add(lBlade);
+            blades.Add(rBlade);
+            blades.Add(tBlade);
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Windmill
 
             if (elapsedTime > 0.01)
             {
-                foreach (Shape shape in shapes)
+                foreach (Shape shape in blades)
                 {
                     shape.Rotate(new Vector2(400, 200), -1);
                 }
@@ -67,7 +67,7 @@ namespace Windmill
         public override void Render(BufferedGraphics buffer)
         {
             buffer.Graphics.FillPolygon(brownBrush, stand.GetPoints(), FillMode.Winding);
-            foreach(Shape shape in shapes)
+            foreach(Shape shape in blades)
             {
                 buffer.Graphics.FillPolygon(silverBrush, shape.GetPoints(), FillMode.Winding);
             }
