@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 using Windmill.Shapes;
 
@@ -12,15 +13,18 @@ namespace Windmill
         private double elapsedTime;
         private Shape stand;
 
+        private SolidBrush silverBrush = new SolidBrush(Color.Silver);
+        private SolidBrush brownBrush = new SolidBrush(Color.Brown);
+
         /// <summary>
         /// Initialize the scene.
         /// </summary>
         public override void Initialize()
         {
             // Create the propeller blades from triangles.
-            Shape lBlade = new Triangle(new Vector2(0, 0), new Vector2(150, 0), new Vector2(10, 10));
-            Shape rBlade = new Triangle(new Vector2(0, 0), new Vector2(150, 0), new Vector2(10, 10));
-            Shape tBlade = new Triangle(new Vector2(0, 0), new Vector2(150, 0), new Vector2(10, 10));
+            Shape lBlade = new Triangle(new Vector2(0, 0), new Vector2(150, 0), new Vector2(10, 20));
+            Shape rBlade = new Triangle(new Vector2(0, 0), new Vector2(150, 0), new Vector2(10, 20));
+            Shape tBlade = new Triangle(new Vector2(0, 0), new Vector2(150, 0), new Vector2(10, 20));
 
             stand = new Triangle(new Vector2(0, 0), new Vector2(-20, 300), new Vector2(20, 300));
 
@@ -62,11 +66,11 @@ namespace Windmill
         /// </summary>
         public override void Render(BufferedGraphics buffer)
         {
+            buffer.Graphics.FillPolygon(brownBrush, stand.GetPoints(), FillMode.Winding);
             foreach(Shape shape in shapes)
             {
-                buffer.Graphics.DrawPolygon(Pens.Blue, shape.GetPoints());
+                buffer.Graphics.FillPolygon(silverBrush, shape.GetPoints(), FillMode.Winding);
             }
-            buffer.Graphics.DrawPolygon(Pens.Blue, stand.GetPoints());
         }
     }
 }
