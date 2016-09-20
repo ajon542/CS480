@@ -57,6 +57,7 @@
     <Compile Include="Shapes\Circle.cs" />
     <Compile Include="Shapes\Rectangle.cs" />
     <Compile Include="Shapes\Shape.cs" />
+    <Compile Include="Shapes\Triangle.cs" />
     <Compile Include="Vector2.cs" />
     <Compile Include="WindmillApp.cs" />
     <EmbeddedResource Include="Form1.resx">
