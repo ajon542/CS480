@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace Windmill
 {
@@ -7,8 +9,7 @@ namespace Windmill
     /// </summary>
     public class WindmillApp : GameApp
     {
-        private WindmillGameObject windmill1 = new WindmillGameObject();
-        private WindmillGameObject windmill2 = new WindmillGameObject();
+        private List<WindmillGameObject> windmills = new List<WindmillGameObject>();
 
         private Bitmap background;
 
@@ -20,13 +21,30 @@ namespace Windmill
             // Load the background image.
             background = new Bitmap("Assets/Background.jpg");
 
-            // Initialize the windmill game object.
-            windmill1.Transform.Position = new Vector2(400, 200);
-            windmill1.Initialize();
+            // Create the game objects.
+            for (int i = 0; i < 10; ++i)
+            {
+                windmills.Add(new WindmillGameObject());
+            }
 
-            windmill2.Transform.Position = new Vector2(500, 300);
-            windmill2.Transform.Scale = new Vector2(0.5, 0.5);
-            windmill2.Initialize();
+            // Set their position and scale.
+            Random random = new Random();
+            foreach (var gameobject in windmills)
+            {
+                float x = random.Next(50, 750);
+                float y = random.Next(400, 500);
+                gameobject.Transform.Position = new Vector2(x, y);
+                gameobject.Transform.Scale = new Vector2(0.2, 0.2);
+
+                float scale = random.Next(1, 3);
+                gameobject.Transform.Scale = new Vector2(scale / 10, scale/10);
+            }
+
+            // Initialize the game objects.
+            foreach (var gameobject in windmills)
+            {
+                gameobject.Initialize();
+            }
         }
 
         /// <summary>
@@ -34,8 +52,10 @@ namespace Windmill
         /// </summary>
         public override void Update(double deltaTime)
         {
-            windmill1.Update(deltaTime);
-            windmill2.Update(deltaTime);
+            foreach (var gameobject in windmills)
+            {
+                gameobject.Update(deltaTime);
+            }
         }
 
         /// <summary>
@@ -45,8 +65,10 @@ namespace Windmill
         {
             graphics.DrawImage(background, 0, 0);
 
-            windmill1.Render(graphics);
-            windmill2.Render(graphics);
+                        foreach (var gameobject in windmills)
+            {
+                gameobject.Render(graphics);
+            }
         }
 
         /// <summary>
