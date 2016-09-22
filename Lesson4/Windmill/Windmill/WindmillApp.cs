@@ -27,7 +27,7 @@ namespace Windmill
                 windmills.Add(new WindmillGameObject());
             }
 
-            // Set their position and scale.
+            // Set random position and scale.
             Random random = new Random();
             foreach (var gameobject in windmills)
             {
