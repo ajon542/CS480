@@ -11,7 +11,9 @@ namespace Windmill
     /// </summary>
     public class WindmillApp : GameApp
     {
-        private List<Shape> blades = new List<Shape>();
+        #region Windmill Members
+
+        private List<Shape> propeller = new List<Shape>();
         private double elapsedTime;
         private Shape stand;
         private Shape grass;
@@ -24,15 +26,18 @@ namespace Windmill
         private SolidBrush blueBrush = new SolidBrush(Color.LightBlue);
         private SolidBrush whiteBrush = new SolidBrush(Color.WhiteSmoke);
 
+        #endregion
+
         /// <summary>
         /// Initialize the scene.
         /// </summary>
         public override void Initialize()
         {
-            // Create the propeller blades from triangles.
+            // Create the propeller blades from triangles, and hub from circle.
             Shape lBlade = new Shapes.Triangle(new Vector2(0, 0), new Vector2(150, 0), new Vector2(10, 20));
             Shape rBlade = new Shapes.Triangle(new Vector2(0, 0), new Vector2(150, 0), new Vector2(10, 20));
             Shape tBlade = new Shapes.Triangle(new Vector2(0, 0), new Vector2(150, 0), new Vector2(10, 20));
+            Shape hub = new Shapes.Circle(new Vector2(0, 0), 10);
 
             // Create the base of the windmill.
             stand = new Shapes.Triangle(new Vector2(0, 0), new Vector2(-20, 300), new Vector2(20, 300));
@@ -60,16 +65,19 @@ namespace Windmill
             rBlade.Rotate(new Vector2(0, 0), 120);
             tBlade.Rotate(new Vector2(0, 0), 240);
 
-            // Translate the blades to their location.
-            lBlade.Translate(new Vector2(400, 200));
-            rBlade.Translate(new Vector2(400, 200));
-            tBlade.Translate(new Vector2(400, 200));
-            stand.Translate(new Vector2(400, 200));
-
             // Add the blades to the list of shapes for rendering.
-            blades.Add(lBlade);
-            blades.Add(rBlade);
-            blades.Add(tBlade);
+            propeller.Add(lBlade);
+            propeller.Add(rBlade);
+            propeller.Add(tBlade);
+            propeller.Add(hub);
+
+            // Translate the blades to their location.
+            Vector2 position = new Vector2(400, 200);
+            stand.Translate(position);
+            foreach (Shape shape in propeller)
+            {
+                shape.Translate(position);
+            }
         }
 
         /// <summary>
@@ -79,15 +87,16 @@ namespace Windmill
         {
             elapsedTime += DeltaTime;
 
-            // Rotate the blades.
             if (elapsedTime > 10)
             {
+                // Move the cloud.
                 foreach (Shape shape in cloud)
                 {
                     shape.Translate(new Vector2(0.2, 0));
                 }
 
-                foreach (Shape shape in blades)
+                // Rotate the propeller.
+                foreach (Shape shape in propeller)
                 {
                     shape.Rotate(new Vector2(400, 200), -1);
                 }
@@ -110,7 +119,7 @@ namespace Windmill
                 graphics.FillPolygon(whiteBrush, shape.GetPoints(), FillMode.Winding);
             }
 
-            foreach(Shape blade in blades)
+            foreach(Shape blade in propeller)
             {
                 graphics.FillPolygon(silverBrush, blade.GetPoints(), FillMode.Winding);
             }
