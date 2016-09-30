@@ -22,8 +22,23 @@ namespace GameEngine.Core.Shapes
         public Line(Vector2 a, Vector2 b)
         {
             Points = new List<Vector2>();
-            Points.Add(a);
-            Points.Add(b);
+            double deltaX = b.x - a.x;
+            double deltaY = b.y - a.y;
+            double deltaE = deltaY / deltaX;
+            double error = deltaE;
+            double y = a.y;
+
+            for (double x = a.x; x <= b.x; x += 1)
+            {
+                Points.Add(new Vector2(x, y));
+
+                if (error >= 1)
+                {
+                    error -= 1;
+                    y += 1;
+                }
+                error += deltaE;
+            }
         }
 
         /// <summary>
