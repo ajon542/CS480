@@ -16,9 +16,15 @@ namespace GameEngine.Core.Shapes
 
         public Line(Vector2 a, Vector2 b)
         {
-
+            Points = new List<Vector2>();
+            Points.Add(a);
+            Points.Add(b);
         }
 
+        /// <summary>
+        /// Convert the list of vectors (double) to points on the screen (int).
+        /// </summary>
+        /// <returns>Array of screen points.</returns>
         public virtual Point[] GetPoints()
         {
             List<Point> points = new List<Point>();

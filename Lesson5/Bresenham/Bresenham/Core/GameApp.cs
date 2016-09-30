@@ -27,5 +27,10 @@ namespace GameEngine.Core
         /// Shutdown the game application.
         /// </summary>
         public virtual void Shutdown() { }
+
+        /// <summary>
+        /// Handle the mouse click.
+        /// </summary>
+        public virtual void MouseClick(int x, int y) { }
     }
 }

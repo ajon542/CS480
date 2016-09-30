@@ -20,6 +20,7 @@ namespace Bresenham
             // Setup the event handlers.
             Application.ApplicationExit += OnApplicationExit;
             Paint += new PaintEventHandler(DrawRegion_Paint);
+            MouseClick += new MouseEventHandler(DrawRegion_MouseClick);
 
             // Enable double buffering.
             DoubleBuffered = true;
@@ -44,6 +45,11 @@ namespace Bresenham
 
             // Invalidate the draw region.
             Invalidate();
+        }
+
+        private void DrawRegion_MouseClick(Object sender, MouseEventArgs e)
+        {
+            gameApp.MouseClick(e.X, e.Y);
         }
 
         /// <summary>
