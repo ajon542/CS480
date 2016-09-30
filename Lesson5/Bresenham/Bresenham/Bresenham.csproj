@@ -49,6 +49,7 @@
     <Compile Include="Core\GameApp.cs" />
     <Compile Include="Core\GameObject.cs" />
     <Compile Include="Core\Shapes\Circle.cs" />
+    <Compile Include="Core\Shapes\Line.cs" />
     <Compile Include="Core\Shapes\Rectangle.cs" />
     <Compile Include="Core\Shapes\Shape.cs" />
     <Compile Include="Core\Shapes\Triangle.cs" />
