@@ -4,8 +4,14 @@ using System.Drawing;
 
 namespace Windmill.Shapes
 {
+    /// <summary>
+    /// Base class for all shapes.
+    /// </summary>
     public class Shape
     {
+        /// <summary>
+        /// List of points defining the shape. These will be used in the Graphics.DrawPolygon method.
+        /// </summary>
         public List<Vector2> Points { get; set; }
 
         public Shape()
@@ -38,6 +44,10 @@ namespace Windmill.Shapes
             }
         }
 
+        /// <summary>
+        /// Convert the list of Vector2 to Point.
+        /// </summary>
+        /// <returns>An array of points.</returns>
         public virtual Point[] GetPoints()
         {
             List<Point> points = new List<Point>();
