@@ -14,6 +14,11 @@ namespace GameEngine.Core.Shapes
         /// </summary>
         public List<Vector2> Points { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Line"/> class.
+        /// </summary>
+        /// <param name="a">The start point.</param>
+        /// <param name="b">The end point.</param>
         public Line(Vector2 a, Vector2 b)
         {
             Points = new List<Vector2>();
