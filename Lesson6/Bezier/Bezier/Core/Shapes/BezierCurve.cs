@@ -14,6 +14,39 @@ namespace GameEngine.Core.Shapes
         /// </summary>
         public List<Vector2> Points { get; set; }
 
+        private int Choose(int n, int k)
+        {
+            if (k > n) return 0;
+            if (k * 2 > n) k = n - k;
+            if (k == 0) return 1;
+
+            int result = n;
+            for (int i = 2; i <= k; ++i)
+            {
+                result *= (n - i + 1);
+                result /= i;
+            }
+            return result;
+        }
+
+        private Vector2 BezierDegreeN(List<Vector2> controls, float t)
+        {
+            Vector2 result = new Vector2(0, 0);
+            int n = controls.Count - 1;
+            for (int k = 0; k < controls.Count; ++k)
+            {
+                int mult = Choose(n, k);
+                int aExp = n - k;
+                int bExp = k;
+                double a = Math.Pow(1 - t, aExp);
+                double b = Math.Pow(t, bExp);
+
+                result.x += mult * a * b * controls[k].x;
+                result.y += mult * a * b * controls[k].y;
+            }
+            return result;
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BezierCurve"/> class.
         /// </summary>
@@ -25,22 +58,17 @@ namespace GameEngine.Core.Shapes
         {
             Points = new List<Vector2>();
 
+            List<Vector2> controls = new List<Vector2> { p0, p1, p2, p3 };
+
             float t = 0;
             for (int i = 0; i <= 100; ++i)
             {
-                double x =
-                    (1 - t) * (1 - t) * (1 - t) * p0.x +
-                    (3 * (1 - t) * t * t) * p1.x +
-                    (3 * (1 - t) * (1 - t) * t) * p2.x +
-                    (t * t * t) * p3.x;
+                float a = 1 - t;
+                float b = t;
 
-                double y =
-                    (1 - t) * (1 - t) * (1 - t) * p0.y +
-                    (3 * (1 - t) * t * t) * p1.y +
-                    (3 * (1 - t) * (1 - t) * t) * p2.y +
-                    (t * t * t) * p3.y;
+                Vector2 point = BezierDegreeN(controls, t);
 
-                Points.Add(new Vector2(x, y));
+                Points.Add(point);
 
                 t += 0.01f;
             }
