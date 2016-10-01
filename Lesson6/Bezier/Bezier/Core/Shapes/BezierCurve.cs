@@ -17,28 +17,28 @@ namespace GameEngine.Core.Shapes
         /// <summary>
         /// Initializes a new instance of the <see cref="BezierCurve"/> class.
         /// </summary>
-        /// <param name="a">The start point.</param>
-        /// <param name="b">The end point.</param>
-        /// <param name="c1">The first control point.</param>
-        /// <param name="c2">The second control point.</param>
-        public BezierCurve(Vector2 a, Vector2 b, Vector2 c1, Vector2 c2)
+        /// <param name="p0">The start point.</param>
+        /// <param name="p1">The first control point.</param>
+        /// <param name="p2">The second control point.</param>
+        /// <param name="p3">The end point.</param>
+        public BezierCurve(Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3)
         {
             Points = new List<Vector2>();
 
             float t = 0;
-            for (int i = 0; i < 100; ++i)
+            for (int i = 0; i <= 100; ++i)
             {
                 double x =
-                    (1 - t) * (1 - t) * (1 - t) * a.x +
-                    (3 * (1 - t) * t * t) * c1.x +
-                    (3 * (1 - t) * (1 - t) * t) * c2.x +
-                    (t * t * t) * b.x;
+                    (1 - t) * (1 - t) * (1 - t) * p0.x +
+                    (3 * (1 - t) * t * t) * p1.x +
+                    (3 * (1 - t) * (1 - t) * t) * p2.x +
+                    (t * t * t) * p3.x;
 
                 double y =
-                    (1 - t) * (1 - t) * (1 - t) * a.y +
-                    (3 * (1 - t) * t * t) * c1.y +
-                    (3 * (1 - t) * (1 - t) * t) * c2.y +
-                    (t * t * t) * b.y;
+                    (1 - t) * (1 - t) * (1 - t) * p0.y +
+                    (3 * (1 - t) * t * t) * p1.y +
+                    (3 * (1 - t) * (1 - t) * t) * p2.y +
+                    (t * t * t) * p3.y;
 
                 Points.Add(new Vector2(x, y));
 

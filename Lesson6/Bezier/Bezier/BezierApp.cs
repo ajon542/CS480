@@ -13,14 +13,11 @@ namespace Bezier
     {
         private Pen pen = new Pen(Color.White, 1);
         private BezierCurve bezier;
+        private List<Vector2> control;
 
         public override void Initialize()
         {
-            Vector2 a = new Vector2(100, 100);
-            Vector2 b = new Vector2(600, 100);
-            Vector2 c1 = new Vector2(200, 400);
-            Vector2 c2 = new Vector2(400, 200);
-            bezier = new BezierCurve(a, b, c1, c2);
+            control = new List<Vector2>();
         }
 
         /// <summary>
@@ -28,7 +25,15 @@ namespace Bezier
         /// </summary>
         public override void MouseClick(int x, int y)
         {
+            // Add the control points.
+            if (control.Count < 4)
+            {
+                control.Add(new Vector2(x, y));
+                return;
+            }
 
+            // Generate the bezier curve.
+            bezier = new BezierCurve(control[0], control[1], control[2], control[3]);
         }
 
         /// <summary>
@@ -36,7 +41,20 @@ namespace Bezier
         /// </summary>
         public override void Render(Graphics graphics)
         {
+            // Draw control points.
+            foreach (Vector2 point in control)
+            {
+                graphics.DrawRectangle(pen, (float)point.x, (float)point.y, 1, 1);
+            }
+
+            if (bezier == null)
+            {
+                return;
+            }
+
+            // Draw the bezier curve.
             Point[] points = bezier.GetPoints();
+
             foreach (Point point in points)
             {
                 graphics.DrawRectangle(pen, point.X, point.Y, 1, 1);
