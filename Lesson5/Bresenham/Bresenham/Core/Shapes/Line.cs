@@ -14,30 +14,54 @@ namespace GameEngine.Core.Shapes
         /// </summary>
         public List<Vector2> Points { get; set; }
 
+        private void Swap(ref double a, ref double b)
+        {
+            double tmp = a;
+            a = b;
+            b = tmp;
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Line"/> class.
         /// </summary>
+        /// <remarks>
+        /// https://rosettacode.org/wiki/Bitmap/Bresenham%27s_line_algorithm#C
+        /// </remarks>
         /// <param name="a">The start point.</param>
         /// <param name="b">The end point.</param>
         public Line(Vector2 a, Vector2 b)
         {
             Points = new List<Vector2>();
-            double deltaX = b.x - a.x;
-            double deltaY = b.y - a.y;
-            double deltaE = deltaY / deltaX;
-            double error = deltaE;
-            double y = a.y;
 
-            for (double x = a.x; x <= b.x; x += 1)
+            int x0 = (int)a.x;
+            int x1 = (int)b.x;
+            int y0 = (int)a.y;
+            int y1 = (int)b.y;
+
+            int dx = Math.Abs(x1 - x0);
+            int dy = Math.Abs(y1 - y0);
+            int sx = x0 < x1 ? 1 : -1;
+            int sy = y0 < y1 ? 1 : -1;
+
+            int err = (dx > dy ? dx : -dy) / 2;
+            int e2;
+
+            for (; ; )
             {
-                Points.Add(new Vector2(x, y));
+                Points.Add(new Vector2(x0, y0));
+                if (x0 == x1 && y0 == y1) break;
+                e2 = err;
 
-                if (error >= 1)
+                if (e2 > -dx)
                 {
-                    error -= 1;
-                    y += 1;
+                    err -= dy;
+                    x0 += sx;
                 }
-                error += deltaE;
+                if (e2 < dy)
+                {
+                    err += dx;
+                    y0 += sy;
+                }
             }
         }
 
