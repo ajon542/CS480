@@ -7,35 +7,28 @@ using GameEngine.Core.Shapes;
 namespace Bezier
 {
     /// <summary>
-    /// Simple application to display lines based on the Bresenham line algorithm.
-    /// The application allows the user to click on the screen to define the start
-    /// and end points of each line.
+    /// Simple application to display a cubic Bezier curve.
     /// </summary>
     public class BezierApp : GameApp
     {
         private Pen pen = new Pen(Color.White, 1);
-        private List<Line> lines = new List<Line>();
-        private Vector2 startPoint;
+        private BezierCurve bezier;
+
+        public override void Initialize()
+        {
+            Vector2 a = new Vector2(100, 100);
+            Vector2 b = new Vector2(600, 100);
+            Vector2 c1 = new Vector2(200, 400);
+            Vector2 c2 = new Vector2(400, 200);
+            bezier = new BezierCurve(a, b, c1, c2);
+        }
 
         /// <summary>
         /// Allow the user to define the start and end points of the line.
         /// </summary>
         public override void MouseClick(int x, int y)
         {
-            if (startPoint == null)
-            {
-                // Define the start point.
-                startPoint = new Vector2(x, y);
-            }
-            else
-            {
-                // Define the end point.
-                Vector2 endPoint = new Vector2(x, y);
 
-                // Add the line and clear the start point.
-                lines.Add(new Line(startPoint, endPoint));
-                startPoint = null;
-            }
         }
 
         /// <summary>
@@ -43,13 +36,10 @@ namespace Bezier
         /// </summary>
         public override void Render(Graphics graphics)
         {
-            foreach (Line line in lines)
+            Point[] points = bezier.GetPoints();
+            foreach (Point point in points)
             {
-                Point[] points = line.GetPoints();
-                foreach (Point point in points)
-                {
-                    graphics.DrawRectangle(pen, point.X, point.Y, 1, 1);
-                }
+                graphics.DrawRectangle(pen, point.X, point.Y, 1, 1);
             }
         }
     }
