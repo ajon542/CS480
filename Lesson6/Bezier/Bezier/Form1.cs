@@ -21,6 +21,8 @@ namespace Bezier
             Application.ApplicationExit += OnApplicationExit;
             Paint += new PaintEventHandler(DrawRegion_Paint);
             MouseClick += new MouseEventHandler(DrawRegion_MouseClick);
+            MouseDown += new MouseEventHandler(DrawRegion_MouseDown);
+            MouseUp += new MouseEventHandler(DrawRegion_MouseUp);
 
             // Enable double buffering.
             DoubleBuffered = true;
@@ -50,6 +52,16 @@ namespace Bezier
         private void DrawRegion_MouseClick(Object sender, MouseEventArgs e)
         {
             gameApp.MouseClick(e.X, e.Y);
+        }
+
+        private void DrawRegion_MouseDown(Object sender, MouseEventArgs e)
+        {
+            gameApp.MouseDown(e.X, e.Y);
+        }
+
+        private void DrawRegion_MouseUp(Object sender, MouseEventArgs e)
+        {
+            gameApp.MouseUp(e.X, e.Y);
         }
 
         /// <summary>

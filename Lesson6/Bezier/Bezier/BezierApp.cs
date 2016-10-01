@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 using GameEngine.Core;
@@ -13,27 +14,65 @@ namespace Bezier
     {
         private Pen pen = new Pen(Color.White, 1);
         private BezierCurve bezier;
-        private List<Vector2> control;
+        private List<Vector2> controlPoints;
+        private Vector2 selectedPoint;
 
         public override void Initialize()
         {
-            control = new List<Vector2>();
+            controlPoints = new List<Vector2>();
         }
 
         /// <summary>
-        /// Allow the user to define the start and end points of the line.
+        /// Allow the user to define the points of the Bezier curve.
         /// </summary>
         public override void MouseClick(int x, int y)
         {
             // Add the control points.
-            if (control.Count < 4)
+            if (controlPoints.Count < 4)
             {
-                control.Add(new Vector2(x, y));
-                return;
+                controlPoints.Add(new Vector2(x, y));
             }
 
-            // Generate the bezier curve.
-            bezier = new BezierCurve(control[0], control[1], control[2], control[3]);
+            if (controlPoints.Count == 4)
+            {
+                // Generate the bezier curve.
+                bezier = new BezierCurve(controlPoints[0], controlPoints[1], controlPoints[2], controlPoints[3]);
+            }
+        }
+
+        /// <summary>
+        /// Handle the control point selection.
+        /// </summary>
+        public override void MouseDown(int x, int y)
+        {
+            foreach (Vector2 point in controlPoints)
+            {
+                int dx = Math.Abs(x - (int)point.x);
+                int dy = Math.Abs(y - (int)point.y);
+
+                // In range of a control point, handle the selection.
+                if (dx < 10 && dy < 10)
+                {
+                    selectedPoint = point;
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handle the drag and drop of the control point.
+        /// </summary>
+        public override void MouseUp(int x, int y)
+        {
+            if (selectedPoint != null)
+            {
+                selectedPoint.x = x;
+                selectedPoint.y = y;
+                selectedPoint = null;
+
+                // Regenerate the bezier curve.
+                bezier = new BezierCurve(controlPoints[0], controlPoints[1], controlPoints[2], controlPoints[3]);
+            }
         }
 
         /// <summary>
@@ -42,7 +81,7 @@ namespace Bezier
         public override void Render(Graphics graphics)
         {
             // Draw control points.
-            foreach (Vector2 point in control)
+            foreach (Vector2 point in controlPoints)
             {
                 graphics.DrawRectangle(pen, (float)point.x, (float)point.y, 1, 1);
             }
