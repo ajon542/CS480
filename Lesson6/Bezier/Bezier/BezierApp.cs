@@ -27,17 +27,6 @@ namespace Bezier
         /// </summary>
         public override void MouseClick(int x, int y)
         {
-            // Add the control points.
-            if (controlPoints.Count < 4)
-            {
-                controlPoints.Add(new Vector2(x, y));
-            }
-
-            if (controlPoints.Count == 4)
-            {
-                // Generate the bezier curve.
-                bezier = new BezierCurve(controlPoints[0], controlPoints[1], controlPoints[2], controlPoints[3]);
-            }
         }
 
         /// <summary>
@@ -66,12 +55,24 @@ namespace Bezier
         {
             if (selectedPoint != null)
             {
+                // Update the selected point to the mouse button release location.
                 selectedPoint.x = x;
                 selectedPoint.y = y;
                 selectedPoint = null;
 
                 // Regenerate the bezier curve.
-                bezier = new BezierCurve(controlPoints[0], controlPoints[1], controlPoints[2], controlPoints[3]);
+                bezier = new BezierCurve(controlPoints);
+            }
+            else
+            {
+                // No point was selected, add a new control point.
+                controlPoints.Add(new Vector2(x, y));
+
+                // Generate the bezier curve if there enough points.
+                if (controlPoints.Count >= 3)
+                {
+                    bezier = new BezierCurve(controlPoints);
+                }
             }
         }
 

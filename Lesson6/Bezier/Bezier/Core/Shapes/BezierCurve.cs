@@ -50,15 +50,10 @@ namespace GameEngine.Core.Shapes
         /// <summary>
         /// Initializes a new instance of the <see cref="BezierCurve"/> class.
         /// </summary>
-        /// <param name="p0">The start point.</param>
-        /// <param name="p1">The first control point.</param>
-        /// <param name="p2">The second control point.</param>
-        /// <param name="p3">The end point.</param>
-        public BezierCurve(Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3)
+        /// <param name="controlPoints">The control points for the curve.</param>
+        public BezierCurve(List<Vector2> controlPoints)
         {
             Points = new List<Vector2>();
-
-            List<Vector2> controls = new List<Vector2> { p0, p1, p2, p3 };
 
             float t = 0;
             for (int i = 0; i <= 100; ++i)
@@ -66,7 +61,7 @@ namespace GameEngine.Core.Shapes
                 float a = 1 - t;
                 float b = t;
 
-                Vector2 point = BezierDegreeN(controls, t);
+                Vector2 point = BezierDegreeN(controlPoints, t);
 
                 Points.Add(point);
 
