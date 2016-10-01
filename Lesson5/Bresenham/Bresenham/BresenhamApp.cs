@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
 
 using GameEngine.Core;
 using GameEngine.Core.Shapes;
