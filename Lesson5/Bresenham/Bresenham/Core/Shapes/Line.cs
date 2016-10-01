@@ -14,13 +14,6 @@ namespace GameEngine.Core.Shapes
         /// </summary>
         public List<Vector2> Points { get; set; }
 
-        private void Swap(ref double a, ref double b)
-        {
-            double tmp = a;
-            a = b;
-            b = tmp;
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Line"/> class.
         /// </summary>
