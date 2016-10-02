@@ -8,38 +8,29 @@ using GameEngine.Core.Shapes;
 namespace Bezier
 {
     /// <summary>
-    /// Simple application to display a cubic Bezier curve.
+    /// Simple application to display an N degree Bezier curve.
     /// </summary>
     public class BezierApp : GameApp
     {
         private Pen pen = new Pen(Color.White, 1);
+        private Brush brush = new SolidBrush(Color.Red);
         private BezierCurve bezier;
-        private List<Vector2> controlPoints;
+        private List<Vector2> controlPoints = new List<Vector2>();
         private Vector2 selectedPoint;
-
-        public override void Initialize()
-        {
-            controlPoints = new List<Vector2>();
-        }
-
-        /// <summary>
-        /// Allow the user to define the points of the Bezier curve.
-        /// </summary>
-        public override void MouseClick(int x, int y)
-        {
-        }
 
         /// <summary>
         /// Handle the control point selection.
         /// </summary>
         public override void MouseDown(int x, int y)
         {
+            // Check to see if the mouse down occurs close to a control point.
             foreach (Vector2 point in controlPoints)
             {
                 int dx = Math.Abs(x - (int)point.x);
                 int dy = Math.Abs(y - (int)point.y);
 
-                // In range of a control point, handle the selection.
+                // In range of a control point, keep track of the selected point.
+                // On the mouse up event, the new position will be set.
                 if (dx < 10 && dy < 10)
                 {
                     selectedPoint = point;
@@ -65,7 +56,8 @@ namespace Bezier
             }
             else
             {
-                // No point was selected, add a new control point.
+                // No control point was selected, the mouse up event must be the
+                // user clicking to add another control point.
                 controlPoints.Add(new Vector2(x, y));
 
                 // Generate the bezier curve if there enough points.
@@ -81,23 +73,21 @@ namespace Bezier
         /// </summary>
         public override void Render(Graphics graphics)
         {
+            if (bezier != null)
+            {
+                // Draw the bezier curve.
+                Point[] points = bezier.GetPoints();
+
+                foreach (Point point in points)
+                {
+                    graphics.DrawRectangle(pen, point.X, point.Y, 1, 1);
+                }
+            }
+
             // Draw control points.
             foreach (Vector2 point in controlPoints)
             {
-                graphics.DrawRectangle(pen, (float)point.x, (float)point.y, 1, 1);
-            }
-
-            if (bezier == null)
-            {
-                return;
-            }
-
-            // Draw the bezier curve.
-            Point[] points = bezier.GetPoints();
-
-            foreach (Point point in points)
-            {
-                graphics.DrawRectangle(pen, point.X, point.Y, 1, 1);
+                graphics.FillEllipse(brush, (float)point.x - 5, (float)point.y - 5, 10, 10);
             }
         }
     }
