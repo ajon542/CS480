@@ -29,11 +29,6 @@ namespace GameEngine.Core
         public virtual void Shutdown() { }
 
         /// <summary>
-        /// Handle the mouse click.
-        /// </summary>
-        public virtual void MouseClick(int x, int y) { }
-
-        /// <summary>
         /// Handle the mouse down.
         /// </summary>
         public virtual void MouseDown(int x, int y) { }
@@ -42,5 +37,10 @@ namespace GameEngine.Core
         /// Handle the mouse up.
         /// </summary>
         public virtual void MouseUp(int x, int y) { }
+
+        /// <summary>
+        /// Handle button click for the given button id.
+        /// </summary>
+        public virtual void ButtonClick(string buttonId) { }
     }
 }

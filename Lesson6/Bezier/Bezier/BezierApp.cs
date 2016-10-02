@@ -20,6 +20,17 @@ namespace Bezier
         private Vector2 selectedPoint;
 
         /// <summary>
+        /// Setup a basic Bezier curve.
+        /// </summary>
+        public override void Initialize()
+        {
+            controlPoints.Add(new Vector2(100, 200));
+            controlPoints.Add(new Vector2(400, 400));
+            controlPoints.Add(new Vector2(600, 200));
+            bezier = new BezierCurve(controlPoints);
+        }
+
+        /// <summary>
         /// Handle the control point selection.
         /// </summary>
         public override void MouseDown(int x, int y)
@@ -51,22 +62,16 @@ namespace Bezier
                 selectedPoint.x = x;
                 selectedPoint.y = y;
                 selectedPoint = null;
-
-                // Regenerate the bezier curve.
-                bezier = new BezierCurve(controlPoints);
             }
             else
             {
                 // No control point was selected, the mouse up event must be the
                 // user clicking to add another control point.
                 controlPoints.Add(new Vector2(x, y));
-
-                // Generate the bezier curve if there enough points.
-                if (controlPoints.Count >= 3)
-                {
-                    bezier = new BezierCurve(controlPoints);
-                }
             }
+
+            // Generate the bezier curve.
+            bezier = new BezierCurve(controlPoints);
         }
 
         /// <summary>
@@ -74,15 +79,12 @@ namespace Bezier
         /// </summary>
         public override void Render(Graphics graphics)
         {
-            if (bezier != null)
-            {
-                // Draw the bezier curve.
-                Point[] points = bezier.GetPoints();
+            // Draw the bezier curve.
+            Point[] points = bezier.GetPoints();
 
-                foreach (Point point in points)
-                {
-                    graphics.DrawRectangle(pen, point.X, point.Y, 1, 1);
-                }
+            foreach (Point point in points)
+            {
+                graphics.DrawRectangle(pen, point.X, point.Y, 1, 1);
             }
 
             // Draw control points.
