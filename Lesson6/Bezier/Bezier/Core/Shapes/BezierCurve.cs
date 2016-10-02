@@ -26,13 +26,13 @@ namespace GameEngine.Core.Shapes
         /// <param name="n">The number of items to choose from.</param>
         /// <param name="k">The number of items to choose.</param>
         /// <returns>The number of possible way to choose the items.</returns>
-        private int Choose(int n, int k)
+        private double Choose(int n, int k)
         {
             if (k > n) return 0;
             if (k * 2 > n) k = n - k;
             if (k == 0) return 1;
 
-            int result = n;
+            double result = n;
             for (int i = 2; i <= k; ++i)
             {
                 result *= (n - i + 1);
@@ -60,9 +60,9 @@ namespace GameEngine.Core.Shapes
             int n = controls.Count - 1;
             for (int k = 0; k < controls.Count; ++k)
             {
-                int mult = Choose(n, k);
-                int aExp = n - k;
-                int bExp = k;
+                double mult = Choose(n, k);
+                double aExp = n - k;
+                double bExp = k;
                 double a = Math.Pow(1 - t, aExp);
                 double b = Math.Pow(t, bExp);
 
