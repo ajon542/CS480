@@ -14,6 +14,18 @@ namespace GameEngine.Core.Shapes
         /// </summary>
         public List<Vector2> Points { get; set; }
 
+        /// <summary>
+        /// Simple method of generating "n choose k".
+        /// </summary>
+        /// <remarks>
+        /// This is used in order to generate the N degree polynomial of:
+        ///     (a+b)^n
+        /// In the expanded form:
+        ///     (n choose 0)(a^n) + (n choose 1)(a^n-1)(b^1) + ... + (n choose k)(b^n)
+        /// </remarks>
+        /// <param name="n">The number of items to choose from.</param>
+        /// <param name="k">The number of items to choose.</param>
+        /// <returns>The number of possible way to choose the items.</returns>
         private int Choose(int n, int k)
         {
             if (k > n) return 0;
@@ -29,6 +41,19 @@ namespace GameEngine.Core.Shapes
             return result;
         }
 
+        /// <summary>
+        /// Determines the interpolation point given all the control points.
+        /// </summary>
+        /// <example>
+        /// If the method is given 6 control points, the resulting polynomial with be of degree 5.
+        /// 
+        /// The following polynomial describes the x and y components, where "a=1-t" and "b=t".
+        /// a^5 + 5(a^4)(b) + 10(a^3)(b^2) + 10(a^2)(b^3) + 5(a)(b^4) + b^5
+        /// 
+        /// </example>
+        /// <param name="controls">The control points including the end points.</param>
+        /// <param name="t">The percent of the interpolation.</param>
+        /// <returns>The resulting point.</returns>
         private Vector2 BezierDegreeN(List<Vector2> controls, float t)
         {
             Vector2 result = new Vector2(0, 0);
