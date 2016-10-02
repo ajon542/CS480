@@ -45,10 +45,10 @@ namespace GameEngine.Core.Shapes
         /// Determines the interpolation point given all the control points.
         /// </summary>
         /// <example>
-        /// If the method is given 6 control points, the resulting polynomial with be of degree 5.
+        /// If the method is given 6 control points, the resulting polynomial will be of degree 5.
         /// 
         /// The following polynomial describes the x and y components, where "a=1-t" and "b=t".
-        /// a^5 + 5(a^4)(b) + 10(a^3)(b^2) + 10(a^2)(b^3) + 5(a)(b^4) + b^5
+        ///     a^5 + 5(a^4)(b) + 10(a^3)(b^2) + 10(a^2)(b^3) + 5(a)(b^4) + b^5
         /// 
         /// </example>
         /// <param name="controls">The control points including the end points.</param>
@@ -78,19 +78,14 @@ namespace GameEngine.Core.Shapes
         /// <param name="controlPoints">The control points for the curve.</param>
         public BezierCurve(List<Vector2> controlPoints)
         {
+            float t = 0;
             Points = new List<Vector2>();
 
-            float t = 0;
-            for (int i = 0; i <= 100; ++i)
+            for (int i = 0; i <= 100; ++i, t += 0.01f)
             {
-                float a = 1 - t;
-                float b = t;
-
                 Vector2 point = BezierDegreeN(controlPoints, t);
 
                 Points.Add(point);
-
-                t += 0.01f;
             }
         }
 

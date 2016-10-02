@@ -8,7 +8,8 @@ using GameEngine.Core.Shapes;
 namespace Bezier
 {
     /// <summary>
-    /// Simple application to display an N degree Bezier curve.
+    /// Simple application to display an N degree Bezier curve while allowing
+    /// the user to add and modify control points.
     /// </summary>
     public class BezierApp : GameApp
     {
