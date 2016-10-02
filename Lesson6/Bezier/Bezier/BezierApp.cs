@@ -75,6 +75,21 @@ namespace Bezier
         }
 
         /// <summary>
+        /// Handle the button click to reset the Bezier curve.
+        /// </summary>
+        public override void ButtonClick(string buttonId)
+        {
+            if (buttonId == "ResetButton")
+            {
+                controlPoints.Clear();
+                controlPoints.Add(new Vector2(100, 200));
+                controlPoints.Add(new Vector2(400, 400));
+                controlPoints.Add(new Vector2(600, 200));
+                bezier = new BezierCurve(controlPoints);
+            }
+        }
+
+        /// <summary>
         /// Render the lines.
         /// </summary>
         public override void Render(Graphics graphics)

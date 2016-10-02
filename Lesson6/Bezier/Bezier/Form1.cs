@@ -65,5 +65,10 @@ namespace Bezier
         {
             gameApp.Shutdown();
         }
+
+        private void ResetButton_Click(object sender, EventArgs e)
+        {
+            gameApp.ButtonClick("ResetButton");
+        }
     }
 }
