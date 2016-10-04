@@ -28,6 +28,7 @@ namespace Mandelbrot
 
         private ColorScheme colorScheme = ColorScheme.BlueToGold;
         private Color[,] colors;
+        private Bitmap myBitmap;
 
         private IIterator quadraticIterator;
 
@@ -43,6 +44,8 @@ namespace Mandelbrot
         public Mandelbrot()
         {
             InitializeComponent();
+
+            DoubleBuffered = true;
 
             colors = new Color[DrawRegion.Width, DrawRegion.Height];
 
@@ -105,42 +108,26 @@ namespace Mandelbrot
                 }
             });
 
+            // Create a Bitmap object from a file.
+            myBitmap = new Bitmap(DrawRegion.Width - 1, DrawRegion.Height - 1, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+
             // Fill the draw region with the calculated colors.
-            SolidBrush brush = new SolidBrush(Color.Black);
-            for (int x = 0; x < DrawRegion.Width; ++x)
+            //SolidBrush brush = new SolidBrush(Color.Black);
+            for (int x = 0; x < DrawRegion.Width - 1; ++x)
             {
-                for (int y = 0; y < DrawRegion.Height; ++y)
+                for (int y = 0; y < DrawRegion.Height - 1; ++y)
                 {
-                    brush.Color = colors[x, y];
-                    e.Graphics.FillRectangle(brush, x, y, 1, 1);
+                    myBitmap.SetPixel(x, y, colors[x, y]);
+                    //brush.Color = colors[x, y];
+                    //e.Graphics.FillRectangle(brush, x, y, 1, 1);
                 }
             }
+
+            e.Graphics.DrawImage(myBitmap, 0, 0, myBitmap.Width, myBitmap.Height);
 
             // Stop timing.
             stopwatch.Stop();
             paintTime = stopwatch.Elapsed;
-        }
-
-        private Coord ScreenToBound(Coord screenCoord)
-        {
-            // Convert screen coords to bounds coords.
-            Coord boundCoord = new Coord
-            {
-                x = xMin + (screenCoord.x * ((xMax - xMin) / (DrawRegion.Width - 1))),
-                y = yMin + (screenCoord.y * ((xMax - xMin) / (DrawRegion.Width - 1)))
-            };
-            return boundCoord;
-        }
-
-        private Coord BoundToScreen(Coord boundCoord)
-        {
-            // Convert bounds coord to screen coords.
-            Coord screenCoord = new Coord
-            {
-                x = xMin + ((boundCoord.x - xMin) * (DrawRegion.Width - 1)) / (xMax - xMin),
-                y = yMin + ((boundCoord.y - yMin) * (DrawRegion.Height - 1)) / (yMax - yMin)
-            };
-            return screenCoord;
         }
 
         /// <summary>
@@ -162,6 +149,10 @@ namespace Mandelbrot
             using (Graphics graphics = DrawRegion.CreateGraphics())
             {
                 Pen pen = new Pen(Color.Red, 2);
+
+                graphics.Clear(Color.Black);
+
+                graphics.DrawImage(myBitmap, 0, 0, myBitmap.Width, myBitmap.Height);
 
                 graphics.DrawRectangle(
                     pen,
@@ -247,6 +238,28 @@ namespace Mandelbrot
         }
 
         #endregion
+
+        private Coord ScreenToBound(Coord screenCoord)
+        {
+            // Convert screen coords to bounds coords.
+            Coord boundCoord = new Coord
+            {
+                x = xMin + (screenCoord.x * ((xMax - xMin) / (DrawRegion.Width - 1))),
+                y = yMin + (screenCoord.y * ((xMax - xMin) / (DrawRegion.Width - 1)))
+            };
+            return boundCoord;
+        }
+
+        private Coord BoundToScreen(Coord boundCoord)
+        {
+            // Convert bounds coord to screen coords.
+            Coord screenCoord = new Coord
+            {
+                x = xMin + ((boundCoord.x - xMin) * (DrawRegion.Width - 1)) / (xMax - xMin),
+                y = yMin + ((boundCoord.y - yMin) * (DrawRegion.Height - 1)) / (yMax - yMin)
+            };
+            return screenCoord;
+        }
 
         public class Coord
         {
