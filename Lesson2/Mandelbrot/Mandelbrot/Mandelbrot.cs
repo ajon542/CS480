@@ -161,7 +161,7 @@ namespace Mandelbrot
             // Draw rectangle around mouse click screen coords.
             using (Graphics graphics = DrawRegion.CreateGraphics())
             {
-                Pen pen = new Pen(Color.Green, 2);
+                Pen pen = new Pen(Color.Red, 2);
 
                 graphics.DrawRectangle(
                     pen,
@@ -228,6 +228,11 @@ namespace Mandelbrot
         /// </summary>
         private void ZoomButton_Click(object sender, EventArgs e)
         {
+            if (clickCoord == null)
+            {
+                return;
+            }
+
             // Determine the zoom factor in bounds coords.
             double factor = (xMax - xMin) * (double)zoomFactor.Value;
 

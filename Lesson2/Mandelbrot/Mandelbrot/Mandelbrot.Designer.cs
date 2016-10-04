@@ -32,7 +32,6 @@
             this.C0 = new System.Windows.Forms.Label();
             this.DrawRegion = new System.Windows.Forms.PictureBox();
             this.ResetButton = new System.Windows.Forms.Button();
-            this.Help = new System.Windows.Forms.Label();
             this.colorSchemeCombo = new System.Windows.Forms.ComboBox();
             this.ColorSchemeLabel = new System.Windows.Forms.Label();
             this.XLabel = new System.Windows.Forms.Label();
@@ -84,17 +83,6 @@
             this.ResetButton.Text = "Reset";
             this.ResetButton.UseVisualStyleBackColor = true;
             this.ResetButton.Click += new System.EventHandler(this.ResetButton_Click);
-            // 
-            // Help
-            // 
-            this.Help.AutoSize = true;
-            this.Help.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.Help.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.Help.Location = new System.Drawing.Point(174, 14);
-            this.Help.Name = "Help";
-            this.Help.Size = new System.Drawing.Size(283, 20);
-            this.Help.TabIndex = 7;
-            this.Help.Text = "Click on a region of the screen to zoom";
             // 
             // colorSchemeCombo
             // 
@@ -225,7 +213,6 @@
             this.Controls.Add(this.XLabel);
             this.Controls.Add(this.ColorSchemeLabel);
             this.Controls.Add(this.colorSchemeCombo);
-            this.Controls.Add(this.Help);
             this.Controls.Add(this.ResetButton);
             this.Controls.Add(this.DrawRegion);
             this.Controls.Add(this.C0);
@@ -246,7 +233,6 @@
         private System.Windows.Forms.Label C0;
         private System.Windows.Forms.PictureBox DrawRegion;
         private System.Windows.Forms.Button ResetButton;
-        private System.Windows.Forms.Label Help;
         private System.Windows.Forms.ComboBox colorSchemeCombo;
         private System.Windows.Forms.Label ColorSchemeLabel;
         private System.Windows.Forms.Label XLabel;
