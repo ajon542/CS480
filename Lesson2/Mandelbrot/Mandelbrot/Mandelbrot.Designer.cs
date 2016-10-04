@@ -43,6 +43,7 @@
             this.IterationCountLabel = new System.Windows.Forms.Label();
             this.TimeLabel = new System.Windows.Forms.Label();
             this.DrawTimeLabel = new System.Windows.Forms.Label();
+            this.ZoomButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.zoomFactor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DrawRegion)).BeginInit();
             this.SuspendLayout();
@@ -76,7 +77,7 @@
             // ResetButton
             // 
             this.ResetButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.ResetButton.Location = new System.Drawing.Point(50, 38);
+            this.ResetButton.Location = new System.Drawing.Point(50, 67);
             this.ResetButton.Name = "ResetButton";
             this.ResetButton.Size = new System.Drawing.Size(106, 23);
             this.ResetButton.TabIndex = 6;
@@ -102,7 +103,7 @@
             "Red",
             "Black to White",
             "Blue to Gold"});
-            this.colorSchemeCombo.Location = new System.Drawing.Point(50, 110);
+            this.colorSchemeCombo.Location = new System.Drawing.Point(50, 151);
             this.colorSchemeCombo.Name = "colorSchemeCombo";
             this.colorSchemeCombo.Size = new System.Drawing.Size(106, 21);
             this.colorSchemeCombo.TabIndex = 8;
@@ -112,7 +113,7 @@
             // 
             this.ColorSchemeLabel.AutoSize = true;
             this.ColorSchemeLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.ColorSchemeLabel.Location = new System.Drawing.Point(47, 94);
+            this.ColorSchemeLabel.Location = new System.Drawing.Point(47, 135);
             this.ColorSchemeLabel.Name = "ColorSchemeLabel";
             this.ColorSchemeLabel.Size = new System.Drawing.Size(79, 13);
             this.ColorSchemeLabel.TabIndex = 9;
@@ -198,11 +199,22 @@
             this.DrawTimeLabel.TabIndex = 17;
             this.DrawTimeLabel.Text = "DrawTime";
             // 
+            // ZoomButton
+            // 
+            this.ZoomButton.Location = new System.Drawing.Point(50, 38);
+            this.ZoomButton.Name = "ZoomButton";
+            this.ZoomButton.Size = new System.Drawing.Size(106, 23);
+            this.ZoomButton.TabIndex = 18;
+            this.ZoomButton.Text = "Zoom";
+            this.ZoomButton.UseVisualStyleBackColor = true;
+            this.ZoomButton.Click += new System.EventHandler(this.ZoomButton_Click);
+            // 
             // Mandelbrot
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(976, 820);
+            this.Controls.Add(this.ZoomButton);
             this.Controls.Add(this.DrawTimeLabel);
             this.Controls.Add(this.TimeLabel);
             this.Controls.Add(this.IterationCountLabel);
@@ -245,6 +257,7 @@
         private System.Windows.Forms.Label IterationCountLabel;
         private System.Windows.Forms.Label TimeLabel;
         private System.Windows.Forms.Label DrawTimeLabel;
+        private System.Windows.Forms.Button ZoomButton;
     }
 }
 

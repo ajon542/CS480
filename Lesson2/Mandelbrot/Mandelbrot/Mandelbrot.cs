@@ -14,7 +14,6 @@ namespace Mandelbrot
     {
         #region Mandelbrot Set Members
 
-        private double bounds = 2;
         private const int MaxMagnitude = 20;
         private const int MaxIterations = 1024;
 
@@ -24,6 +23,8 @@ namespace Mandelbrot
         private double yMin = -2;
         private double xDelta;
         private double yDelta;
+
+        private Coord clickCoord;
 
         private ColorScheme colorScheme = ColorScheme.BlueToGold;
         private Color[,] colors;
@@ -50,7 +51,7 @@ namespace Mandelbrot
             zoomFactor.Increment = 0.01M;
             zoomFactor.Maximum = 2;
             zoomFactor.Minimum = 0.001M;
-            zoomFactor.Value = 0.5M;
+            zoomFactor.Value = 0.25M;
 
             // Set the combo box data source for the color scheme.
             colorSchemeCombo.DataSource = Enum.GetValues(typeof(ColorScheme));
@@ -120,26 +121,55 @@ namespace Mandelbrot
             paintTime = stopwatch.Elapsed;
         }
 
+        private Coord ScreenToBound(Coord screenCoord)
+        {
+            // Convert screen coords to bounds coords.
+            Coord boundCoord = new Coord
+            {
+                x = xMin + (screenCoord.x * ((xMax - xMin) / (DrawRegion.Width - 1))),
+                y = yMin + (screenCoord.y * ((xMax - xMin) / (DrawRegion.Width - 1)))
+            };
+            return boundCoord;
+        }
+
+        private Coord BoundToScreen(Coord boundCoord)
+        {
+            // Convert bounds coord to screen coords.
+            Coord screenCoord = new Coord
+            {
+                x = xMin + ((boundCoord.x - xMin) * (DrawRegion.Width - 1)) / (xMax - xMin),
+                y = yMin + ((boundCoord.y - yMin) * (DrawRegion.Height - 1)) / (yMax - yMin)
+            };
+            return screenCoord;
+        }
+
         /// <summary>
         /// Perform a simple zoom by dividing the view region in half.
         /// </summary>
         private void Mandelbrot_MouseClick(Object sender, MouseEventArgs e)
         {
             // Convert mouse click screen coords to bounds coords.
-            double boundsX = xMin + (e.X * xDelta);
-            double boundsY = yMin + (e.Y * yDelta);
+            clickCoord = ScreenToBound(new Coord(e.X, e.Y));
 
             // Zoom the bounds by a factor the specified value.
-            bounds *= (double)zoomFactor.Value;
+            double factor = (((xMax - xMin) * (double)zoomFactor.Value) / 2);
 
-            // Center view around that point.
-            xMin = boundsX - (bounds / 2);
-            xMax = boundsX + (bounds / 2);
-            yMin = boundsY - (bounds / 2);
-            yMax = boundsY + (bounds / 2);
+            // Determine the rectangle region to draw around the mouse click in screen coords.
+            Coord topLeft = BoundToScreen(new Coord(clickCoord.x - factor, clickCoord.y - factor));
+            Coord botRight = BoundToScreen(new Coord(clickCoord.x + factor, clickCoord.y + factor));
 
-            // Force re-draw.
-            DrawRegion.Invalidate();
+            // Draw rectangle around mouse click screen coords.
+            using (Graphics graphics = DrawRegion.CreateGraphics())
+            {
+                Pen pen = new Pen(Color.Green, 2);
+
+                graphics.DrawRectangle(
+                    pen,
+                    (int)topLeft.x,
+                    (int)topLeft.y,
+                    (int)(botRight.x - topLeft.x),
+                    (int)(botRight.y - topLeft.y));
+            }
         }
 
         /// <summary>
@@ -172,11 +202,10 @@ namespace Mandelbrot
         /// </summary>
         private void ResetButton_Click(object sender, EventArgs e)
         {
-            bounds = 2;
-            xMin = -bounds;
-            xMax = bounds;
-            yMin = -bounds;
-            yMax = bounds;
+            xMin = -2;
+            xMax = 2;
+            yMin = -2;
+            yMax = 2;
 
             // Force re-draw.
             DrawRegion.Invalidate();
@@ -194,6 +223,41 @@ namespace Mandelbrot
             DrawRegion.Invalidate();
         }
 
+        /// <summary>
+        /// Handle the zoom button click.
+        /// </summary>
+        private void ZoomButton_Click(object sender, EventArgs e)
+        {
+            // Determine the zoom factor in bounds coords.
+            double factor = (xMax - xMin) * (double)zoomFactor.Value;
+
+            // Center view around the click point.
+            xMin = clickCoord.x - (factor / 2);
+            xMax = clickCoord.x + (factor / 2);
+            yMin = clickCoord.y - (factor / 2);
+            yMax = clickCoord.y + (factor / 2);
+
+            // Force redraw.
+            DrawRegion.Invalidate();
+        }
+
         #endregion
+
+        public class Coord
+        {
+            public double x;
+            public double y;
+
+            public Coord()
+            {
+
+            }
+
+            public Coord(double x, double y)
+            {
+                this.x = x;
+                this.y = y;
+            }
+        }
     }
 }
