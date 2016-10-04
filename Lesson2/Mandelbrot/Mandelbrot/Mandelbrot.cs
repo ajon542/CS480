@@ -112,14 +112,11 @@ namespace Mandelbrot
             myBitmap = new Bitmap(DrawRegion.Width - 1, DrawRegion.Height - 1, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 
             // Fill the draw region with the calculated colors.
-            //SolidBrush brush = new SolidBrush(Color.Black);
             for (int x = 0; x < DrawRegion.Width - 1; ++x)
             {
                 for (int y = 0; y < DrawRegion.Height - 1; ++y)
                 {
                     myBitmap.SetPixel(x, y, colors[x, y]);
-                    //brush.Color = colors[x, y];
-                    //e.Graphics.FillRectangle(brush, x, y, 1, 1);
                 }
             }
 
@@ -149,8 +146,6 @@ namespace Mandelbrot
             using (Graphics graphics = DrawRegion.CreateGraphics())
             {
                 Pen pen = new Pen(Color.Red, 2);
-
-                graphics.Clear(Color.Black);
 
                 graphics.DrawImage(myBitmap, 0, 0, myBitmap.Width, myBitmap.Height);
 
