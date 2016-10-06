@@ -24,12 +24,16 @@ namespace Test3D
 
             // Create sphere.
             ModelVisual3D sphere = ShapeGenerator.GenerateUnitSphere(30, 30, material);
-            sphere.Transform = new TranslateTransform3D(1, 1, 1);
+            sphere.Transform = new TranslateTransform3D(6, 1, 3);
             mainViewport.Children.Add(sphere);
+
+            Transform3DGroup transformGroup = new Transform3DGroup();
+            transformGroup.Children.Add(new ScaleTransform3D(1.5f, 1.5f, 1.5f));
+            transformGroup.Children.Add(new TranslateTransform3D(4, 2, 3));
 
             // Create cube.
             ModelVisual3D cube = ShapeGenerator.GenerateUnitCube(material);
-            cube.Transform = new TranslateTransform3D(4, .5, 1);
+            cube.Transform = transformGroup;
             mainViewport.Children.Add(cube);
 
             // Create ground.
