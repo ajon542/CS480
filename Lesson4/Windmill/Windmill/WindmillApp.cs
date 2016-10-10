@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Media;
 
 namespace Windmill
 {
@@ -20,6 +21,9 @@ namespace Windmill
         {
             // Load the background image.
             background = new Bitmap("Assets/Background.jpg");
+
+            SoundPlayer windmillSound = new SoundPlayer("Assets/windmill.wav");
+            windmillSound.PlayLooping();
 
             // Create the game objects.
             for (int i = 0; i < 10; ++i)
