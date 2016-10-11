@@ -166,8 +166,7 @@ namespace Test3D
             mesh.Normals.Add(normal);
             mesh.Normals.Add(normal);
 
-            GeometryModel3D model = new GeometryModel3D(
-                mesh, material);
+            GeometryModel3D model = new GeometryModel3D(mesh, material);
             Model3DGroup quad = new Model3DGroup();
             quad.Children.Add(model);
             return quad;

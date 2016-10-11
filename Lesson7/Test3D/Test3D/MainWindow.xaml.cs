@@ -13,8 +13,6 @@ namespace Test3D
     /// </summary>
     public partial class MainWindow : Window
     {
-
-
         public MainWindow()
         {
             InitializeComponent();
@@ -22,32 +20,20 @@ namespace Test3D
             MaterialGroup material = new MaterialGroup();
             material.Children.Add(ShapeGenerator.GetSimpleMaterial(Colors.LightGreen));
 
-            // Create sphere.
-            ModelVisual3D sphere = ShapeGenerator.GenerateUnitSphere(30, 30, material);
-            sphere.Transform = new TranslateTransform3D(6, 1, 3);
-            mainViewport.Children.Add(sphere);
+            // Create Bezier patch.
+            Vector3D[,] controlPoints = new Vector3D[,]
+            {
+                { new Vector3D(0, 0, 0), new Vector3D(2, 5, 0), new Vector3D(8, 5, 0), new Vector3D(10, 0, 0) },
+                { new Vector3D(0, 0, 2), new Vector3D(2, 5, 2), new Vector3D(8, 5, 2), new Vector3D(10, 0, 2) },
+                { new Vector3D(0, 0, 4), new Vector3D(2, 5, 4), new Vector3D(8, 5, 4), new Vector3D(10, 0, 4) },
+                { new Vector3D(0, 0, 6), new Vector3D(2, 5, 6), new Vector3D(8, 5, 6), new Vector3D(10, 0, 6) },
+            };
 
-            Transform3DGroup transformGroup = new Transform3DGroup();
-            transformGroup.Children.Add(new ScaleTransform3D(1.5f, 1.5f, 1.5f));
-            transformGroup.Children.Add(new TranslateTransform3D(4, 2, 3));
-
-            // Create cube.
-            ModelVisual3D cube = ShapeGenerator.GenerateUnitCube(material);
-            cube.Transform = transformGroup;
-            mainViewport.Children.Add(cube);
+            BezierPatch patch = new BezierPatch(controlPoints);
+            mainViewport.Children.Add(patch.Model);
 
             // Create ground.
             mainViewport.Children.Add(ShapeGenerator.CreatePlane(50, ShapeGenerator.GetSimpleMaterial(Colors.LightGray)));
-
-            // Create wall.
-            ModelVisual3D rightWall = ShapeGenerator.CreatePlane(50, ShapeGenerator.GetSimpleMaterial(Color.FromArgb(255, 195, 195, 195)));
-            rightWall.Transform = new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), 90));
-            mainViewport.Children.Add(rightWall);
-
-            // Create wall.
-            ModelVisual3D leftWall = ShapeGenerator.CreatePlane(50, ShapeGenerator.GetSimpleMaterial(Color.FromArgb(255, 200, 191, 231)));
-            leftWall.Transform = new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), -90));
-            mainViewport.Children.Add(leftWall);
 
             MouseDown += HitTest;
         }

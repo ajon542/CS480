@@ -9,7 +9,7 @@
         <Viewport3D Name="mainViewport" ClipToBounds="True" DockPanel.Dock="Right" Width="600" Height="600">
             <Viewport3D.Camera>
                 <PerspectiveCamera
-                      Position="10,5,7"
+                      Position="20,10,14"
                       LookDirection="-1, -.5,-1"
                       FarPlaneDistance="100"
                       UpDirection="0,1,0"
