@@ -23,10 +23,10 @@ namespace Test3D
             // Create Bezier patch.
             Vector3D[,] controlPoints = new Vector3D[,]
             {
-                { new Vector3D(0, 0, 0), new Vector3D(2, 5, 0), new Vector3D(8, 5, 0), new Vector3D(10, 0, 0) },
+                { new Vector3D(0, 0, 0), new Vector3D(2, 0, 0), new Vector3D(8, 0, 0), new Vector3D(10, 0, 0) },
                 { new Vector3D(0, 0, 2), new Vector3D(2, 5, 2), new Vector3D(8, 5, 2), new Vector3D(10, 0, 2) },
-                { new Vector3D(0, 0, 4), new Vector3D(2, 5, 4), new Vector3D(8, 5, 4), new Vector3D(10, 0, 4) },
-                { new Vector3D(0, 0, 6), new Vector3D(2, 5, 6), new Vector3D(8, 5, 6), new Vector3D(10, 0, 6) },
+                { new Vector3D(0, 0, 4), new Vector3D(2, 7, 4), new Vector3D(8, 6, 4), new Vector3D(10, 0, 4) },
+                { new Vector3D(0, 0, 6), new Vector3D(2, 0, 6), new Vector3D(8, 0, 6), new Vector3D(10, 0, 6) },
             };
 
             BezierPatch patch = new BezierPatch(controlPoints);
@@ -34,6 +34,23 @@ namespace Test3D
 
             // Create ground.
             mainViewport.Children.Add(ShapeGenerator.CreatePlane(50, ShapeGenerator.GetSimpleMaterial(Colors.LightGray)));
+
+            // Defines the camera used to view the 3D object. In order to view the 3D object,
+            // the camera must be positioned and pointed such that the object is within view 
+            // of the camera.
+            PerspectiveCamera myPCamera = new PerspectiveCamera();
+
+            // Specify where in the 3D scene the camera is.
+            myPCamera.Position = new Point3D(5, 10, 10);
+
+            // Specify the direction that the camera is pointing.
+            myPCamera.LookDirection = new Vector3D(0, -1.5, -1);
+
+            // Define camera's horizontal field of view in degrees.
+            myPCamera.FieldOfView = 60;
+
+            // Asign the camera to the viewport
+            mainViewport.Camera = myPCamera;
 
             MouseDown += HitTest;
         }

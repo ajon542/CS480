@@ -20,17 +20,18 @@ namespace Test3D
         {
             double[,] bezierMat = new double[4, 4];
 
-            Point3D[,] latticeVerts = new Point3D[11, 11];
+            double step = 0.1;
+            int size = 10;
+
+            Point3D[,] latticeVerts = new Point3D[size, size];
 
             double u = 0;
             double v = 0;
 
-            double step = 0.1;
-
-            for (int width = 0; width < 11; ++width)
+            for (int width = 0; width < size; ++width)
             {
                 v = 0;
-                for (int height = 0; height < 11; ++height)
+                for (int height = 0; height < size; ++height)
                 {
                     // Calculate our matrix given our interpolation.
                     bezierMat[0, 0] = B0(u) * B0(v);
@@ -75,9 +76,9 @@ namespace Test3D
             // Generate the actual mesh from the lattice structure.
             Model3DGroup bezierPatch = new Model3DGroup();
             Material material = ShapeGenerator.GetSimpleMaterial(Color.FromArgb(255, 255, 0, 0));
-            for (int col = 0; col < 10; ++col)
+            for (int col = 0; col < size - 1; ++col)
             {
-                for (int row = 0; row < 10; ++row)
+                for (int row = 0; row < size - 1; ++row)
                 {
                     Model3DGroup quad = ShapeGenerator.CreateQuad(
                         latticeVerts[row, col],
