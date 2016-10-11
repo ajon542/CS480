@@ -13,6 +13,8 @@ namespace Test3D
     /// </summary>
     public partial class MainWindow : Window
     {
+        private int mouseWheelIndex = 0;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -67,6 +69,26 @@ namespace Test3D
             mainViewport.Camera = myPCamera;
 
             MouseDown += HitTest;
+
+            MouseWheel += MouseWheelHandler;
+        }
+
+        private void MouseWheelHandler(object sender, MouseWheelEventArgs args)
+        {
+            PerspectiveCamera pCam = (mainViewport.Camera as PerspectiveCamera);
+            Point3D front = pCam.Position - pCam.LookDirection;
+
+            if (mouseWheelIndex != args.Delta)
+            {
+                if (mouseWheelIndex > args.Delta)
+                {
+                    pCam.Position += (Vector3D)front * 0.1;
+                }
+                if (mouseWheelIndex < args.Delta)
+                {
+                    pCam.Position -= (Vector3D)front * 0.1;
+                }
+            }
         }
 
         private void HitTest(object sender, MouseButtonEventArgs args)
