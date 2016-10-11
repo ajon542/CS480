@@ -18,7 +18,7 @@ namespace Test3D
             InitializeComponent();
 
             MaterialGroup material = new MaterialGroup();
-            material.Children.Add(ShapeGenerator.GetSimpleMaterial(Colors.LightGreen));
+            material.Children.Add(ShapeGenerator.GetSimpleMaterial(Colors.Black));
 
             // Create Bezier patch.
             Vector3D[,] controlPoints = new Vector3D[,]
@@ -28,6 +28,20 @@ namespace Test3D
                 { new Vector3D(0, 0, 4), new Vector3D(2, 7, 4), new Vector3D(8, 6, 4), new Vector3D(10, 0, 4) },
                 { new Vector3D(0, 0, 6), new Vector3D(2, 0, 6), new Vector3D(8, 0, 6), new Vector3D(10, 0, 6) },
             };
+
+            // Add the control points to the model.
+            for (int i = 0; i < 4; ++i)
+            {
+                for (int j = 0; j < 4; ++j)
+                {
+                    Transform3DGroup transformGroup = new Transform3DGroup();
+                    ModelVisual3D sphere = ShapeGenerator.GenerateUnitSphere(30, 30, material);
+                    transformGroup.Children.Add(new ScaleTransform3D(0.2, 0.2, 0.2));
+                    transformGroup.Children.Add(new TranslateTransform3D(controlPoints[i, j].X, controlPoints[i, j].Y, controlPoints[i, j].Z));
+                    sphere.Transform = transformGroup;
+                    mainViewport.Children.Add(sphere);
+                }
+            }
 
             BezierPatch patch = new BezierPatch(controlPoints);
             mainViewport.Children.Add(patch.Model);
@@ -41,7 +55,7 @@ namespace Test3D
             PerspectiveCamera myPCamera = new PerspectiveCamera();
 
             // Specify where in the 3D scene the camera is.
-            myPCamera.Position = new Point3D(5, 10, 10);
+            myPCamera.Position = new Point3D(5, 15, 15);
 
             // Specify the direction that the camera is pointing.
             myPCamera.LookDirection = new Vector3D(0, -1.5, -1);
@@ -78,6 +92,11 @@ namespace Test3D
                 if (rayMeshResult != null)
                 {
                     GeometryModel3D hitgeo = rayMeshResult.ModelHit as GeometryModel3D;
+
+                    // TODO: Add ability to modify the control point.
+                    // TODO: Regenerate the Bezier surface.
+                    //TranslateTransform3D transform = new TranslateTransform3D();
+                    //hitgeo.Transform = transform;
 
                     // Change to blue material 
                     hitgeo.Material = ShapeGenerator.GetSimpleMaterial(Colors.Red);
