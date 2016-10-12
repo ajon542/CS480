@@ -14,6 +14,13 @@ namespace Test3D
     public partial class MainWindow : Window
     {
         private int mouseWheelIndex = 0;
+        private float Yaw = -90;
+        private float Pitch = 0;
+        private float xDelta = 0;
+        private float yDelta = 0;
+
+        public Vector3D Up { get; set; }
+        public Vector3D Right { get; set; }
 
         public MainWindow()
         {
@@ -61,6 +68,7 @@ namespace Test3D
 
             // Specify the direction that the camera is pointing.
             myPCamera.LookDirection = new Vector3D(0, -1.5, -1);
+            myPCamera.LookDirection.Normalize();
 
             // Define camera's horizontal field of view in degrees.
             myPCamera.FieldOfView = 60;
@@ -68,32 +76,89 @@ namespace Test3D
             // Asign the camera to the viewport
             mainViewport.Camera = myPCamera;
 
-            MouseDown += HitTest;
+            MouseDown += MouseDownHandler;
+            MouseUp += MouseUpHandler;
+            KeyDown += KeyDownEventHandler;
 
             MouseWheel += MouseWheelHandler;
+        }
+
+        private void UpdateCameraVectors()
+        {
+            PerspectiveCamera pCam = (mainViewport.Camera as PerspectiveCamera);
+
+            // Calculate the new look direction vector.
+            pCam.LookDirection = new Vector3D(
+                (float)(Math.Cos(ConvertToRadians(Yaw)) * Math.Cos(ConvertToRadians(Pitch))),
+                (float)(Math.Sin(ConvertToRadians(Pitch))),
+                (float)(Math.Sin(ConvertToRadians(Yaw)) * Math.Cos(ConvertToRadians(Pitch)))
+            );
+            pCam.LookDirection.Normalize();
+
+
+            // Re-calculate the Right and Up vector.
+            // Normalize the vectors, because their length gets closer to 0
+            // the more you look up or down which results in slower movement.
+            Right = Vector3D.CrossProduct(pCam.LookDirection, new Vector3D(0, 1, 0));
+            Right.Normalize();
+            Up = Vector3D.CrossProduct(Right, pCam.LookDirection);
+            Up.Normalize();
+        }
+
+        private void KeyDownEventHandler(object sender, KeyEventArgs e)
+        {
+            PerspectiveCamera pCam = (mainViewport.Camera as PerspectiveCamera);
+
+            if (e.Key == Key.A)
+            {
+                pCam.Position -= Right;
+            }
+
+            if (e.Key == Key.D)
+            {
+                pCam.Position += Right;
+            }
+
+            UpdateCameraVectors();
         }
 
         private void MouseWheelHandler(object sender, MouseWheelEventArgs args)
         {
             PerspectiveCamera pCam = (mainViewport.Camera as PerspectiveCamera);
-            Point3D front = pCam.Position - pCam.LookDirection;
 
             if (mouseWheelIndex != args.Delta)
             {
                 if (mouseWheelIndex > args.Delta)
                 {
-                    pCam.Position += (Vector3D)front * 0.1;
+                    pCam.Position -= pCam.LookDirection;
                 }
                 if (mouseWheelIndex < args.Delta)
                 {
-                    pCam.Position -= (Vector3D)front * 0.1;
+                    pCam.Position += pCam.LookDirection;
                 }
             }
         }
 
-        private void HitTest(object sender, MouseButtonEventArgs args)
+        private void MouseUpHandler(object sender, MouseButtonEventArgs args)
         {
             Point mouseposition = args.GetPosition(mainViewport);
+
+            xDelta = (xDelta - (float)mouseposition.X) * 0.1f;
+            yDelta = (yDelta - (float)mouseposition.Y) * 0.1f;
+
+            Yaw += xDelta;
+            Pitch -= yDelta;
+
+            UpdateCameraVectors();
+        }
+
+        private void MouseDownHandler(object sender, MouseButtonEventArgs args)
+        {
+            Point mouseposition = args.GetPosition(mainViewport);
+
+            xDelta = (float)mouseposition.X;
+            yDelta = (float)mouseposition.Y;
+
             Point3D testpoint3D = new Point3D(mouseposition.X, mouseposition.Y, 0);
             Vector3D testdirection = new Vector3D(mouseposition.X, mouseposition.Y, 10);
             PointHitTestParameters pointparams = new PointHitTestParameters(mouseposition);
@@ -121,11 +186,16 @@ namespace Test3D
                     //hitgeo.Transform = transform;
 
                     // Change to blue material 
-                    hitgeo.Material = ShapeGenerator.GetSimpleMaterial(Colors.Red);
+                    //hitgeo.Material = ShapeGenerator.GetSimpleMaterial(Colors.Red);
                 }
             }
 
             return HitTestResultBehavior.Stop;
+        }
+
+        private double ConvertToRadians(double angle)
+        {
+            return (Math.PI / 180) * angle;
         }
     }
 }
