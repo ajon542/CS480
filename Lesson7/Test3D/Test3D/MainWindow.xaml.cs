@@ -19,9 +19,6 @@ namespace Test3D
         private double hAngle = 60;
         private double prevX = 0, prevY = 0;
 
-        public Vector3D Up { get; set; }
-        public Vector3D Right { get; set; }
-
         public MainWindow()
         {
             InitializeComponent();
@@ -80,7 +77,6 @@ namespace Test3D
             mainViewport.Camera = myPCamera;
 
             MouseDown += MouseDownHandler;
-            KeyDown += KeyDownEventHandler;
             MouseMove += MouseMoveEventHandler;
 
             MouseWheel += MouseWheelHandler;
@@ -95,39 +91,17 @@ namespace Test3D
             double vA = vAngle * Math.PI / 180;
             double hA = hAngle * Math.PI / 180;
 
-            double x = Math.Sin(vA) * Math.Cos(hA);
-            double y = Math.Cos(vA);
-            double z = Math.Sin(vA) * Math.Sin(hA);
+            double x = distance * Math.Sin(vA) * Math.Cos(hA);
+            double y = distance * Math.Cos(vA);
+            double z = distance * Math.Sin(vA) * Math.Sin(hA);
 
-            pCam.LookDirection = new Vector3D(x, y, z);
+            pCam.Position = new Point3D(x, y, z);
+
+            pCam.LookDirection = -(Vector3D)pCam.Position;
             pCam.LookDirection.Normalize();
-
-            // Re-calculate the Right and Up vector.
-            // Normalize the vectors, because their length gets closer to 0
-            // the more you look up or down which results in slower movement.
-            Right = Vector3D.CrossProduct(pCam.LookDirection, new Vector3D(0, 1, 0));
-            Right.Normalize();
-            Up = Vector3D.CrossProduct(Right, pCam.LookDirection);
-            Up.Normalize();
         }
 
-        private void KeyDownEventHandler(object sender, KeyEventArgs e)
-        {
-            PerspectiveCamera pCam = (mainViewport.Camera as PerspectiveCamera);
-
-            if (e.Key == Key.A)
-            {
-                pCam.Position -= Right;
-            }
-
-            if (e.Key == Key.D)
-            {
-                pCam.Position += Right;
-            }
-
-            UpdateCameraVectors();
-        }
-
+        double distance = 10;
         private void MouseWheelHandler(object sender, MouseWheelEventArgs args)
         {
             PerspectiveCamera pCam = (mainViewport.Camera as PerspectiveCamera);
@@ -136,21 +110,23 @@ namespace Test3D
             {
                 if (mouseWheelIndex > args.Delta)
                 {
-                    pCam.Position -= pCam.LookDirection;
+                    distance++;
                 }
                 if (mouseWheelIndex < args.Delta)
                 {
-                    pCam.Position += pCam.LookDirection;
+                    distance--;
                 }
             }
+
+            UpdateCameraVectors();
         }
 
         private void MouseMoveEventHandler(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
-                double hAngleSpeed = 0.1;
-                double vAngleSpeed = 0.1;
+                double hAngleSpeed = 0.5;
+                double vAngleSpeed = 0.5;
                 hAngle += hAngleSpeed * (e.GetPosition(mainViewport).X - prevX);
                 vAngle -= vAngleSpeed * (e.GetPosition(mainViewport).Y - prevY);
 
