@@ -20,8 +20,8 @@ namespace Test3D
         {
             double[,] bezierMat = new double[4, 4];
 
-            double step = 0.1;
-            int size = 10;
+            double step = 0.01;
+            int size = 100;
 
             Point3D[,] latticeVerts = new Point3D[size, size];
 

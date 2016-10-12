@@ -27,15 +27,15 @@ namespace Test3D
             InitializeComponent();
 
             MaterialGroup material = new MaterialGroup();
-            material.Children.Add(ShapeGenerator.GetSimpleMaterial(Colors.Black));
+            material.Children.Add(ShapeGenerator.GetSimpleMaterial(Colors.LightGreen));
 
             // Create Bezier patch.
             Vector3D[,] controlPoints = new Vector3D[,]
             {
-                { new Vector3D(0, 0, 0), new Vector3D(2, 0, 0), new Vector3D(8, 0, 0), new Vector3D(10, 0, 0) },
-                { new Vector3D(0, 0, 2), new Vector3D(2, 5, 2), new Vector3D(8, 5, 2), new Vector3D(10, 0, 2) },
-                { new Vector3D(0, 0, 4), new Vector3D(2, 7, 4), new Vector3D(8, 6, 4), new Vector3D(10, 0, 4) },
-                { new Vector3D(0, 0, 6), new Vector3D(2, 0, 6), new Vector3D(8, 0, 6), new Vector3D(10, 0, 6) },
+                { new Vector3D(0, -10, 0), new Vector3D(2, 0, 0), new Vector3D(8, 0, 0), new Vector3D(10, -10, 0) },
+                { new Vector3D(-20, -10, -10), new Vector3D(2, 5, 2), new Vector3D(8, 5, 2), new Vector3D(20, -10, -10) },
+                { new Vector3D(-20, -10, 20), new Vector3D(2, 7, 4), new Vector3D(8, 6, 4), new Vector3D(20, -10, 20) },
+                { new Vector3D(0, -10, 6), new Vector3D(2, 0, 6), new Vector3D(8, 0, 6), new Vector3D(10, -10, 6) },
             };
 
             // Add the control points to the model.
@@ -56,7 +56,9 @@ namespace Test3D
             mainViewport.Children.Add(patch.Model);
 
             // Create ground.
-            mainViewport.Children.Add(ShapeGenerator.CreatePlane(50, ShapeGenerator.GetSimpleMaterial(Colors.LightGray)));
+            ModelVisual3D ground = ShapeGenerator.CreatePlane(50, ShapeGenerator.GetSimpleMaterial(Colors.LightGray));
+            ground.Transform = new TranslateTransform3D(0, -50, 0);
+            mainViewport.Children.Add(ground);
 
             // Defines the camera used to view the 3D object. In order to view the 3D object,
             // the camera must be positioned and pointed such that the object is within view 
