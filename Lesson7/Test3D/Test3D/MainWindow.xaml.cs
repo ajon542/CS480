@@ -14,10 +14,10 @@ namespace Test3D
     public partial class MainWindow : Window
     {
         private int mouseWheelIndex = 0;
-        private float Yaw = -90;
-        private float Pitch = 0;
-        private float xDelta = 0;
-        private float yDelta = 0;
+
+        private double vAngle = 60;
+        private double hAngle = 60;
+        private double prevX = 0, prevY = 0;
 
         public Vector3D Up { get; set; }
         public Vector3D Right { get; set; }
@@ -72,6 +72,7 @@ namespace Test3D
             myPCamera.LookDirection = new Vector3D(0, -1.5, -1);
             myPCamera.LookDirection.Normalize();
 
+
             // Define camera's horizontal field of view in degrees.
             myPCamera.FieldOfView = 60;
 
@@ -79,24 +80,27 @@ namespace Test3D
             mainViewport.Camera = myPCamera;
 
             MouseDown += MouseDownHandler;
-            MouseUp += MouseUpHandler;
             KeyDown += KeyDownEventHandler;
+            MouseMove += MouseMoveEventHandler;
 
             MouseWheel += MouseWheelHandler;
+
+            UpdateCameraVectors();
         }
 
         private void UpdateCameraVectors()
         {
             PerspectiveCamera pCam = (mainViewport.Camera as PerspectiveCamera);
 
-            // Calculate the new look direction vector.
-            pCam.LookDirection = new Vector3D(
-                (float)(Math.Cos(ConvertToRadians(Yaw)) * Math.Cos(ConvertToRadians(Pitch))),
-                (float)(Math.Sin(ConvertToRadians(Pitch))),
-                (float)(Math.Sin(ConvertToRadians(Yaw)) * Math.Cos(ConvertToRadians(Pitch)))
-            );
-            pCam.LookDirection.Normalize();
+            double vA = vAngle * Math.PI / 180;
+            double hA = hAngle * Math.PI / 180;
 
+            double x = Math.Sin(vA) * Math.Cos(hA);
+            double y = Math.Cos(vA);
+            double z = Math.Sin(vA) * Math.Sin(hA);
+
+            pCam.LookDirection = new Vector3D(x, y, z);
+            pCam.LookDirection.Normalize();
 
             // Re-calculate the Right and Up vector.
             // Normalize the vectors, because their length gets closer to 0
@@ -141,15 +145,21 @@ namespace Test3D
             }
         }
 
-        private void MouseUpHandler(object sender, MouseButtonEventArgs args)
+        private void MouseMoveEventHandler(object sender, MouseEventArgs e)
         {
-            Point mouseposition = args.GetPosition(mainViewport);
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                double hAngleSpeed = 0.1;
+                double vAngleSpeed = 0.1;
+                hAngle += hAngleSpeed * (e.GetPosition(mainViewport).X - prevX);
+                vAngle -= vAngleSpeed * (e.GetPosition(mainViewport).Y - prevY);
 
-            xDelta = (xDelta - (float)mouseposition.X) * 0.1f;
-            yDelta = (yDelta - (float)mouseposition.Y) * 0.1f;
+                if (vAngle > 179) vAngle = 179;
+                else if (vAngle < 1) vAngle = 1;
+            }
 
-            Yaw += xDelta;
-            Pitch -= yDelta;
+            prevX = e.GetPosition(mainViewport).X;
+            prevY = e.GetPosition(mainViewport).Y;
 
             UpdateCameraVectors();
         }
@@ -157,9 +167,6 @@ namespace Test3D
         private void MouseDownHandler(object sender, MouseButtonEventArgs args)
         {
             Point mouseposition = args.GetPosition(mainViewport);
-
-            xDelta = (float)mouseposition.X;
-            yDelta = (float)mouseposition.Y;
 
             Point3D testpoint3D = new Point3D(mouseposition.X, mouseposition.Y, 0);
             Vector3D testdirection = new Vector3D(mouseposition.X, mouseposition.Y, 10);
