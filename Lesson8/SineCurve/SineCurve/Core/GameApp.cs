@@ -39,6 +39,11 @@ namespace GameEngine.Core
         public virtual void MouseUp(int x, int y) { }
 
         /// <summary>
+        /// Handle the mouse move.
+        /// </summary>
+        public virtual void MouseMove(int x, int y) { }
+
+        /// <summary>
         /// Handle button click for the given button id.
         /// </summary>
         public virtual void ButtonClick(string buttonId) { }

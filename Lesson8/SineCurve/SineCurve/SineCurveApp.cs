@@ -17,13 +17,18 @@ namespace SineCurve
         private Point[] yPoints;
         private Point[] linePoints;
 
+        private int mouseX;
+
+        private int halfWidth;
+        private int halfHeight;
+
         /// <summary>
         /// Setup a basic Bezier curve.
         /// </summary>
         public override void Initialize(int width, int height)
         {
-            int halfWidth = width / 2;
-            int halfHeight = height / 2;
+            halfWidth = width / 2;
+            halfHeight = height / 2;
 
             // Add the control points.
             List<Vector2> controlPoints = new List<Vector2>();
@@ -31,7 +36,7 @@ namespace SineCurve
             {
                 if (x != 0)
                 {
-                    controlPoints.Add(new Vector2(x * 15 + halfWidth, -(Math.Sin(x) / x) * 200 + halfHeight));
+                    controlPoints.Add(new Vector2(x, -(Math.Sin(x) / x)));
                 }
             }
 
@@ -39,7 +44,7 @@ namespace SineCurve
             List<Point> points = new List<Point>();
             for (int i = 0; i < controlPoints.Count - 1; ++i)
             {
-                Line line = new Line(controlPoints[i], controlPoints[i + 1]);
+                Line line = new Line(GetScreenVector(controlPoints[i]), GetScreenVector(controlPoints[i + 1]));
                 points.AddRange(line.GetPoints());
             }
 
@@ -51,6 +56,20 @@ namespace SineCurve
 
             xPoints = xAxis.GetPoints();
             yPoints = yAxis.GetPoints();
+        }
+
+        private Vector2 GetScreenVector(Vector2 v)
+        {
+            Vector2 screenPoint = new Vector2(v.x * 15 + halfWidth, v.y * 200 + halfHeight);
+            return screenPoint;
+        }
+
+        /// <summary>
+        /// Keep track of the mouse movement to draw a circle on the graph.
+        /// </summary>
+        public override void MouseMove(int x, int y)
+        {
+            mouseX = x;
         }
 
         /// <summary>
@@ -77,6 +96,8 @@ namespace SineCurve
             {
                 graphics.DrawRectangle(pen, point.X, point.Y, 1, 1);
             }
+
+            //graphics.FillEllipse(brush, mouseX, -((float)Math.Sin((mouseX - halfWidth) / 15) / (mouseX - halfWidth / 15) * 200 + halfHeight, 10, 10);
         }
     }
 }

@@ -22,6 +22,7 @@ namespace SineCurve
             Paint += new PaintEventHandler(DrawRegion_Paint);
             MouseDown += new MouseEventHandler(DrawRegion_MouseDown);
             MouseUp += new MouseEventHandler(DrawRegion_MouseUp);
+            MouseMove += new MouseEventHandler(DrawRegion_MouseMove);
 
             // Enable double buffering.
             DoubleBuffered = true;
@@ -56,6 +57,11 @@ namespace SineCurve
         private void DrawRegion_MouseUp(Object sender, MouseEventArgs e)
         {
             gameApp.MouseUp(e.X, e.Y);
+        }
+
+        private void DrawRegion_MouseMove(Object sender, MouseEventArgs e)
+        {
+            gameApp.MouseMove(e.X, e.Y);
         }
 
         /// <summary>
