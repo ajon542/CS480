@@ -10,7 +10,7 @@ namespace GameEngine.Core
         /// <summary>
         /// Initialize the game application.
         /// </summary>
-        public virtual void Initialize() { }
+        public virtual void Initialize(int width, int height) { }
 
         /// <summary>
         /// Update the game application.

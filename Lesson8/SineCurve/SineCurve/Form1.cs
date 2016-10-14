@@ -27,7 +27,7 @@ namespace SineCurve
             DoubleBuffered = true;
 
             // Initialize the game application.
-            gameApp.Initialize();
+            gameApp.Initialize(Width, Height);
         }
 
         private void DrawRegion_Paint(object sender, PaintEventArgs e)
