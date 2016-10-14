@@ -7,16 +7,6 @@
     <DockPanel LastChildFill="True">
 
         <Viewport3D Name="mainViewport" ClipToBounds="True" DockPanel.Dock="Right" Width="600" Height="600">
-            <Viewport3D.Camera>
-                <PerspectiveCamera
-                      Position="20,10,14"
-                      LookDirection="-1, -.5,-1"
-                      FarPlaneDistance="100"
-                      UpDirection="0,1,0"
-                      NearPlaneDistance="1"
-                      FieldOfView="70" >
-                </PerspectiveCamera>
-            </Viewport3D.Camera>
             <ModelVisual3D>
                 <ModelVisual3D.Content>
                     <DirectionalLight

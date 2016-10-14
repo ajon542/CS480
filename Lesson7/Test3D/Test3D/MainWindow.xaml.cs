@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
-using System.Diagnostics;
 
 namespace Test3D
 {
@@ -18,6 +16,7 @@ namespace Test3D
         private double vAngle = 60;
         private double hAngle = 60;
         private double prevX = 0, prevY = 0;
+        double distance = 30;
 
         public MainWindow()
         {
@@ -62,14 +61,6 @@ namespace Test3D
             // of the camera.
             PerspectiveCamera myPCamera = new PerspectiveCamera();
 
-            // Specify where in the 3D scene the camera is.
-            myPCamera.Position = new Point3D(5, 15, 15);
-
-            // Specify the direction that the camera is pointing.
-            myPCamera.LookDirection = new Vector3D(0, -1.5, -1);
-            myPCamera.LookDirection.Normalize();
-
-
             // Define camera's horizontal field of view in degrees.
             myPCamera.FieldOfView = 60;
 
@@ -101,7 +92,6 @@ namespace Test3D
             pCam.LookDirection.Normalize();
         }
 
-        double distance = 10;
         private void MouseWheelHandler(object sender, MouseWheelEventArgs args)
         {
             PerspectiveCamera pCam = (mainViewport.Camera as PerspectiveCamera);
@@ -176,11 +166,6 @@ namespace Test3D
             }
 
             return HitTestResultBehavior.Stop;
-        }
-
-        private double ConvertToRadians(double angle)
-        {
-            return (Math.PI / 180) * angle;
         }
     }
 }
