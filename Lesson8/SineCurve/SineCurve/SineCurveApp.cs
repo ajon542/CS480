@@ -10,8 +10,8 @@ namespace SineCurve
 {
     class SineCurveApp : GameApp
     {
-        private Pen pen = new Pen(Color.White, 1);
-        private Brush brush = new SolidBrush(Color.Red);
+        private Pen pen = new Pen(Color.LightBlue, 1);
+        private Brush brush = new SolidBrush(Color.DarkGray);
 
         private Point[] xPoints;
         private Point[] yPoints;
@@ -60,7 +60,7 @@ namespace SineCurve
 
         private Vector2 GetScreenVector(Vector2 v)
         {
-            Vector2 screenPoint = new Vector2(v.x * 15 + halfWidth, v.y * 200 + halfHeight);
+            Vector2 screenPoint = new Vector2(v.x * 15 + halfWidth, v.y * 150 + halfHeight);
             return screenPoint;
         }
 

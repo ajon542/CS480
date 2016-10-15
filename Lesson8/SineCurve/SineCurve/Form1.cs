@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Drawing.Drawing2D;
 
 using GameEngine.Core;
 
@@ -33,8 +34,10 @@ namespace SineCurve
 
         private void DrawRegion_Paint(object sender, PaintEventArgs e)
         {
+            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+
             // Clear the buffer.
-            e.Graphics.Clear(Color.Black);
+            e.Graphics.Clear(Color.White);
 
             // Render the game application.
             gameApp.Render(e.Graphics);
