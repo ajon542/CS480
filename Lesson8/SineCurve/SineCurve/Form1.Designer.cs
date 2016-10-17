@@ -36,7 +36,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1008, 562);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Sin(x) / x";
             this.ResumeLayout(false);
 
         }

@@ -97,6 +97,22 @@ namespace SineCurve
                 graphics.DrawRectangle(pen, point.X, point.Y, 1, 1);
             }
 
+            for (int x = -20; x <= 20; ++x)
+            {
+                if (x != 0)
+                {
+                    graphics.FillRectangle(brush, x * 15 + halfWidth, halfHeight, 1, 5);
+                }
+            }
+
+            for (int y = -2; y <= 2; ++y)
+            {
+                if (y != 0)
+                {
+                    graphics.FillRectangle(brush, halfWidth, y * 120 + halfHeight, 5, 1);
+                }
+            }
+
             //graphics.FillEllipse(brush, mouseX, -((float)Math.Sin((mouseX - halfWidth) / 15) / (mouseX - halfWidth / 15) * 200 + halfHeight, 10, 10);
         }
     }
