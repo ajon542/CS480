@@ -113,23 +113,20 @@ namespace comb1
                 listBox1.Items.Add("XL[" + i + "]=   " + xl[i] + "    YL[" + i + "]=     " + yl[i] + "     XU[" + i + "]=" + xu[i] + "    YU[" + i + "]=  " + yu[i] + "  YC[" + i + "]= " + yc[i]);
             }
 
-            // The upper points on the curve.
-            List<Vector3D> upper = new List<Vector3D>
-            {
-                new Vector3D((800 * xu[0]), 200 - (800 * yu[0]), 0),
-                new Vector3D((800 * xu[5]), 200 - (800 * yu[5]), 0),
-                new Vector3D((800 * xu[20]), 200 - (800 * yu[20]), 0),
-                new Vector3D((800 * xu[50]), 200 - (800 * yu[50]), 0),
-                new Vector3D((800 * xu[100]), 200 - (800 * yu[100]), 0),
-            };
+            int p0 = 100;
+            int p1 = 30;
+            int p2 = 0;
+            int p3 = 30;
+            int p4 = 100;
 
-            List<Vector3D> lower = new List<Vector3D>
+            // The upper points on the curve.
+            List<Vector3D> airfoil = new List<Vector3D>
             {
-                new Vector3D((800 * xl[0]), 200 - (800 * yl[0]), 0),
-                new Vector3D((800 * xl[5]), 200 - (800 * yl[5]), 0),
-                new Vector3D((800 * xl[20]), 200 - (800 * yl[20]), 0),
-                new Vector3D((800 * xl[50]), 200 - (800 * yl[50]), 0),
-                new Vector3D((800 * xl[100]), 200 - (800 * yl[100]), 0),
+                new Vector3D((800 * xu[p0]), 200 - (800 * yu[p0]), 0),
+                new Vector3D((800 * xu[p1]), 200 - (800 * yu[p1]), 0),
+                new Vector3D((800 * xu[p2]), 200 - (800 * yu[p2]), 0),
+                new Vector3D((800 * xl[p3]), 200 - (800 * yl[p3]), 0),
+                new Vector3D((800 * xl[p4]), 200 - (800 * yl[p4]), 0),
             };
 
             List<Vector3D> camber = new List<Vector3D>
@@ -141,12 +138,10 @@ namespace comb1
                 new Vector3D(8 * 100, 200 - (800 * yc[100]), 0),
             };
 
-            GameObject upperSpline = new NaturalSpline(upper);
-            GameObject lowerSpline = new NaturalSpline(lower);
+            GameObject airfoilSpline = new NaturalSpline(airfoil);
             GameObject camberSpline = new NaturalSpline(camber);
 
-            upperSpline.Render(g);
-            lowerSpline.Render(g);
+            airfoilSpline.Render(g);
             camberSpline.Render(g);
 
             /*for (i = 0; i <= 100; i++)
