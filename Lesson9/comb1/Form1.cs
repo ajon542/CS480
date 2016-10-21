@@ -124,13 +124,8 @@ namespace comb1
                 new Vector3D((800 * xu[100]), 200 - (800 * yu[100]), 0),
             };
 
-            NaturalSpline spline = new NaturalSpline(upper);
-            Point[] points = spline.GetPoints();
-
-            for (i = 0; i < points.Length - 1; ++i)
-            {
-                g.DrawLine(System.Drawing.Pens.Green, points[i].X, points[i].Y, points[i + 1].X, points[i + 1].Y);
-            }
+            GameObject spline = new NaturalSpline(upper);
+            spline.Render(g);
 
             for (i = 0; i <= 100; i++)
             {

@@ -4,18 +4,13 @@ using System.Windows.Media.Media3D;
 
 namespace comb1
 {
-    public class NaturalSpline
+    public class NaturalSpline : GameObject
     {
         private const int Rows = 5;
         private const int Cols = 5;
         private double[,] m;
 
         private List<Vector3D> controlPoints;
-
-        /// <summary>
-        /// The points representing the curve.
-        /// </summary>
-        public List<Vector3D> Points { get; set; }
 
         public NaturalSpline(List<Vector3D> controlPoints)
         {
@@ -25,13 +20,14 @@ namespace comb1
             // TODO: Calculate this ourselves.
             m = new double[,]
             {
-                { 0.5773809523809523, -0.15476190476190466, 0.041666666666666075, -0.01190476190476275, 0.0059523809523724935 },
-                { -0.15476190476190477, 0.30952380952380953, -0.08333333333333326, 0.023809523809523725, -0.011904761904760974 },
-                { 0.041666666666666664, -0.08333333333333333, 0.29166666666666663, -0.08333333333333348, 0.041666666666666075 },
-                { -0.011904761904761904, 0.023809523809523808, -0.08333333333333333, 0.30952380952380953, -0.15476190476190466 },
-                { 0.005952380952380952, -0.011904761904761904, 0.041666666666666664, -0.15476190476190477, 0.5773809523809523 },
+                {  0.5773809523809523,   -0.15476190476190466,   0.041666666666666075, -0.01190476190476275,   0.0059523809523724935 },
+                { -0.15476190476190477,   0.30952380952380953,  -0.08333333333333326,   0.023809523809523725, -0.011904761904760974  },
+                {  0.041666666666666664, -0.08333333333333333,   0.29166666666666663,  -0.08333333333333348,   0.041666666666666075  },
+                { -0.011904761904761904,  0.023809523809523808, -0.08333333333333333,   0.30952380952380953,  -0.15476190476190466   },
+                {  0.005952380952380952, -0.011904761904761904,  0.041666666666666664, -0.15476190476190477,   0.5773809523809523    },
             };
 
+            // Obtain the tangents for each of the control points.
             Vector3D t0;
             Vector3D t1;
             Vector3D t2;
@@ -43,11 +39,13 @@ namespace comb1
             GetTangent(out t3, 3);
             GetTangent(out t4, 4);
 
-            HermiteCurve h0 = new HermiteCurve(controlPoints[0], controlPoints[1], t0, t1);
-            HermiteCurve h1 = new HermiteCurve(controlPoints[1], controlPoints[2], t1, t2);
-            HermiteCurve h2 = new HermiteCurve(controlPoints[2], controlPoints[3], t2, t3);
-            HermiteCurve h3 = new HermiteCurve(controlPoints[3], controlPoints[4], t3, t4);
+            // Generate a curve between each of the points using the Hermite basis functions.
+            GameObject h0 = new HermiteCurve(controlPoints[0], controlPoints[1], t0, t1);
+            GameObject h1 = new HermiteCurve(controlPoints[1], controlPoints[2], t1, t2);
+            GameObject h2 = new HermiteCurve(controlPoints[2], controlPoints[3], t2, t3);
+            GameObject h3 = new HermiteCurve(controlPoints[3], controlPoints[4], t3, t4);
 
+            // Add the points to the overall curve.
             Points = new List<Vector3D>();
             Points.AddRange(h0.Points);
             Points.AddRange(h1.Points);
@@ -65,18 +63,13 @@ namespace comb1
             t += m[i, 4] * 3 * (controlPoints[4] - controlPoints[3]);
         }
 
-        /// <summary>
-        /// Convert the list of vectors to points on the screen.
-        /// </summary>
-        /// <returns>Array of screen points.</returns>
-        public Point[] GetPoints()
+        public override void Render(Graphics graphics)
         {
-            List<Point> points = new List<Point>();
-            foreach (Vector3D v in Points)
+            Point[] points = GetPoints();
+            for (int i = 0; i < points.Length - 1; ++i)
             {
-                points.Add(new Point((int)v.X, (int)v.Y));
+                graphics.DrawLine(Pens.Green, points[i].X, points[i].Y, points[i + 1].X, points[i + 1].Y);
             }
-            return points.ToArray();
         }
     }
 }

@@ -7,13 +7,8 @@ namespace comb1
     /// <summary>
     /// Class to generate a curve based on the Hermite functions.
     /// </summary>
-    public class HermiteCurve
+    public class HermiteCurve : GameObject
     {
-        /// <summary>
-        /// The points representing the curve.
-        /// </summary>
-        public List<Vector3D> Points { get; set; }
-
         /// <summary>
         /// Generate the points on the curve.
         /// </summary>
@@ -44,17 +39,16 @@ namespace comb1
         }
 
         /// <summary>
-        /// Convert the list of vectors to points on the screen.
+        /// Draw the  curve defined by the Hermite functions.
         /// </summary>
-        /// <returns>Array of screen points.</returns>
-        public Point[] GetPoints()
+        /// <param name="graphics">The drawing surface.</param>
+        public override void Render(Graphics graphics)
         {
-            List<Point> points = new List<Point>();
-            foreach (Vector3D v in Points)
+            Point[] points = GetPoints();
+            for (int i = 0; i < points.Length - 1; ++i)
             {
-                points.Add(new Point((int)v.X, (int)v.Y));
+                graphics.DrawLine(Pens.Green, points[i].X, points[i].Y, points[i + 1].X, points[i + 1].Y);
             }
-            return points.ToArray();
         }
     }
 }
