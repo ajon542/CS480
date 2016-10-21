@@ -114,7 +114,6 @@ namespace comb1
             }
 
             // The upper points on the curve.
-
             List<Vector3D> upper = new List<Vector3D>
             {
                 new Vector3D((800 * xu[0]), 200 - (800 * yu[0]), 0),
@@ -124,10 +123,33 @@ namespace comb1
                 new Vector3D((800 * xu[100]), 200 - (800 * yu[100]), 0),
             };
 
-            GameObject spline = new NaturalSpline(upper);
-            spline.Render(g);
+            List<Vector3D> lower = new List<Vector3D>
+            {
+                new Vector3D((800 * xl[0]), 200 - (800 * yl[0]), 0),
+                new Vector3D((800 * xl[5]), 200 - (800 * yl[5]), 0),
+                new Vector3D((800 * xl[20]), 200 - (800 * yl[20]), 0),
+                new Vector3D((800 * xl[50]), 200 - (800 * yl[50]), 0),
+                new Vector3D((800 * xl[100]), 200 - (800 * yl[100]), 0),
+            };
 
-            for (i = 0; i <= 100; i++)
+            List<Vector3D> camber = new List<Vector3D>
+            {
+                new Vector3D(8 * 0, 200 - (800 * yc[0]), 0),
+                new Vector3D(8 * 5, 200 - (800 * yc[5]), 0),
+                new Vector3D(8 * 20, 200 - (800 * yc[20]), 0),
+                new Vector3D(8 * 50, 200 - (800 * yc[50]), 0),
+                new Vector3D(8 * 100, 200 - (800 * yc[100]), 0),
+            };
+
+            GameObject upperSpline = new NaturalSpline(upper);
+            GameObject lowerSpline = new NaturalSpline(lower);
+            GameObject camberSpline = new NaturalSpline(camber);
+
+            upperSpline.Render(g);
+            lowerSpline.Render(g);
+            camberSpline.Render(g);
+
+            /*for (i = 0; i <= 100; i++)
             {
                 xl2 = (int)(800 * xl[i]);
                 yl2 = 200 - (int)(800 * yl[i]);
@@ -146,7 +168,7 @@ namespace comb1
                 g.DrawLine(System.Drawing.Pens.Blue, xc1, yc1, xc2, yc2);
                 xc1 = xc2;
                 yc1 = yc2;
-            }
+            }*/
 
 
             r = (float)(1.1019 * t * t);

@@ -20,7 +20,7 @@ namespace comb1
         {
             Points = new List<Vector3D>();
             float t = 0;
-            for (int i = 0; i <= 100; ++i, t += 0.01f)
+            for (int i = 0; i <= 20; ++i, t += 0.05f)
             {
                 //f0(t) = -t^3 + 3t^2 - 3t + 1
                 //f1(t) =  3t^3 - 6t^2 + 3t
