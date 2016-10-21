@@ -10,11 +10,7 @@ namespace comb1
         private const int Cols = 5;
         private double[,] m;
 
-        private Vector3D p0 = new Vector3D(100, 100, 0);
-        private Vector3D p1 = new Vector3D(200, 200, 0);
-        private Vector3D p2 = new Vector3D(300, 200, 0);
-        private Vector3D p3 = new Vector3D(400, 200, 0);
-        private Vector3D p4 = new Vector3D(500, 100, 0);
+        private List<Vector3D> controlPoints;
 
         /// <summary>
         /// The points representing the curve.
@@ -23,6 +19,8 @@ namespace comb1
 
         public NaturalSpline(List<Vector3D> controlPoints)
         {
+            this.controlPoints = controlPoints;
+
             // Precalculated inverse matrix.
             // TODO: Calculate this ourselves.
             m = new double[,]
@@ -45,10 +43,10 @@ namespace comb1
             GetTangent(out t3, 3);
             GetTangent(out t4, 4);
 
-            HermiteCurve h0 = new HermiteCurve(p0, p1, t0, t1);
-            HermiteCurve h1 = new HermiteCurve(p1, p2, t1, t2);
-            HermiteCurve h2 = new HermiteCurve(p2, p3, t2, t3);
-            HermiteCurve h3 = new HermiteCurve(p3, p4, t3, t4);
+            HermiteCurve h0 = new HermiteCurve(controlPoints[0], controlPoints[1], t0, t1);
+            HermiteCurve h1 = new HermiteCurve(controlPoints[1], controlPoints[2], t1, t2);
+            HermiteCurve h2 = new HermiteCurve(controlPoints[2], controlPoints[3], t2, t3);
+            HermiteCurve h3 = new HermiteCurve(controlPoints[3], controlPoints[4], t3, t4);
 
             Points = new List<Vector3D>();
             Points.AddRange(h0.Points);
@@ -60,11 +58,11 @@ namespace comb1
         private void GetTangent(out Vector3D t, int i)
         {
             t = new Vector3D();
-            t += m[i, 0] * 3 * (p1 - p0);
-            t += m[i, 1] * 3 * (p2 - p0);
-            t += m[i, 2] * 3 * (p3 - p1);
-            t += m[i, 3] * 3 * (p4 - p2);
-            t += m[i, 4] * 3 * (p4 - p3);
+            t += m[i, 0] * 3 * (controlPoints[1] - controlPoints[0]);
+            t += m[i, 1] * 3 * (controlPoints[2] - controlPoints[0]);
+            t += m[i, 2] * 3 * (controlPoints[3] - controlPoints[1]);
+            t += m[i, 3] * 3 * (controlPoints[4] - controlPoints[2]);
+            t += m[i, 4] * 3 * (controlPoints[4] - controlPoints[3]);
         }
 
         /// <summary>

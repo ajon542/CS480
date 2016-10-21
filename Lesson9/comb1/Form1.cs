@@ -113,16 +113,26 @@ namespace comb1
                 listBox1.Items.Add("XL[" + i + "]=   " + xl[i] + "    YL[" + i + "]=     " + yl[i] + "     XU[" + i + "]=" + xu[i] + "    YU[" + i + "]=  " + yu[i] + "  YC[" + i + "]= " + yc[i]);
             }
 
-            //HermiteCurve curve = new HermiteCurve(new Vector3D(100, 100, 0), new Vector3D(600, 100, 0), new Vector3D(1000, 1000, 0), new Vector3D(1000, 1000, 0));
-            NaturalSpline spline = new NaturalSpline(new List<Vector3D>());
+            // The upper points on the curve.
+
+            List<Vector3D> upper = new List<Vector3D>
+            {
+                new Vector3D((800 * xu[0]), 200 - (800 * yu[0]), 0),
+                new Vector3D((800 * xu[5]), 200 - (800 * yu[5]), 0),
+                new Vector3D((800 * xu[20]), 200 - (800 * yu[20]), 0),
+                new Vector3D((800 * xu[50]), 200 - (800 * yu[50]), 0),
+                new Vector3D((800 * xu[100]), 200 - (800 * yu[100]), 0),
+            };
+
+            NaturalSpline spline = new NaturalSpline(upper);
             Point[] points = spline.GetPoints();
 
             for (i = 0; i < points.Length - 1; ++i)
             {
-                g.DrawLine(System.Drawing.Pens.Blue, points[i].X, points[i].Y, points[i + 1].X, points[i + 1].Y);
+                g.DrawLine(System.Drawing.Pens.Green, points[i].X, points[i].Y, points[i + 1].X, points[i + 1].Y);
             }
 
-            /*for (i = 0; i <= 100; i++)
+            for (i = 0; i <= 100; i++)
             {
                 xl2 = (int)(800 * xl[i]);
                 yl2 = 200 - (int)(800 * yl[i]);
@@ -141,7 +151,7 @@ namespace comb1
                 g.DrawLine(System.Drawing.Pens.Blue, xc1, yc1, xc2, yc2);
                 xc1 = xc2;
                 yc1 = yc2;
-            }*/
+            }
 
 
             r = (float)(1.1019 * t * t);
