@@ -77,21 +77,21 @@ namespace SineCurve
         /// </summary>
         public override void Render(Graphics graphics)
         {
-            // Draw the x axis and y axis.
+            // Draw the x axis.
             foreach (Point point in xPoints)
             {
                 // FillRectangle gives you a thinner line which is better for the axes.
                 graphics.FillRectangle(brush, point.X, point.Y, 1, 1);
             }
 
-            // Draw the x axis and y axis.
+            // Draw the y axis.
             foreach (Point point in yPoints)
             {
                 // FillRectangle gives you a thinner line which is better for the axes.
                 graphics.FillRectangle(brush, point.X, point.Y, 1, 1);
             }
 
-            // Draw the line segments.
+            // Draw the line segments for the curve.
             foreach (Point point in linePoints)
             {
                 graphics.DrawRectangle(pen, point.X, point.Y, 1, 1);
@@ -102,6 +102,12 @@ namespace SineCurve
                 if (x != 0)
                 {
                     graphics.FillRectangle(brush, x * 15 + halfWidth, halfHeight, 1, 5);
+
+                    // Draw scale markers.
+                    if (x % 5 == 0)
+                    {
+                        DrawString(graphics, x.ToString(), x * 15 + halfWidth, halfHeight + 10);
+                    }
                 }
             }
 
@@ -110,10 +116,23 @@ namespace SineCurve
                 if (y != 0)
                 {
                     graphics.FillRectangle(brush, halfWidth, y * 120 + halfHeight, 5, 1);
+
+                    // Draw scale markers.
+                    DrawString(graphics, y.ToString(), halfWidth + 10, y * 120 + halfHeight);
                 }
             }
 
             //graphics.FillEllipse(brush, mouseX, -((float)Math.Sin((mouseX - halfWidth) / 15) / (mouseX - halfWidth / 15) * 200 + halfHeight, 10, 10);
+        }
+
+        public void DrawString(Graphics graphics, string text, float x, float y)
+        {
+            Font drawFont = new Font("Arial", 8);
+            SolidBrush drawBrush = new SolidBrush(Color.Black);
+            StringFormat drawFormat = new StringFormat();
+            graphics.DrawString(text, drawFont, drawBrush, x, y, drawFormat);
+            drawFont.Dispose();
+            drawBrush.Dispose();
         }
     }
 }
