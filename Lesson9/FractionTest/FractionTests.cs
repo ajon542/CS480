@@ -73,17 +73,17 @@ namespace FractionTest
         [TestMethod]
         public void TestAdditionOperator2()
         {
-            Fraction f1 = new Fraction(5);
-            Fraction f2 = new Fraction(5);
-            Assert.AreEqual(new Fraction(10), f1 + f2);
+            Fraction f1 = 5;
+            Fraction f2 = 5;
+            Assert.AreEqual(10, f1 + f2);
         }
 
         [TestMethod]
         public void TestAdditionOperator3()
         {
-            Fraction f1 = new Fraction(5);
-            f1 += new Fraction(5);
-            Assert.AreEqual(new Fraction(10), f1);
+            Fraction f1 = 5;
+            f1 += 5;
+            Assert.AreEqual(10, f1);
         }
 
         #endregion
@@ -101,17 +101,17 @@ namespace FractionTest
         [TestMethod]
         public void TestSubtractionOperator2()
         {
-            Fraction f1 = new Fraction(5);
-            Fraction f2 = new Fraction(5);
-            Assert.AreEqual(new Fraction(0), f1 - f2);
+            Fraction f1 = 5;
+            Fraction f2 = 5;
+            Assert.AreEqual(0, f1 - f2);
         }
 
         [TestMethod]
         public void TestSubtractionOperator3()
         {
-            Fraction f1 = new Fraction(5);
-            f1 -= new Fraction(5);
-            Assert.AreEqual(new Fraction(0), f1);
+            Fraction f1 = 5;
+            f1 -= 5;
+            Assert.AreEqual(0, f1);
         }
 
         #endregion

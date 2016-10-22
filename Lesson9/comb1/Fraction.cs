@@ -29,6 +29,11 @@ namespace comb1
             Denominator = denominator;
         }
 
+        public static implicit operator Fraction(int value)
+        {
+            return new Fraction(value);
+        }
+
         // TODO: Reduce a fraction to the smallest numerator and denominator
 
         #region Operator Overloads
