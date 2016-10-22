@@ -18,6 +18,11 @@ namespace comb1
 
         public Fraction(int numerator, int denominator)
         {
+            if (denominator == 0)
+            {
+                throw new ArgumentException("denominator cannot be zero");
+            }
+
             Numerator = numerator;
             Denominator = denominator;
         }
@@ -25,6 +30,22 @@ namespace comb1
         // TODO: Add and subtract two fractions
         // TODO: Multiply and divide two fractions
         // TODO: Reduce a fraction to the smallest numerator and denominator
+        // TODO: Deal with divide by zero.
+
+        /// <summary>
+        /// Invert the fraction.
+        /// </summary>
+        public void Invert()
+        {
+            if (Numerator == 0)
+            {
+                throw new ArgumentException("numerator cannot be zero when inverting");
+            }
+
+            int temp = Numerator;
+            Numerator = Denominator;
+            Denominator = temp;
+        }
 
         /// <summary>
         /// Equals override.
