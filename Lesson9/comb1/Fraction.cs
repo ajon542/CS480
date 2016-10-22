@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace comb1
 {
@@ -16,6 +12,12 @@ namespace comb1
 
         public double Value { get { return (double)Numerator / Denominator; } }
 
+        public Fraction(int numerator)
+        {
+            Numerator = numerator;
+            Denominator = 1;
+        }
+
         public Fraction(int numerator, int denominator)
         {
             if (denominator == 0)
@@ -28,6 +30,28 @@ namespace comb1
         }
 
         // TODO: Reduce a fraction to the smallest numerator and denominator
+
+        #region Operator Overloads
+
+        /// <summary>
+        /// Overload the addition operator.
+        /// </summary>
+        public static Fraction operator +(Fraction f1, Fraction f2)
+        {
+            int numerator = f1.Numerator * f2.Denominator + f2.Numerator * f1.Denominator;
+            int denominator = f1.Denominator * f2.Denominator;
+            return new Fraction(numerator, denominator);
+        }
+
+        /// <summary>
+        /// Overload the subtraction operator.
+        /// </summary>
+        public static Fraction operator -(Fraction f1, Fraction f2)
+        {
+            int numerator = f1.Numerator * f2.Denominator - f2.Numerator * f1.Denominator;
+            int denominator = f1.Denominator * f2.Denominator;
+            return new Fraction(numerator, denominator);
+        }
 
         /// <summary>
         /// Overload the multiplication operator.
@@ -44,6 +68,8 @@ namespace comb1
         {
             return new Fraction(f1.Numerator * f2.Denominator, f1.Denominator * f2.Numerator);
         }
+
+        #endregion
 
         /// <summary>
         /// Returns a fraction that if multiplied by the first argument will result

@@ -60,6 +60,62 @@ namespace FractionTest
 
         #endregion
 
+        #region Addition Operator
+
+        [TestMethod]
+        public void TestAdditionOperator1()
+        {
+            Fraction f1 = new Fraction(4, 1);
+            Fraction f2 = new Fraction(1, 2);
+            Assert.AreEqual(new Fraction(9, 2), f1 + f2);
+        }
+
+        [TestMethod]
+        public void TestAdditionOperator2()
+        {
+            Fraction f1 = new Fraction(5);
+            Fraction f2 = new Fraction(5);
+            Assert.AreEqual(new Fraction(10), f1 + f2);
+        }
+
+        [TestMethod]
+        public void TestAdditionOperator3()
+        {
+            Fraction f1 = new Fraction(5);
+            f1 += new Fraction(5);
+            Assert.AreEqual(new Fraction(10), f1);
+        }
+
+        #endregion
+
+        #region Subtraction Operator
+
+        [TestMethod]
+        public void TestSubtractionOperator1()
+        {
+            Fraction f1 = new Fraction(4, 1);
+            Fraction f2 = new Fraction(1, 2);
+            Assert.AreEqual(new Fraction(7, 2), f1 - f2);
+        }
+
+        [TestMethod]
+        public void TestSubtractionOperator2()
+        {
+            Fraction f1 = new Fraction(5);
+            Fraction f2 = new Fraction(5);
+            Assert.AreEqual(new Fraction(0), f1 - f2);
+        }
+
+        [TestMethod]
+        public void TestSubtractionOperator3()
+        {
+            Fraction f1 = new Fraction(5);
+            f1 -= new Fraction(5);
+            Assert.AreEqual(new Fraction(0), f1);
+        }
+
+        #endregion
+
         #region Multiplication Operator
 
         [TestMethod]
