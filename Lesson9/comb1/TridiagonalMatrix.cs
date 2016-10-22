@@ -17,6 +17,8 @@ namespace comb1
         /// </summary>
         public Fraction[,] Data { get; private set; }
 
+        public Fraction[,] Inverse { get; private set; }
+
         private int dimension;
 
         /// <summary>
@@ -27,6 +29,23 @@ namespace comb1
         {
             this.dimension = dimension;
             Data = new Fraction[dimension, dimension];
+            Inverse = new Fraction[dimension, dimension];
+
+            // Initialize the inverse matrix to be the identity.
+            for (int row = 0; row < dimension; ++row)
+            {
+                for (int col = 0; col < dimension; ++col)
+                {
+                    if (row == col)
+                    {
+                        Inverse[row, col] = 1;
+                    }
+                    else
+                    {
+                        Inverse[row, col] = 0;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -35,6 +54,20 @@ namespace comb1
         /// </summary>
         public void Invert()
         {
+            int col = 0;
+            for (int row = 1; row < dimension; ++row)
+            {
+                // Find fraction that will convert first arg into second.
+                Fraction f = Fraction.Convert(Data[row - 1, col], Data[row, col]);
+
+                // Multiply that row by the fraction amount.
+                RowMultiply(row - 1, f);
+
+                // Subtract that row from the current row.
+                RowSubtract(row, row - 1);
+
+                ++col;
+            }
         }
 
         /// <summary>
@@ -55,6 +88,12 @@ namespace comb1
             {
                 Data[r1, col] -= Data[r2, col];
             }
+
+            // Do the same for the inverse matrix.
+            for (int col = 0; col < dimension; ++col)
+            {
+                Inverse[r1, col] -= Inverse[r2, col];
+            }
         }
 
         /// <summary>
@@ -74,6 +113,12 @@ namespace comb1
             for (int col = 0; col < dimension; ++col)
             {
                 Data[row, col] *= multiplier;
+            }
+
+            // Do the same for the inverse matrix.
+            for (int col = 0; col < dimension; ++col)
+            {
+                Inverse[row, col] *= multiplier;
             }
         }
     }
