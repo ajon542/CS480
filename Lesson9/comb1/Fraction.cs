@@ -11,8 +11,8 @@ namespace comb1
     /// </summary>
     public class Fraction
     {
-        public int Numerator { get; set; }
-        public int Denominator { get; set; }
+        public int Numerator { get; private set; }
+        public int Denominator { get; private set; }
 
         public double Value { get { return (double)Numerator / Denominator; } }
 
@@ -27,10 +27,32 @@ namespace comb1
             Denominator = denominator;
         }
 
-        // TODO: Add and subtract two fractions
-        // TODO: Multiply and divide two fractions
         // TODO: Reduce a fraction to the smallest numerator and denominator
-        // TODO: Deal with divide by zero.
+
+        /// <summary>
+        /// Overload the multiplication operator.
+        /// </summary>
+        public static Fraction operator *(Fraction f1, Fraction f2)
+        {
+            return new Fraction(f1.Numerator * f2.Numerator, f1.Denominator * f2.Denominator);
+        }
+
+        /// <summary>
+        /// Overload the division operator.
+        /// </summary>
+        public static Fraction operator /(Fraction f1, Fraction f2)
+        {
+            return new Fraction(f1.Numerator * f2.Denominator, f1.Denominator * f2.Numerator);
+        }
+
+        /// <summary>
+        /// Returns a fraction that if multiplied by the first argument will result
+        /// in a fraction that equals the second argument.
+        /// </summary>
+        public static Fraction Convert(Fraction f1, Fraction f2)
+        {
+            return new Fraction(f1.Denominator * f2.Numerator, f1.Numerator * f2.Denominator);
+        }
 
         /// <summary>
         /// Invert the fraction.
@@ -46,6 +68,8 @@ namespace comb1
             Numerator = Denominator;
             Denominator = temp;
         }
+
+        #region Equality
 
         /// <summary>
         /// Equals override.
@@ -78,7 +102,7 @@ namespace comb1
         /// <returns>True if the object is the same; false otherwise.</returns>
         public bool Equals(Fraction other)
         {
-            // If parameter is null return false:
+            // If parameter is null return false.
             if ((object)other == null)
             {
                 return false;
@@ -97,5 +121,11 @@ namespace comb1
             return Value.GetHashCode();
         }
 
+        #endregion
+
+        public override string ToString()
+        {
+            return string.Format("{0}/{1}", Numerator, Denominator);
+        }
     }
 }

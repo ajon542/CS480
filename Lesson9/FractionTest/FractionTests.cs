@@ -60,5 +60,92 @@ namespace FractionTest
 
         #endregion
 
+        #region Multiplication Operator
+
+        [TestMethod]
+        public void TestMultiplicationOperator1()
+        {
+            Fraction f1 = new Fraction(1, 2);
+            Fraction f2 = new Fraction(1, 2);
+            Assert.AreEqual(new Fraction(1, 4), f1 * f2);
+        }
+
+        [TestMethod]
+        public void TestMultiplicationOperator2()
+        {
+            Fraction f1 = new Fraction(5, 2);
+            Fraction f2 = new Fraction(6, 2);
+            Assert.AreEqual(new Fraction(30, 4), f1 * f2);
+        }
+
+        [TestMethod]
+        public void TestMultiplicationOperator3()
+        {
+            Fraction f1 = new Fraction(5, 2);
+            Fraction f2 = new Fraction(6, 2);
+            Assert.AreNotEqual(new Fraction(29, 4), f1 * f2);
+        }
+
+        [TestMethod]
+        public void TestMultiplicationOperator4()
+        {
+            Fraction f1 = new Fraction(1, 2);
+            Fraction f2 = new Fraction(1, 2);
+
+            f1 *= f2;
+
+            Assert.AreEqual(new Fraction(1, 4), f1);
+            Assert.AreEqual(new Fraction(1, 2), f2);
+        }
+
+        #endregion
+
+        #region Division Operator
+
+        [TestMethod]
+        public void TestDivisionOperator1()
+        {
+            Fraction f1 = new Fraction(4, 1);
+            Fraction f2 = new Fraction(2, 1);
+            Assert.AreEqual(new Fraction(4, 2), f1 / f2);
+        }
+
+        [TestMethod]
+        public void TestDivisionOperator2()
+        {
+            Fraction f1 = new Fraction(4, 1);
+            Fraction f2 = new Fraction(1, 2);
+            Assert.AreEqual(new Fraction(8, 1), f1 / f2);
+        }
+
+        #endregion
+
+        #region Conversion
+
+        [TestMethod]
+        public void TestConversion1()
+        {
+            Fraction f1 = new Fraction(4, 1);
+            Fraction f2 = new Fraction(1, 2);
+            Assert.AreEqual(new Fraction(1, 8), Fraction.Convert(f1, f2));
+        }
+
+        [TestMethod]
+        public void TestConversion2()
+        {
+            Fraction f1 = new Fraction(2, 3);
+            Fraction f2 = new Fraction(5, 6);
+            Assert.AreEqual(new Fraction(15, 12), Fraction.Convert(f1, f2));
+        }
+
+        [TestMethod]
+        public void TestConversion3()
+        {
+            Fraction f1 = new Fraction(2, 3);
+            Fraction f2 = new Fraction(5, 6);
+            Assert.AreEqual(f2, f1 * new Fraction(15, 12));
+        }
+
+        #endregion
     }
 }
