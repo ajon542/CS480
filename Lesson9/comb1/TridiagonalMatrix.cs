@@ -54,6 +54,7 @@ namespace comb1
         /// </summary>
         public void Invert()
         {
+            // Zero out the lower diagonal.
             int col = 0;
             for (int row = 1; row < dimension; ++row)
             {
@@ -65,6 +66,31 @@ namespace comb1
 
                 // Subtract that row from the current row.
                 RowSubtract(row, row - 1);
+
+                ++col;
+            }
+
+            // Zero out the upper diagonal.
+            col = dimension - 1;
+            for (int row = dimension - 1; row > 0; --row)
+            {
+                // Find fraction that will convert first arg into second.
+                Fraction f = Fraction.Convert(Data[row - 1, col], Data[row, col]);
+
+                // Multiply that row by the fraction amount.
+                RowMultiply(row - 1, f);
+
+                // Subtract that row from the current row.
+                RowSubtract(row - 1, row);
+
+                --col;
+            }
+
+            // Convert to identity.
+            col = 0;
+            for (int row = 0; row < dimension; ++row)
+            {
+                RowDivide(row, Data[row, col]);
 
                 ++col;
             }
@@ -119,6 +145,32 @@ namespace comb1
             for (int col = 0; col < dimension; ++col)
             {
                 Inverse[row, col] *= multiplier;
+            }
+        }
+
+        /// <summary>
+        /// Divide a row in the matrix.
+        /// </summary>
+        /// <param name="row">The row to divide.</param>
+        /// <param name="divisor">The divisor.</param>
+        public void RowDivide(int row, Fraction divisor)
+        {
+            // Index bounds check.
+            if (row >= dimension || row < 0)
+            {
+                throw new ArgumentOutOfRangeException("row index is out of range");
+            }
+
+            // Subtract row 2 from row 1.
+            for (int col = 0; col < dimension; ++col)
+            {
+                Data[row, col] /= divisor;
+            }
+
+            // Do the same for the inverse matrix.
+            for (int col = 0; col < dimension; ++col)
+            {
+                Inverse[row, col] /= divisor;
             }
         }
     }
