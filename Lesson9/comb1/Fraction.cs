@@ -12,6 +12,8 @@ namespace comb1
 
         public double Value { get { return (double)Numerator / Denominator; } }
 
+        #region Contructors
+
         public Fraction(int numerator)
         {
             Numerator = numerator;
@@ -34,7 +36,7 @@ namespace comb1
             return new Fraction(value);
         }
 
-        // TODO: Reduce a fraction to the smallest numerator and denominator
+        #endregion
 
         #region Operator Overloads
 
@@ -112,6 +114,9 @@ namespace comb1
             Denominator = temp;
         }
 
+        /// <summary>
+        /// Reduce the fraction to the smallest possible numerator and denominator.
+        /// </summary>
         public void Reduce()
         {
             int gcd = Gcd(Numerator, Denominator);
@@ -120,6 +125,9 @@ namespace comb1
             Denominator /= gcd;
         }
 
+        /// <summary>
+        /// Find the greatest common divisor.
+        /// </summary>
         private int Gcd(int a, int b)
         {
             while (b != 0)
