@@ -132,9 +132,9 @@ namespace comb1
         {
             while (b != 0)
             {
-                int t = b; 
-                b = a % b; 
-                a = t; 
+                int t = b;
+                b = a % b;
+                a = t;
             }
             return a;
         }

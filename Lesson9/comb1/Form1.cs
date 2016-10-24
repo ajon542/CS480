@@ -119,7 +119,7 @@ namespace comb1
             int p3 = 30;
             int p4 = 100;
 
-            // The upper points on the curve.
+            // Control points for the curve.
             List<Vector3D> airfoil = new List<Vector3D>
             {
                 new Vector3D((800 * xu[p0]), 200 - (800 * yu[p0]), 0),

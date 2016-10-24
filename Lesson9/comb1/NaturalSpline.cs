@@ -23,6 +23,8 @@ namespace comb1
             m.Data[3, 0] = 0; m.Data[3, 1] = 0; m.Data[3, 2] = 1; m.Data[3, 3] = 4; m.Data[3, 4] = 1;
             m.Data[4, 0] = 0; m.Data[4, 1] = 0; m.Data[4, 2] = 0; m.Data[4, 3] = 1; m.Data[4, 4] = 2;
 
+            // The result of the matrix inversion can be used to calculate the tangents
+            // at each of the control points.
             m.Invert();
 
             // Obtain the tangents for each of the control points.
