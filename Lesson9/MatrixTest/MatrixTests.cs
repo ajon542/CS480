@@ -154,6 +154,116 @@ namespace MatrixTest
             Assert.AreEqual(new Fraction(7, 12), m.Inverse[2, 2]);
         }
 
+        [TestMethod]
+        public void TestInvert3()
+        {
+            TridiagonalMatrix m = new TridiagonalMatrix(4);
+
+            m.Data[0, 0] = 3; m.Data[0, 1] = 2; m.Data[0, 2] = 0; m.Data[0, 3] = 0;
+            m.Data[1, 0] = 2; m.Data[1, 1] = 5; m.Data[1, 2] = 2; m.Data[1, 3] = 0;
+            m.Data[2, 0] = 0; m.Data[2, 1] = 2; m.Data[2, 2] = 1; m.Data[2, 3] = 2;
+            m.Data[3, 0] = 0; m.Data[3, 1] = 0; m.Data[3, 2] = 2; m.Data[3, 3] = 7;
+
+            m.Invert();
+
+            // Check data.
+            Assert.AreEqual(1, m.Data[0, 0]);
+            Assert.AreEqual(0, m.Data[0, 1]);
+            Assert.AreEqual(0, m.Data[0, 2]);
+            Assert.AreEqual(0, m.Data[0, 3]);
+
+            Assert.AreEqual(0, m.Data[1, 0]);
+            Assert.AreEqual(1, m.Data[1, 1]);
+            Assert.AreEqual(0, m.Data[1, 2]);
+            Assert.AreEqual(0, m.Data[1, 3]);
+
+            Assert.AreEqual(0, m.Data[2, 0]);
+            Assert.AreEqual(0, m.Data[2, 1]);
+            Assert.AreEqual(1, m.Data[2, 2]);
+            Assert.AreEqual(0, m.Data[2, 3]);
+
+            Assert.AreEqual(0, m.Data[3, 0]);
+            Assert.AreEqual(0, m.Data[3, 1]);
+            Assert.AreEqual(0, m.Data[3, 2]);
+            Assert.AreEqual(1, m.Data[3, 3]);
+
+            // Check inverse.
+            Assert.AreEqual(new Fraction( 13, 51), m.Inverse[0, 0]);
+            Assert.AreEqual(new Fraction(  2, 17),  m.Inverse[0, 1]);
+            Assert.AreEqual(new Fraction(-28, 51), m.Inverse[0, 2]);
+            Assert.AreEqual(new Fraction(  8, 51), m.Inverse[0, 3]);
+
+            Assert.AreEqual(new Fraction( 2, 17), m.Inverse[1, 0]);
+            Assert.AreEqual(new Fraction(-3, 17), m.Inverse[1, 1]);
+            Assert.AreEqual(new Fraction(14, 17), m.Inverse[1, 2]);
+            Assert.AreEqual(new Fraction(-4, 17), m.Inverse[1, 3]);
+
+            Assert.AreEqual(new Fraction(-28, 51), m.Inverse[2, 0]);
+            Assert.AreEqual(new Fraction( 14, 17),  m.Inverse[2, 1]);
+            Assert.AreEqual(new Fraction(-77, 51), m.Inverse[2, 2]);
+            Assert.AreEqual(new Fraction( 22, 51), m.Inverse[2, 3]);
+
+            Assert.AreEqual(new Fraction( 8, 51), m.Inverse[3, 0]);
+            Assert.AreEqual(new Fraction(-4, 17),  m.Inverse[3, 1]);
+            Assert.AreEqual(new Fraction(22, 51), m.Inverse[3, 2]);
+            Assert.AreEqual(new Fraction( 1, 51), m.Inverse[3, 3]);
+        }
+
+        [TestMethod]
+        public void TestInvert4()
+        {
+            TridiagonalMatrix m = new TridiagonalMatrix(4);
+
+            m.Data[0, 0] = 2; m.Data[0, 1] = 1; m.Data[0, 2] = 0; m.Data[0, 3] = 0;
+            m.Data[1, 0] = 1; m.Data[1, 1] = 4; m.Data[1, 2] = 1; m.Data[1, 3] = 0;
+            m.Data[2, 0] = 0; m.Data[2, 1] = 1; m.Data[2, 2] = 4; m.Data[2, 3] = 1;
+            m.Data[3, 0] = 0; m.Data[3, 1] = 0; m.Data[3, 2] = 1; m.Data[3, 3] = 2;
+
+            m.Invert();
+
+            // Check data.
+            Assert.AreEqual(1, m.Data[0, 0]);
+            Assert.AreEqual(0, m.Data[0, 1]);
+            Assert.AreEqual(0, m.Data[0, 2]);
+            Assert.AreEqual(0, m.Data[0, 3]);
+
+            Assert.AreEqual(0, m.Data[1, 0]);
+            Assert.AreEqual(1, m.Data[1, 1]);
+            Assert.AreEqual(0, m.Data[1, 2]);
+            Assert.AreEqual(0, m.Data[1, 3]);
+
+            Assert.AreEqual(0, m.Data[2, 0]);
+            Assert.AreEqual(0, m.Data[2, 1]);
+            Assert.AreEqual(1, m.Data[2, 2]);
+            Assert.AreEqual(0, m.Data[2, 3]);
+
+            Assert.AreEqual(0, m.Data[3, 0]);
+            Assert.AreEqual(0, m.Data[3, 1]);
+            Assert.AreEqual(0, m.Data[3, 2]);
+            Assert.AreEqual(1, m.Data[3, 3]);
+
+            // Check inverse.
+            Assert.AreEqual(new Fraction(26, 45), m.Inverse[0, 0]);
+            Assert.AreEqual(new Fraction(-7, 45), m.Inverse[0, 1]);
+            Assert.AreEqual(new Fraction(2, 45), m.Inverse[0, 2]);
+            Assert.AreEqual(new Fraction(-1, 45), m.Inverse[0, 3]);
+
+            Assert.AreEqual(new Fraction(-7, 45), m.Inverse[1, 0]);
+            Assert.AreEqual(new Fraction(14, 45), m.Inverse[1, 1]);
+            Assert.AreEqual(new Fraction(-4, 45), m.Inverse[1, 2]);
+            Assert.AreEqual(new Fraction(2, 45), m.Inverse[1, 3]);
+
+            Assert.AreEqual(new Fraction(2, 45), m.Inverse[2, 0]);
+            Assert.AreEqual(new Fraction(-4, 45), m.Inverse[2, 1]);
+            Assert.AreEqual(new Fraction(14, 45), m.Inverse[2, 2]);
+            Assert.AreEqual(new Fraction(-7, 45), m.Inverse[2, 3]);
+
+            Assert.AreEqual(new Fraction(-1, 45), m.Inverse[3, 0]);
+            Assert.AreEqual(new Fraction(2, 45), m.Inverse[3, 1]);
+            Assert.AreEqual(new Fraction(-7, 45), m.Inverse[3, 2]);
+            Assert.AreEqual(new Fraction(26, 45), m.Inverse[3, 3]);
+        }
+
         #endregion
     }
 }

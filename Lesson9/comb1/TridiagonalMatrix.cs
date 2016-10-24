@@ -50,7 +50,8 @@ namespace comb1
 
         /// <summary>
         /// Invert the matrix.
-        /// TODO: We might be able to make this more generic.
+        /// This only works for a tridiagonal matrix.
+        /// TODO: We might be able to make this more generic at some point.
         /// </summary>
         public void Invert()
         {

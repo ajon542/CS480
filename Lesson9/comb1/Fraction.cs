@@ -45,7 +45,10 @@ namespace comb1
         {
             int numerator = f1.Numerator * f2.Denominator + f2.Numerator * f1.Denominator;
             int denominator = f1.Denominator * f2.Denominator;
-            return new Fraction(numerator, denominator);
+
+            Fraction result = new Fraction(numerator, denominator);
+            result.Reduce();
+            return result;
         }
 
         /// <summary>
@@ -55,7 +58,10 @@ namespace comb1
         {
             int numerator = f1.Numerator * f2.Denominator - f2.Numerator * f1.Denominator;
             int denominator = f1.Denominator * f2.Denominator;
-            return new Fraction(numerator, denominator);
+
+            Fraction result = new Fraction(numerator, denominator);
+            result.Reduce();
+            return result;
         }
 
         /// <summary>
@@ -63,7 +69,9 @@ namespace comb1
         /// </summary>
         public static Fraction operator *(Fraction f1, Fraction f2)
         {
-            return new Fraction(f1.Numerator * f2.Numerator, f1.Denominator * f2.Denominator);
+            Fraction result = new Fraction(f1.Numerator * f2.Numerator, f1.Denominator * f2.Denominator);
+            result.Reduce();
+            return result;
         }
 
         /// <summary>
@@ -71,7 +79,9 @@ namespace comb1
         /// </summary>
         public static Fraction operator /(Fraction f1, Fraction f2)
         {
-            return new Fraction(f1.Numerator * f2.Denominator, f1.Denominator * f2.Numerator);
+            Fraction result = new Fraction(f1.Numerator * f2.Denominator, f1.Denominator * f2.Numerator);
+            result.Reduce();
+            return result;
         }
 
         #endregion
@@ -82,7 +92,9 @@ namespace comb1
         /// </summary>
         public static Fraction Convert(Fraction f1, Fraction f2)
         {
-            return new Fraction(f1.Denominator * f2.Numerator, f1.Numerator * f2.Denominator);
+            Fraction result = new Fraction(f1.Denominator * f2.Numerator, f1.Numerator * f2.Denominator);
+            result.Reduce();
+            return result;
         }
 
         /// <summary>
@@ -98,6 +110,25 @@ namespace comb1
             int temp = Numerator;
             Numerator = Denominator;
             Denominator = temp;
+        }
+
+        public void Reduce()
+        {
+            int gcd = Gcd(Numerator, Denominator);
+
+            Numerator /= gcd;
+            Denominator /= gcd;
+        }
+
+        private int Gcd(int a, int b)
+        {
+            while (b != 0)
+            {
+                int t = b; 
+                b = a % b; 
+                a = t; 
+            }
+            return a;
         }
 
         #region Equality
