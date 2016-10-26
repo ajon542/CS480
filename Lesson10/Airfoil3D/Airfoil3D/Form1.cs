@@ -29,12 +29,13 @@ namespace Airfoil3D
         {
             InitializeComponent();
 
-            quad.ModelCoordinates.Add(new Point3D(-0.5, -0.5, 0));
-            quad.ModelCoordinates.Add(new Point3D(0.5, -0.5, 0));
-            quad.ModelCoordinates.Add(new Point3D(0.5, 0.5, 0));
-            quad.ModelCoordinates.Add(new Point3D(-0.5, 0.5, 0));
-            quad.Transform.Position = new Vector3D(0, 0, 0);
-            //quad.Transform.Scale = new Vector3D(2, 2, 2);
+            quad.ModelCoordinates.Add(new Point3D(1, 0, 0));
+            quad.ModelCoordinates.Add(new Point3D(0.2985, 0.07875, 0));
+            quad.ModelCoordinates.Add(new Point3D(0, 0, 0));
+            quad.ModelCoordinates.Add(new Point3D(0.3015, -0.0412, 0));
+            quad.ModelCoordinates.Add(new Point3D(1, 0, 0));
+            quad.Transform.Scale = new Vector3D(-7, 7, 1);
+            quad.Transform.Position = new Vector3D(3, 0, 0);
 
             Paint += Form1_Paint;
         }
@@ -49,8 +50,25 @@ namespace Airfoil3D
             cameraToWorld.Invert();
             Matrix3D worldToCamera = cameraToWorld;
 
-            // Compute the final pixel coords from the world coords.
+            // Compute the world coordinates for the model.
             List<Point3D> quadWorldCoords = quad.ComputeWorldCoordinates();
+
+            // Convert the Point3D to Vector3D so the spline can do vector operations.
+            List<Vector3D> quadCoords = new List<Vector3D>();
+            foreach (Point3D point in quadWorldCoords)
+            {
+                quadCoords.Add((Vector3D)point);
+            }
+            NaturalSpline airfoilSpline = new NaturalSpline(quadCoords);
+
+            // Convert the Vector3D back to Point3D.
+            quadWorldCoords.Clear();
+            foreach (Vector3D point in airfoilSpline.Points)
+            {
+                quadWorldCoords.Add((Point3D)point);
+            }
+
+            // Compute the final pixel coordinates.
             List<Point> rasterCoords = new List<Point>();
 
             foreach (Point3D worldCoord in quadWorldCoords)
