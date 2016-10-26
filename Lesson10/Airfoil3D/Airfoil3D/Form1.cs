@@ -44,7 +44,6 @@ namespace Airfoil3D
 
         private SolidBrush brownBrush = new SolidBrush(Color.Brown);
         private SolidBrush redBrush = new SolidBrush(Color.Red);
-        Point[] points = new Point[3];
 
         Point3D[] vWorld = new Point3D[4];
 
@@ -52,34 +51,28 @@ namespace Airfoil3D
         {
             InitializeComponent();
 
-            points[0] = new Point(100, 100);
-            points[1] = new Point(200, 100);
-            points[2] = new Point(150, 150);
-
-            vWorld[0] = new Point3D(-100, -100, 200);
-            vWorld[1] = new Point3D(100, -100, 200);
-            vWorld[2] = new Point3D(100, 100, 200);
-            vWorld[3] = new Point3D(-100, 100, 200);
+            vWorld[0] = new Point3D(-100, -100, 50);
+            vWorld[1] = new Point3D(100, -100, 50);
+            vWorld[2] = new Point3D(100, 100, 50);
+            vWorld[3] = new Point3D(-100, 100, 50);
 
             Paint += Form1_Paint;
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.FillPolygon(brownBrush, points, FillMode.Winding);
-
             float canvasWidth = 10;
             float canvasHeight = 10;
             int imageWidth = 800;
             int imageHeight = 800;
 
             Matrix3D cameraToWorld = new Matrix3D();
-            cameraToWorld.Translate(new Vector3D(0, 0, 0));
+            cameraToWorld.Translate(new Vector3D(0, 0, -50));
 
             cameraToWorld.Invert();
             Matrix3D worldToCamera = cameraToWorld;
 
-            Point3D v0Raster, v1Raster, v2Raster, v3Raster, v4Raster, v5Raster;
+            Point3D v0Raster, v1Raster, v2Raster, v3Raster;
             computePixelCoordinates(vWorld[0], out v0Raster, worldToCamera, canvasWidth, canvasHeight, imageWidth, imageHeight);
             computePixelCoordinates(vWorld[1], out v1Raster, worldToCamera, canvasWidth, canvasHeight, imageWidth, imageHeight);
             computePixelCoordinates(vWorld[2], out v2Raster, worldToCamera, canvasWidth, canvasHeight, imageWidth, imageHeight);
