@@ -8,9 +8,6 @@ namespace Airfoil3D
 {
     public partial class Form1 : Form
     {
-        private SolidBrush brownBrush = new SolidBrush(Color.Brown);
-        private SolidBrush redBrush = new SolidBrush(Color.Red);
-
         private List<AirfoilWireframe> airfoils = new List<AirfoilWireframe>();
 
         private const int MaxAirfoils = 10;
@@ -63,6 +60,8 @@ namespace Airfoil3D
             OffsetUpDown.ValueChanged += OffsetUpDown_ValueChanged;
         }
 
+        #region Control Value Changed Handlers
+
         private void IndexUpDown_ValueChanged(object sender, EventArgs e)
         {
             // Reset defaults.
@@ -99,13 +98,20 @@ namespace Airfoil3D
             DrawRegion.Invalidate();
         }
 
+        #endregion
+
+        /// <summary>
+        /// Convert the world coordinates to pixel coordinates.
+        /// </summary>
+        /// <param name="worldCoords">The world coordinates.</param>
+        /// <returns>A list of pixel coords.</returns>
         private List<Point> GetRasterPoints(List<Point3D> worldCoords)
         {
             // Setup camera position in the world.
             // The camera will look down the negative z axis.
             Matrix3D cameraToWorld = new Matrix3D();
             cameraToWorld.Rotate(new Quaternion(new Vector3D(0, 1, 0), 180));
-            cameraToWorld.Translate(new Vector3D(0, 1, 0.5));
+            cameraToWorld.Translate(new Vector3D(0, 2, 0.5));
 
             // Create the world to camera coordinates matrix.
             cameraToWorld.Invert();
@@ -138,15 +144,24 @@ namespace Airfoil3D
             return rasterCoords;
         }
 
+        /// <summary>
+        /// Draw the scene.
+        /// </summary>
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            foreach(AirfoilWireframe wireframe in airfoils)
+            for (int i = 0; i < MaxAirfoils; ++i)
             {
-                List<Point> rasterCoords = GetRasterPoints(wireframe.ComputeWorldCoordinates());
+                List<Point> rasterCoords = GetRasterPoints(airfoils[i].ComputeWorldCoordinates());
 
-                for (int i = 0; i < rasterCoords.Count - 1; ++i)
+                Pen pen = Pens.DarkGray;
+                if (i == (int)IndexUpDown.Value)
                 {
-                    e.Graphics.DrawLine(Pens.Red, rasterCoords[i], rasterCoords[i + 1]);
+                    pen = Pens.Red;
+                }
+
+                for (int j = 0; j < rasterCoords.Count - 1; ++j)
+                {
+                    e.Graphics.DrawLine(pen, rasterCoords[j], rasterCoords[j + 1]);
                 }
             }
         }

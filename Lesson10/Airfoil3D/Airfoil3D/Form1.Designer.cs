@@ -132,7 +132,7 @@
             this.Controls.Add(this.IndexUpDown);
             this.Controls.Add(this.DrawRegion);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Airfoil Design";
             ((System.ComponentModel.ISupportInitialize)(this.DrawRegion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.IndexUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RotationUpDown)).EndInit();
