@@ -29,26 +29,12 @@ namespace Airfoil3D
         {
             InitializeComponent();
 
-            airfoils.Add(new AirfoilWireframe());
-            airfoils.Add(new AirfoilWireframe());
-            airfoils.Add(new AirfoilWireframe());
-            airfoils.Add(new AirfoilWireframe());
-            airfoils.Add(new AirfoilWireframe());
-            airfoils.Add(new AirfoilWireframe());
-            airfoils.Add(new AirfoilWireframe());
-            airfoils.Add(new AirfoilWireframe());
-            airfoils.Add(new AirfoilWireframe());
-            airfoils.Add(new AirfoilWireframe());
-            airfoils[0].Transform.Position = new Vector3D(0, 0, 0.1);
-            airfoils[1].Transform.Position = new Vector3D(0, 0, 0.2);
-            airfoils[2].Transform.Position = new Vector3D(0, 0, 0.3);
-            airfoils[3].Transform.Position = new Vector3D(0, 0, 0.4);
-            airfoils[4].Transform.Position = new Vector3D(0, 0, 0.5);
-            airfoils[5].Transform.Position = new Vector3D(0, 0, 0.6);
-            airfoils[6].Transform.Position = new Vector3D(0, 0, 0.7);
-            airfoils[7].Transform.Position = new Vector3D(0, 0, 0.8);
-            airfoils[8].Transform.Position = new Vector3D(0, 0, 0.9);
-            airfoils[9].Transform.Position = new Vector3D(0, 0, 1.0);
+            float offset = 0;
+            for (int i = 0; i < 10; ++i, offset -= 0.1f)
+            {
+                airfoils.Add(new AirfoilWireframe());
+                airfoils[i].Transform.Position = new Vector3D(0, 0, offset);
+            }
 
             Paint += Form1_Paint;
         }
@@ -56,8 +42,10 @@ namespace Airfoil3D
         private List<Point> GetRasterPoints(AirfoilWireframe wireframe)
         {
             // Setup camera position in the world.
+            // The camera will look down the negative z axis.
             Matrix3D cameraToWorld = new Matrix3D();
-            cameraToWorld.Translate(new Vector3D(0, 1, -0.3));
+            cameraToWorld.Rotate(new Quaternion(new Vector3D(0, 1, 0), 180));
+            cameraToWorld.Translate(new Vector3D(0, 1, 0.5));
 
             // Create the world to camera coordinates matrix.
             cameraToWorld.Invert();
