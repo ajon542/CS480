@@ -15,33 +15,6 @@ namespace Airfoil3D
 {
     public partial class Form1 : Form
     {
-        void computePixelCoordinates(
-            Point3D pWorld,
-            out Point3D pRaster,
-            Matrix3D worldToCamera,
-            float canvasWidth,
-            float canvasHeight,
-            int imageWidth,
-            int imageHeight)
-        {
-            Point3D pCamera = pWorld * worldToCamera;
-
-            Point3D pScreen = new Point3D(
-                pCamera.X / -pCamera.Z,
-                pCamera.Y / -pCamera.Z,
-                0);
-
-            Point3D pNDC = new Point3D(
-                (pScreen.X + canvasWidth * 0.5) / canvasWidth,
-                (pScreen.Y + canvasHeight * 0.5) / canvasHeight,
-                0);
-
-            pRaster = new Point3D(
-                (pNDC.X * imageWidth),
-                (pNDC.Y * imageHeight),
-                0);
-        }
-
         private SolidBrush brownBrush = new SolidBrush(Color.Brown);
         private SolidBrush redBrush = new SolidBrush(Color.Red);
 
@@ -72,11 +45,10 @@ namespace Airfoil3D
             cameraToWorld.Invert();
             Matrix3D worldToCamera = cameraToWorld;
 
-            Point3D v0Raster, v1Raster, v2Raster, v3Raster;
-            computePixelCoordinates(vWorld[0], out v0Raster, worldToCamera, canvasWidth, canvasHeight, imageWidth, imageHeight);
-            computePixelCoordinates(vWorld[1], out v1Raster, worldToCamera, canvasWidth, canvasHeight, imageWidth, imageHeight);
-            computePixelCoordinates(vWorld[2], out v2Raster, worldToCamera, canvasWidth, canvasHeight, imageWidth, imageHeight);
-            computePixelCoordinates(vWorld[3], out v3Raster, worldToCamera, canvasWidth, canvasHeight, imageWidth, imageHeight);
+            Point3D v0Raster = worldToCamera.ComputePixelCoordinates(vWorld[0], canvasWidth, canvasHeight, imageWidth, imageHeight);
+            Point3D v1Raster = worldToCamera.ComputePixelCoordinates(vWorld[1], canvasWidth, canvasHeight, imageWidth, imageHeight);
+            Point3D v2Raster = worldToCamera.ComputePixelCoordinates(vWorld[2], canvasWidth, canvasHeight, imageWidth, imageHeight);
+            Point3D v3Raster = worldToCamera.ComputePixelCoordinates(vWorld[3], canvasWidth, canvasHeight, imageWidth, imageHeight);
 
             Point[] raster = new Point[4];
             raster[0] = new Point((int)v0Raster.X, (int)v0Raster.Y);
