@@ -18,45 +18,48 @@ namespace Airfoil3D
         private SolidBrush brownBrush = new SolidBrush(Color.Brown);
         private SolidBrush redBrush = new SolidBrush(Color.Red);
 
-        Point3D[] vWorld = new Point3D[4];
+        GameModel quad = new GameModel();
+
+        float canvasWidth = 10;
+        float canvasHeight = 10;
+        int imageWidth = 800;
+        int imageHeight = 800;
 
         public Form1()
         {
             InitializeComponent();
 
-            vWorld[0] = new Point3D(-100, -100, 50);
-            vWorld[1] = new Point3D(100, -100, 50);
-            vWorld[2] = new Point3D(100, 100, 50);
-            vWorld[3] = new Point3D(-100, 100, 50);
+            quad.ModelCoordinates.Add(new Point3D(-0.5, -0.5, 0));
+            quad.ModelCoordinates.Add(new Point3D(0.5, -0.5, 0));
+            quad.ModelCoordinates.Add(new Point3D(0.5, 0.5, 0));
+            quad.ModelCoordinates.Add(new Point3D(-0.5, 0.5, 0));
+            quad.Transform.Position = new Vector3D(0, 0, 0);
 
             Paint += Form1_Paint;
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            float canvasWidth = 10;
-            float canvasHeight = 10;
-            int imageWidth = 800;
-            int imageHeight = 800;
-
+            // Setup camera position in the world.
             Matrix3D cameraToWorld = new Matrix3D();
-            cameraToWorld.Translate(new Vector3D(0, 0, -50));
+            cameraToWorld.Translate(new Vector3D(0, 0, -1));
 
+            // Create the world to camera coordinates matrix.
             cameraToWorld.Invert();
             Matrix3D worldToCamera = cameraToWorld;
 
-            Point3D v0Raster = worldToCamera.ComputePixelCoordinates(vWorld[0], canvasWidth, canvasHeight, imageWidth, imageHeight);
-            Point3D v1Raster = worldToCamera.ComputePixelCoordinates(vWorld[1], canvasWidth, canvasHeight, imageWidth, imageHeight);
-            Point3D v2Raster = worldToCamera.ComputePixelCoordinates(vWorld[2], canvasWidth, canvasHeight, imageWidth, imageHeight);
-            Point3D v3Raster = worldToCamera.ComputePixelCoordinates(vWorld[3], canvasWidth, canvasHeight, imageWidth, imageHeight);
+            // Compute the final pixel coords from the world coords.
+            List<Point3D> quadWorldCoords = quad.ComputeWorldCoordinates();
+            List<Point> quadRasterCoords = new List<Point>();
 
-            Point[] raster = new Point[4];
-            raster[0] = new Point((int)v0Raster.X, (int)v0Raster.Y);
-            raster[1] = new Point((int)v1Raster.X, (int)v1Raster.Y);
-            raster[2] = new Point((int)v2Raster.X, (int)v2Raster.Y);
-            raster[3] = new Point((int)v3Raster.X, (int)v3Raster.Y);
+            foreach (Point3D worldCoord in quadWorldCoords)
+            {
+                Point3D raster = worldToCamera.ComputePixelCoordinates(worldCoord, canvasWidth, canvasHeight, imageWidth, imageHeight);
+                quadRasterCoords.Add(new Point((int)raster.X, (int)raster.Y));
+            }
 
-            e.Graphics.FillPolygon(redBrush, raster, FillMode.Winding);
+            // Draw the model onscreen.
+            e.Graphics.FillPolygon(redBrush, quadRasterCoords.ToArray(), FillMode.Winding);
             //e.Graphics.DrawLine(Pens.Red, raster[0], raster[1]);
             //e.Graphics.DrawLine(Pens.Green, raster[2], raster[3]);
             //e.Graphics.DrawLine(Pens.Blue, raster[4], raster[5]);

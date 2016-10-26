@@ -8,7 +8,14 @@ namespace Airfoil3D
     /// </summary>
     public class GameModel
     {
+        /// <summary>
+        /// The coordinates in model space.
+        /// </summary>
         public List<Point3D> ModelCoordinates { get; set; }
+
+        /// <summary>
+        /// The game object position, scale and rotation.
+        /// </summary>
         public Transform Transform { get; set; }
 
         public GameModel()
@@ -23,7 +30,21 @@ namespace Airfoil3D
         /// <returns>The points of the model in world coordinates.</returns>
         public List<Point3D> ComputeWorldCoordinates()
         {
-            return new List<Point3D>();
+            List<Point3D> worldCoordinates = new List<Point3D>();
+
+            Matrix3D modelToWorldMatrix = new Matrix3D();
+            modelToWorldMatrix.Scale(Transform.Scale);
+            // TODO: Rotation
+            //modelMatrix.Rotate(new Quaternion);
+            modelToWorldMatrix.Translate(Transform.Position);
+
+            foreach (Point3D modelCoord in ModelCoordinates)
+            {
+                Point3D worldCoord = modelCoord * modelToWorldMatrix;
+                worldCoordinates.Add(worldCoord);
+            }
+
+            return worldCoordinates;
         }
     }
 }
