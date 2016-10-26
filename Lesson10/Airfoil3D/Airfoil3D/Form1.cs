@@ -38,7 +38,7 @@ namespace Airfoil3D
 
             pRaster = new Point3D(
                 (pNDC.X * imageWidth),
-                ((1 - pNDC.Y) * imageHeight),
+                (pNDC.Y * imageHeight),
                 0);
         }
 
