@@ -18,7 +18,7 @@ namespace Airfoil3D
         private SolidBrush brownBrush = new SolidBrush(Color.Brown);
         private SolidBrush redBrush = new SolidBrush(Color.Red);
 
-        GameModel quad = new GameModel();
+        List<AirfoilWireframe> airfoils = new List<AirfoilWireframe>();
 
         float canvasWidth = 10;
         float canvasHeight = 10;
@@ -29,29 +29,42 @@ namespace Airfoil3D
         {
             InitializeComponent();
 
-            quad.ModelCoordinates.Add(new Point3D(1, 0, 0));
-            quad.ModelCoordinates.Add(new Point3D(0.2985, 0.07875, 0));
-            quad.ModelCoordinates.Add(new Point3D(0, 0, 0));
-            quad.ModelCoordinates.Add(new Point3D(0.3015, -0.0412, 0));
-            quad.ModelCoordinates.Add(new Point3D(1, 0, 0));
-            quad.Transform.Scale = new Vector3D(-7, 7, 1);
-            quad.Transform.Position = new Vector3D(3, 0, 0);
+            airfoils.Add(new AirfoilWireframe());
+            airfoils.Add(new AirfoilWireframe());
+            airfoils.Add(new AirfoilWireframe());
+            airfoils.Add(new AirfoilWireframe());
+            airfoils.Add(new AirfoilWireframe());
+            airfoils.Add(new AirfoilWireframe());
+            airfoils.Add(new AirfoilWireframe());
+            airfoils.Add(new AirfoilWireframe());
+            airfoils.Add(new AirfoilWireframe());
+            airfoils.Add(new AirfoilWireframe());
+            airfoils[0].Transform.Position = new Vector3D(0, 0, 0.1);
+            airfoils[1].Transform.Position = new Vector3D(0, 0, 0.2);
+            airfoils[2].Transform.Position = new Vector3D(0, 0, 0.3);
+            airfoils[3].Transform.Position = new Vector3D(0, 0, 0.4);
+            airfoils[4].Transform.Position = new Vector3D(0, 0, 0.5);
+            airfoils[5].Transform.Position = new Vector3D(0, 0, 0.6);
+            airfoils[6].Transform.Position = new Vector3D(0, 0, 0.7);
+            airfoils[7].Transform.Position = new Vector3D(0, 0, 0.8);
+            airfoils[8].Transform.Position = new Vector3D(0, 0, 0.9);
+            airfoils[9].Transform.Position = new Vector3D(0, 0, 1.0);
 
             Paint += Form1_Paint;
         }
 
-        private void Form1_Paint(object sender, PaintEventArgs e)
+        private List<Point> GetRasterPoints(AirfoilWireframe wireframe)
         {
             // Setup camera position in the world.
             Matrix3D cameraToWorld = new Matrix3D();
-            cameraToWorld.Translate(new Vector3D(0, 0, -1));
+            cameraToWorld.Translate(new Vector3D(0, 1, -0.3));
 
             // Create the world to camera coordinates matrix.
             cameraToWorld.Invert();
             Matrix3D worldToCamera = cameraToWorld;
 
             // Compute the world coordinates for the model.
-            List<Point3D> quadWorldCoords = quad.ComputeWorldCoordinates();
+            List<Point3D> quadWorldCoords = wireframe.ComputeWorldCoordinates();
 
             // Convert the Point3D to Vector3D so the spline can do vector operations.
             List<Vector3D> quadCoords = new List<Vector3D>();
@@ -77,12 +90,19 @@ namespace Airfoil3D
                 rasterCoords.Add(new Point((int)raster.X, (int)raster.Y));
             }
 
-            // Draw the model onscreen.
-            //e.Graphics.FillPolygon(redBrush, quadRasterCoords.ToArray(), FillMode.Winding);
+            return rasterCoords;
+        }
 
-            for (int i = 0; i < rasterCoords.Count - 1; ++i)
+        private void Form1_Paint(object sender, PaintEventArgs e)
+        {
+            foreach(AirfoilWireframe wireframe in airfoils)
             {
-                e.Graphics.DrawLine(Pens.Red, rasterCoords[i], rasterCoords[i + 1]);
+                List<Point> rasterCoords = GetRasterPoints(wireframe);
+
+                for (int i = 0; i < rasterCoords.Count - 1; ++i)
+                {
+                    e.Graphics.DrawLine(Pens.Red, rasterCoords[i], rasterCoords[i + 1]);
+                }
             }
         }
     }
