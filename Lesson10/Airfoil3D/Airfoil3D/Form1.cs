@@ -20,8 +20,6 @@ namespace Airfoil3D
         private int imageWidth = 800;
         private int imageHeight = 800;
 
-        private int currentAirfoilIndex = 0;
-
         public Form1()
         {
             InitializeComponent();
@@ -67,12 +65,15 @@ namespace Airfoil3D
 
         private void IndexUpDown_ValueChanged(object sender, EventArgs e)
         {
-            // TODO: Reset to defaults properly
+            // Reset defaults.
             double offset = (-airfoils[(int)IndexUpDown.Value].Transform.Position.Z * 10);
             OffsetUpDown.Value = (Decimal)offset;
 
-            RotationUpDown.Value = 0;
-            ScaleUpDown.Value = 2;
+            double rotation = (airfoils[(int)IndexUpDown.Value].Transform.Rotation);
+            RotationUpDown.Value = (Decimal)rotation;
+
+            double scale = (airfoils[(int)IndexUpDown.Value].Transform.Scale.X);
+            ScaleUpDown.Value = (Decimal)scale;
         }
 
         private void RotationUpDown_ValueChanged(object sender, EventArgs e)
