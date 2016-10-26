@@ -34,6 +34,7 @@ namespace Airfoil3D
             quad.ModelCoordinates.Add(new Point3D(0.5, 0.5, 0));
             quad.ModelCoordinates.Add(new Point3D(-0.5, 0.5, 0));
             quad.Transform.Position = new Vector3D(0, 0, 0);
+            //quad.Transform.Scale = new Vector3D(2, 2, 2);
 
             Paint += Form1_Paint;
         }
@@ -50,19 +51,21 @@ namespace Airfoil3D
 
             // Compute the final pixel coords from the world coords.
             List<Point3D> quadWorldCoords = quad.ComputeWorldCoordinates();
-            List<Point> quadRasterCoords = new List<Point>();
+            List<Point> rasterCoords = new List<Point>();
 
             foreach (Point3D worldCoord in quadWorldCoords)
             {
                 Point3D raster = worldToCamera.ComputePixelCoordinates(worldCoord, canvasWidth, canvasHeight, imageWidth, imageHeight);
-                quadRasterCoords.Add(new Point((int)raster.X, (int)raster.Y));
+                rasterCoords.Add(new Point((int)raster.X, (int)raster.Y));
             }
 
             // Draw the model onscreen.
-            e.Graphics.FillPolygon(redBrush, quadRasterCoords.ToArray(), FillMode.Winding);
-            //e.Graphics.DrawLine(Pens.Red, raster[0], raster[1]);
-            //e.Graphics.DrawLine(Pens.Green, raster[2], raster[3]);
-            //e.Graphics.DrawLine(Pens.Blue, raster[4], raster[5]);
+            //e.Graphics.FillPolygon(redBrush, quadRasterCoords.ToArray(), FillMode.Winding);
+
+            for (int i = 0; i < rasterCoords.Count - 1; ++i)
+            {
+                e.Graphics.DrawLine(Pens.Red, rasterCoords[i], rasterCoords[i + 1]);
+            }
         }
     }
 }
