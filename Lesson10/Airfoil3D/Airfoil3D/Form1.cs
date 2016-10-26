@@ -14,8 +14,6 @@ namespace Airfoil3D
 
         private float canvasWidth = 10;
         private float canvasHeight = 10;
-        private int imageWidth = 800;
-        private int imageHeight = 800;
 
         public Form1()
         {
@@ -103,6 +101,11 @@ namespace Airfoil3D
         /// <summary>
         /// Convert the world coordinates to pixel coordinates.
         /// </summary>
+        /// <remarks>
+        /// TODO: There is conversion between Point3D and Vector3D because
+        /// matrix multiplication doesn't work nicely with the Vector3D class.
+        /// http://stackoverflow.com/questions/34097628/use-of-offsets-for-translation-in-matrix3d
+        /// </remarks>
         /// <param name="worldCoords">The world coordinates.</param>
         /// <returns>A list of pixel coords.</returns>
         private List<Point> GetRasterPoints(List<Point3D> worldCoords)
@@ -137,7 +140,12 @@ namespace Airfoil3D
 
             foreach (Point3D worldCoord in worldCoords)
             {
-                Point3D raster = worldToCamera.ComputePixelCoordinates(worldCoord, canvasWidth, canvasHeight, imageWidth, imageHeight);
+                Point3D raster = worldToCamera.ComputePixelCoordinates(
+                    worldCoord,
+                    canvasWidth,
+                    canvasHeight,
+                    DrawRegion.Width,
+                    DrawRegion.Height);
                 rasterCoords.Add(new Point((int)raster.X, (int)raster.Y));
             }
 
@@ -153,12 +161,14 @@ namespace Airfoil3D
             {
                 List<Point> rasterCoords = GetRasterPoints(airfoils[i].ComputeWorldCoordinates());
 
+                // Choose a different color for the currently selected airfoil section.
                 Pen pen = Pens.DarkGray;
                 if (i == (int)IndexUpDown.Value)
                 {
                     pen = Pens.Red;
                 }
 
+                // Draw the airfoil section.
                 for (int j = 0; j < rasterCoords.Count - 1; ++j)
                 {
                     e.Graphics.DrawLine(pen, rasterCoords[j], rasterCoords[j + 1]);
