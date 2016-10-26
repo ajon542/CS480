@@ -16,27 +16,27 @@ namespace Airfoil3D
     public partial class Form1 : Form
     {
         void computePixelCoordinates(
-            Vector3D pWorld,
-            out Vector3D pRaster,
+            Point3D pWorld,
+            out Point3D pRaster,
             Matrix3D worldToCamera,
             float canvasWidth,
             float canvasHeight,
             int imageWidth,
             int imageHeight)
         {
-            Vector3D pCamera = pWorld * worldToCamera;
+            Point3D pCamera = pWorld * worldToCamera;
 
-            Vector3D pScreen = new Vector3D(
+            Point3D pScreen = new Point3D(
                 pCamera.X / -pCamera.Z,
                 pCamera.Y / -pCamera.Z,
                 0);
 
-            Vector3D pNDC = new Vector3D(
+            Point3D pNDC = new Point3D(
                 (pScreen.X + canvasWidth * 0.5) / canvasWidth,
                 (pScreen.Y + canvasHeight * 0.5) / canvasHeight,
                 0);
 
-            pRaster = new Vector3D(
+            pRaster = new Point3D(
                 (pNDC.X * imageWidth),
                 ((1 - pNDC.Y) * imageHeight),
                 0);
@@ -46,7 +46,7 @@ namespace Airfoil3D
         private SolidBrush redBrush = new SolidBrush(Color.Red);
         Point[] points = new Point[3];
 
-        Vector3D[] vWorld = new Vector3D[4];
+        Point3D[] vWorld = new Point3D[4];
 
         public Form1()
         {
@@ -56,10 +56,10 @@ namespace Airfoil3D
             points[1] = new Point(200, 100);
             points[2] = new Point(150, 150);
 
-            vWorld[0] = new Vector3D(0, 0, 200);
-            vWorld[1] = new Vector3D(200, 0, 200);
-            vWorld[2] = new Vector3D(200, 200, 200);
-            vWorld[3] = new Vector3D(0, 200, 200);
+            vWorld[0] = new Point3D(-100, -100, 200);
+            vWorld[1] = new Point3D(100, -100, 200);
+            vWorld[2] = new Point3D(100, 100, 200);
+            vWorld[3] = new Point3D(-100, 100, 200);
 
             Paint += Form1_Paint;
         }
@@ -68,21 +68,18 @@ namespace Airfoil3D
         {
             e.Graphics.FillPolygon(brownBrush, points, FillMode.Winding);
 
-            float canvasWidth = 5;
-            float canvasHeight = 5;
+            float canvasWidth = 10;
+            float canvasHeight = 10;
             int imageWidth = 800;
-            int imageHeight = 600;
+            int imageHeight = 800;
 
-            Matrix3D cameraToWorld = new Matrix3D(
-                 0.871214, 0, -0.490904, 0,
-                -0.192902, 0.919559, -0.342346, 0,
-                 0.451415, 0.392953, 0.801132, 0,
-                14.777467, 29.361945, 27.993464, 1);
+            Matrix3D cameraToWorld = new Matrix3D();
+            cameraToWorld.Translate(new Vector3D(0, 0, 0));
 
             cameraToWorld.Invert();
             Matrix3D worldToCamera = cameraToWorld;
 
-            Vector3D v0Raster, v1Raster, v2Raster, v3Raster, v4Raster, v5Raster;
+            Point3D v0Raster, v1Raster, v2Raster, v3Raster, v4Raster, v5Raster;
             computePixelCoordinates(vWorld[0], out v0Raster, worldToCamera, canvasWidth, canvasHeight, imageWidth, imageHeight);
             computePixelCoordinates(vWorld[1], out v1Raster, worldToCamera, canvasWidth, canvasHeight, imageWidth, imageHeight);
             computePixelCoordinates(vWorld[2], out v2Raster, worldToCamera, canvasWidth, canvasHeight, imageWidth, imageHeight);
