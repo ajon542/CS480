@@ -35,8 +35,7 @@ namespace Airfoil3D
             Matrix3D modelToWorldMatrix = new Matrix3D();
             modelToWorldMatrix.Scale(Transform.Scale);
             modelToWorldMatrix.Translate(Transform.Position);
-            // TODO: Rotation
-            // modelToWorldMatrix.Rotate(new Quaternion(new Vector3D(0, 0, 1), 20));
+            modelToWorldMatrix.Rotate(new Quaternion(new Vector3D(0, 0, 1), Transform.Rotation));
             foreach (Point3D modelCoord in ModelCoordinates)
             {
                 Point3D worldCoord = modelCoord * modelToWorldMatrix;
