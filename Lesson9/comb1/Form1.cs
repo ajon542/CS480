@@ -160,7 +160,7 @@ namespace comb1
             g.FillEllipse(brush, mousePos.X - 5, mousePos.Y - 5, 10, 10);
 
 
-            /*int p0 = 100;
+            int p0 = 100;
             int p1 = 30;
             int p2 = 0;
             int p3 = 30;
@@ -189,7 +189,7 @@ namespace comb1
             GameObject camberSpline = new NaturalSpline(camber);
 
             airfoilSpline.Render(g);
-            camberSpline.Render(g);*/
+            camberSpline.Render(g);
 
             xl1 = 0;
             yl1 = 200;

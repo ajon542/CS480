@@ -17,12 +17,6 @@ namespace comb1
             // Create a tridiagonal matrix using 5 control points and invert.
             m = new TridiagonalMatrix(5);
 
-            m.Data[0, 0] = 2; m.Data[0, 1] = 1; m.Data[0, 2] = 0; m.Data[0, 3] = 0; m.Data[0, 4] = 0;
-            m.Data[1, 0] = 1; m.Data[1, 1] = 4; m.Data[1, 2] = 1; m.Data[1, 3] = 0; m.Data[1, 4] = 0;
-            m.Data[2, 0] = 0; m.Data[2, 1] = 1; m.Data[2, 2] = 4; m.Data[2, 3] = 1; m.Data[2, 4] = 0;
-            m.Data[3, 0] = 0; m.Data[3, 1] = 0; m.Data[3, 2] = 1; m.Data[3, 3] = 4; m.Data[3, 4] = 1;
-            m.Data[4, 0] = 0; m.Data[4, 1] = 0; m.Data[4, 2] = 0; m.Data[4, 3] = 1; m.Data[4, 4] = 2;
-
             // The result of the matrix inversion can be used to calculate the tangents
             // at each of the control points.
             m.Invert();

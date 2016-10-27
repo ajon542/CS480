@@ -14,6 +14,12 @@ namespace comb1
 
         #region Contructors
 
+        public Fraction()
+        {
+            Numerator = 0;
+            Denominator = 1;
+        }
+
         public Fraction(int numerator)
         {
             Numerator = numerator;

@@ -31,6 +31,33 @@ namespace comb1
             Data = new Fraction[dimension, dimension];
             Inverse = new Fraction[dimension, dimension];
 
+            // Initialize the tridiagonal matrix.
+            for (int row = 0; row < dimension; ++row)
+            {
+                for (int col = 0; col < dimension; ++col)
+                {
+                    if (row == col)
+                    {
+                        Data[row, col] = 4;
+                    }
+                    else if (row == col + 1)
+                    {
+                        Data[row, col] = 1;
+                    }
+                    else if (col == row + 1)
+                    {
+                        Data[row, col] = 1;
+                    }
+                    else
+                    {
+                        Data[row, col] = 0;
+                    }
+                }
+            }
+
+            Data[0, 0] = 2;
+            Data[dimension - 1, dimension - 1] = 2;
+
             // Initialize the inverse matrix to be the identity.
             for (int row = 0; row < dimension; ++row)
             {
