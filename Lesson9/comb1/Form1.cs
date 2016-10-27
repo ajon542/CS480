@@ -9,6 +9,10 @@ namespace comb1
     public partial class Form1 : Form
     {
         public double t, p, m;
+        int i, xl1, yl1, xu1, yu1, yc1, xl2, yl2, xu2, yu2, yc2, xc1, xc2;
+        float[] xu, xl, yu, yl, yc;
+        bool initialized;
+
         public Form1()
         {
             InitializeComponent();
@@ -16,6 +20,8 @@ namespace comb1
 
         private void Design_Click(object sender, EventArgs e)
         {
+            float x, c, yt, temp, ts, tt, tf, r, dycdx, theta;
+
             int naca, thick, camb, cambd, front;
             float mask;
             p = 0.0;
@@ -40,29 +46,7 @@ namespace comb1
             t = (float)(thick / 100.0);
             p = (double)(cambd) / 10;
             m = (double)(camb) / 100.0;
-            pictureBox1.BackColor = System.Drawing.Color.White;
-            pictureBox1.Invalidate();
-        }
 
-        private void Exit_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void pictureBox1_Paint(object sender, PaintEventArgs e)
-        {
-            listBox1.Items.Clear();
-            Graphics g = e.Graphics;
-
-            // Draw a string on the PictureBox.
-            g.DrawString("Y", new Font("Arial", 10), System.Drawing.Brushes.Blue, new Point(0, 0));
-            g.DrawString("X", new Font("Arial", 10), System.Drawing.Brushes.Blue, new Point(800, 200));
-
-            g.DrawLine(System.Drawing.Pens.Red, 0, 200, 800, 200);
-            g.DrawLine(System.Drawing.Pens.Red, 0, 0, 0, 400);
-            float x, c, yt, temp, ts, tt, tf, r, dycdx, theta;
-            int i, xl1, yl1, xu1, yu1, yc1, xl2, yl2, xu2, yu2, yc2, xc1, xc2;
-            float[] xu, xl, yu, yl, yc;
             xl = new float[101];
             yl = new float[101];
             xu = new float[101];
@@ -75,6 +59,8 @@ namespace comb1
             yu1 = 200;
             yc1 = 200;
             xc1 = 0;
+
+            listBox1.Items.Clear();
 
             for (i = 0; i <= 100; i++)
             {
@@ -113,7 +99,37 @@ namespace comb1
                 listBox1.Items.Add("XL[" + i + "]=   " + xl[i] + "    YL[" + i + "]=     " + yl[i] + "     XU[" + i + "]=" + xu[i] + "    YU[" + i + "]=  " + yu[i] + "  YC[" + i + "]= " + yc[i]);
             }
 
-            int p0 = 100;
+            r = (float)(1.1019 * t * t);
+
+            CRALE.Text = r.ToString();
+
+            pictureBox1.BackColor = System.Drawing.Color.White;
+            pictureBox1.Invalidate();
+            initialized = true;
+        }
+
+        private void Exit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+
+            // Draw a string on the PictureBox.
+            g.DrawString("Y", new Font("Arial", 10), System.Drawing.Brushes.Blue, new Point(0, 0));
+            g.DrawString("X", new Font("Arial", 10), System.Drawing.Brushes.Blue, new Point(800, 200));
+
+            g.DrawLine(System.Drawing.Pens.Red, 0, 200, 800, 200);
+            g.DrawLine(System.Drawing.Pens.Red, 0, 0, 0, 400);
+
+            if (initialized == false)
+            {
+                return;
+            }
+
+            /*int p0 = 100;
             int p1 = 30;
             int p2 = 0;
             int p3 = 30;
@@ -142,9 +158,9 @@ namespace comb1
             GameObject camberSpline = new NaturalSpline(camber);
 
             airfoilSpline.Render(g);
-            camberSpline.Render(g);
+            camberSpline.Render(g);*/
 
-            /*for (i = 0; i <= 100; i++)
+            for (i = 0; i <= 100; i++)
             {
                 xl2 = (int)(800 * xl[i]);
                 yl2 = 200 - (int)(800 * yl[i]);
@@ -163,12 +179,7 @@ namespace comb1
                 g.DrawLine(System.Drawing.Pens.Blue, xc1, yc1, xc2, yc2);
                 xc1 = xc2;
                 yc1 = yc2;
-            }*/
-
-
-            r = (float)(1.1019 * t * t);
-
-            CRALE.Text = r.ToString();
+            }
         }
     }
 }
