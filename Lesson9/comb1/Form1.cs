@@ -191,6 +191,13 @@ namespace comb1
             airfoilSpline.Render(g);
             camberSpline.Render(g);*/
 
+            xl1 = 0;
+            yl1 = 200;
+            xu1 = 0;
+            yu1 = 200;
+            yc1 = 200;
+            xc1 = 0;
+
             for (i = 0; i <= 100; i++)
             {
                 xl2 = (int)(800 * xl[i]);
