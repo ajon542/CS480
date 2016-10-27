@@ -41,9 +41,9 @@
             this.MT = new System.Windows.Forms.TextBox();
             this.CRALE = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.DrawRegion = new System.Windows.Forms.PictureBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DrawRegion)).BeginInit();
             this.SuspendLayout();
             // 
             // comboBox1
@@ -189,12 +189,12 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(171, -1);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(819, 443);
-            this.pictureBox1.TabIndex = 13;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
+            this.DrawRegion.Location = new System.Drawing.Point(171, -1);
+            this.DrawRegion.Name = "pictureBox1";
+            this.DrawRegion.Size = new System.Drawing.Size(819, 443);
+            this.DrawRegion.TabIndex = 13;
+            this.DrawRegion.TabStop = false;
+            this.DrawRegion.Paint += new System.Windows.Forms.PaintEventHandler(this.DrawRegion_Paint);
             // 
             // listBox1
             // 
@@ -210,7 +210,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1570, 532);
             this.Controls.Add(this.listBox1);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.DrawRegion);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.CRALE);
             this.Controls.Add(this.MT);
@@ -226,7 +226,7 @@
             this.Controls.Add(this.comboBox1);
             this.Name = "Form1";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DrawRegion)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -247,7 +247,7 @@
         private System.Windows.Forms.TextBox MT;
         private System.Windows.Forms.TextBox CRALE;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox DrawRegion;
         private System.Windows.Forms.ListBox listBox1;
     }
 }

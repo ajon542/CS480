@@ -13,9 +13,37 @@ namespace comb1
         float[] xu, xl, yu, yl, yc;
         bool initialized;
 
+        private Point mousePos = new Point();
+        private SolidBrush brush = new SolidBrush(Color.Blue);
+
         public Form1()
         {
             InitializeComponent();
+
+            DrawRegion.MouseMove += DrawRegion_MouseMove;
+        }
+
+        void DrawRegion_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (initialized == false)
+            {
+                return;
+            }
+
+            mousePos.X = e.X;
+
+            int index = (int)((float)100.0f / DrawRegion.Width * e.X);
+
+            if (e.Y < DrawRegion.Height / 2)
+            {
+                mousePos.Y = 200 - (int)(800 * yu[index]);
+            }
+            else
+            {
+                mousePos.Y = 200 - (int)(800 * yl[index]);
+            }
+
+            DrawRegion.Invalidate();
         }
 
         private void Design_Click(object sender, EventArgs e)
@@ -103,8 +131,8 @@ namespace comb1
 
             CRALE.Text = r.ToString();
 
-            pictureBox1.BackColor = System.Drawing.Color.White;
-            pictureBox1.Invalidate();
+            DrawRegion.BackColor = System.Drawing.Color.White;
+            DrawRegion.Invalidate();
             initialized = true;
         }
 
@@ -113,7 +141,7 @@ namespace comb1
             Application.Exit();
         }
 
-        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        private void DrawRegion_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
 
@@ -128,6 +156,9 @@ namespace comb1
             {
                 return;
             }
+
+            g.FillEllipse(brush, mousePos.X - 5, mousePos.Y - 5, 10, 10);
+
 
             /*int p0 = 100;
             int p1 = 30;
