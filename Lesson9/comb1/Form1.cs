@@ -160,11 +160,15 @@ namespace comb1
             g.FillEllipse(brush, mousePos.X - 5, mousePos.Y - 5, 10, 10);
 
 
-            int p0 = 100;
-            int p1 = 30;
-            int p2 = 0;
-            int p3 = 30;
-            int p4 = 100;
+            int p0 = 0;
+            int p1 = 1;
+            int p2 = 2;
+            int p3 = 5;
+            int p4 = 10;
+            int p5 = 15;
+            int p6 = 30;
+            int p7 = 80;
+            int p8 = 100;
 
             // Control points for the curve.
             List<Vector3D> airfoil = new List<Vector3D>
@@ -172,9 +176,25 @@ namespace comb1
                 new Vector3D((800 * xu[p0]), 200 - (800 * yu[p0]), 0),
                 new Vector3D((800 * xu[p1]), 200 - (800 * yu[p1]), 0),
                 new Vector3D((800 * xu[p2]), 200 - (800 * yu[p2]), 0),
-                new Vector3D((800 * xl[p3]), 200 - (800 * yl[p3]), 0),
-                new Vector3D((800 * xl[p4]), 200 - (800 * yl[p4]), 0),
+                new Vector3D((800 * xu[p3]), 200 - (800 * yu[p3]), 0),
+                new Vector3D((800 * xu[p4]), 200 - (800 * yu[p4]), 0),
+                new Vector3D((800 * xu[p5]), 200 - (800 * yu[p5]), 0),
+                new Vector3D((800 * xu[p6]), 200 - (800 * yu[p6]), 0),
+                new Vector3D((800 * xu[p7]), 200 - (800 * yu[p7]), 0),
+                new Vector3D((800 * xu[p8]), 200 - (800 * yu[p8]), 0),
             };
+            /*List<Vector3D> airfoil = new List<Vector3D>
+            {
+                new Vector3D(100, 100, 0),
+                new Vector3D(200, 200, 0),
+                new Vector3D(300, 100, 0),
+                new Vector3D(400, 200, 0),
+                new Vector3D(500, 100, 0),
+                new Vector3D(600, 200, 0),
+                new Vector3D(700, 100, 0),
+                new Vector3D(800, 200, 0),
+            };*/
+
 
             List<Vector3D> camber = new List<Vector3D>
             {

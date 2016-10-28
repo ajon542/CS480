@@ -7,8 +7,8 @@ namespace comb1
     /// </summary>
     public class Fraction
     {
-        public int Numerator { get; private set; }
-        public int Denominator { get; private set; }
+        public long Numerator { get; private set; }
+        public long Denominator { get; private set; }
 
         public double Value { get { return (double)Numerator / Denominator; } }
 
@@ -20,13 +20,13 @@ namespace comb1
             Denominator = 1;
         }
 
-        public Fraction(int numerator)
+        public Fraction(long numerator)
         {
             Numerator = numerator;
             Denominator = 1;
         }
 
-        public Fraction(int numerator, int denominator)
+        public Fraction(long numerator, long denominator)
         {
             if (denominator == 0)
             {
@@ -37,7 +37,7 @@ namespace comb1
             Denominator = denominator;
         }
 
-        public static implicit operator Fraction(int value)
+        public static implicit operator Fraction(long value)
         {
             return new Fraction(value);
         }
@@ -51,8 +51,8 @@ namespace comb1
         /// </summary>
         public static Fraction operator +(Fraction f1, Fraction f2)
         {
-            int numerator = f1.Numerator * f2.Denominator + f2.Numerator * f1.Denominator;
-            int denominator = f1.Denominator * f2.Denominator;
+            long numerator = f1.Numerator * f2.Denominator + f2.Numerator * f1.Denominator;
+            long denominator = f1.Denominator * f2.Denominator;
 
             Fraction result = new Fraction(numerator, denominator);
             result.Reduce();
@@ -64,8 +64,8 @@ namespace comb1
         /// </summary>
         public static Fraction operator -(Fraction f1, Fraction f2)
         {
-            int numerator = f1.Numerator * f2.Denominator - f2.Numerator * f1.Denominator;
-            int denominator = f1.Denominator * f2.Denominator;
+            long numerator = f1.Numerator * f2.Denominator - f2.Numerator * f1.Denominator;
+            long denominator = f1.Denominator * f2.Denominator;
 
             Fraction result = new Fraction(numerator, denominator);
             result.Reduce();
@@ -115,7 +115,7 @@ namespace comb1
                 throw new ArgumentException("numerator cannot be zero when inverting");
             }
 
-            int temp = Numerator;
+            long temp = Numerator;
             Numerator = Denominator;
             Denominator = temp;
         }
@@ -125,7 +125,7 @@ namespace comb1
         /// </summary>
         public void Reduce()
         {
-            int gcd = Gcd(Numerator, Denominator);
+            long gcd = Gcd(Numerator, Denominator);
 
             Numerator /= gcd;
             Denominator /= gcd;
@@ -134,11 +134,11 @@ namespace comb1
         /// <summary>
         /// Find the greatest common divisor.
         /// </summary>
-        private int Gcd(int a, int b)
+        private long Gcd(long a, long b)
         {
             while (b != 0)
             {
-                int t = b;
+                long t = b;
                 b = a % b;
                 a = t;
             }
