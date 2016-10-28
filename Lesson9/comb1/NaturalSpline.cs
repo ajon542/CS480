@@ -17,7 +17,7 @@ namespace comb1
             numberOfPoints = controlPoints.Count;
 
             // Create a tridiagonal matrix using 5 control points and invert.
-            m = new TridiagonalMatrix(5);
+            m = new TridiagonalMatrix(numberOfPoints);
 
             // The result of the matrix inversion can be used to calculate the tangents
             // at each of the control points.
