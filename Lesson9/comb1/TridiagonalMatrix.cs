@@ -79,6 +79,9 @@ namespace comb1
         /// Invert the matrix.
         /// This only works for a tridiagonal matrix.
         /// TODO: We might be able to make this more generic at some point.
+        /// Inverting a matrix seems to have accuracy issues when the matrix becomes too large.
+        /// I have found at around 14x14, the values will overflow. This would have probably
+        /// been less noticeable if we just performed the operation without fractions.
         /// </summary>
         public void Invert()
         {
