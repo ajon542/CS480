@@ -187,10 +187,10 @@
             this.label2.TabIndex = 12;
             this.label2.Text = "Leading Edge";
             // 
-            // pictureBox1
+            // DrawRegion
             // 
             this.DrawRegion.Location = new System.Drawing.Point(171, -1);
-            this.DrawRegion.Name = "pictureBox1";
+            this.DrawRegion.Name = "DrawRegion";
             this.DrawRegion.Size = new System.Drawing.Size(819, 443);
             this.DrawRegion.TabIndex = 13;
             this.DrawRegion.TabStop = false;

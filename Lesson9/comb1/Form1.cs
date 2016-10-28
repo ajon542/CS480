@@ -14,39 +14,19 @@ namespace comb1
         bool initialized;
 
         private Point mousePos = new Point();
-        private SolidBrush brush = new SolidBrush(Color.Blue);
+        private SolidBrush brush = new SolidBrush(Color.Red);
+
+        private List<Vector3D> controlPoints = new List<Vector3D>();
 
         public Form1()
         {
             InitializeComponent();
 
             DrawRegion.MouseMove += DrawRegion_MouseMove;
+            DrawRegion.MouseDown += DrawRegion_MouseDown;
         }
 
-        void DrawRegion_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (initialized == false)
-            {
-                return;
-            }
-
-            mousePos.X = e.X;
-
-            int index = (int)((float)100.0f / DrawRegion.Width * e.X);
-
-            if (e.Y < DrawRegion.Height / 2)
-            {
-                mousePos.Y = 200 - (int)(800 * yu[index]);
-            }
-            else
-            {
-                mousePos.Y = 200 - (int)(800 * yl[index]);
-            }
-
-            DrawRegion.Invalidate();
-        }
-
-        private void Design_Click(object sender, EventArgs e)
+        private void CalculateCurve()
         {
             float x, c, yt, temp, ts, tt, tf, r, dycdx, theta;
 
@@ -136,6 +116,40 @@ namespace comb1
             initialized = true;
         }
 
+        private void DrawRegion_MouseDown(object sender, MouseEventArgs e)
+        {
+            controlPoints.Add(new Vector3D(e.X, e.Y, 0));
+            DrawRegion.Invalidate();
+        }
+
+        private void DrawRegion_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (initialized == false)
+            {
+                return;
+            }
+
+            mousePos.X = e.X;
+
+            int index = (int)((float)100.0f / DrawRegion.Width * e.X);
+
+            if (e.Y < DrawRegion.Height / 2)
+            {
+                mousePos.Y = 200 - (int)(800 * yu[index]);
+            }
+            else
+            {
+                mousePos.Y = 200 - (int)(800 * yl[index]);
+            }
+
+            DrawRegion.Invalidate();
+        }
+
+        private void Design_Click(object sender, EventArgs e)
+        {
+            CalculateCurve();
+        }
+
         private void Exit_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -156,60 +170,6 @@ namespace comb1
             {
                 return;
             }
-
-            g.FillEllipse(brush, mousePos.X - 5, mousePos.Y - 5, 10, 10);
-
-
-            int p0 = 0;
-            int p1 = 1;
-            int p2 = 2;
-            int p3 = 5;
-            int p4 = 10;
-            int p5 = 15;
-            int p6 = 30;
-            int p7 = 80;
-            int p8 = 100;
-
-            // Control points for the curve.
-            List<Vector3D> airfoil = new List<Vector3D>
-            {
-                new Vector3D((800 * xu[p0]), 200 - (800 * yu[p0]), 0),
-                new Vector3D((800 * xu[p1]), 200 - (800 * yu[p1]), 0),
-                new Vector3D((800 * xu[p2]), 200 - (800 * yu[p2]), 0),
-                new Vector3D((800 * xu[p3]), 200 - (800 * yu[p3]), 0),
-                new Vector3D((800 * xu[p4]), 200 - (800 * yu[p4]), 0),
-                new Vector3D((800 * xu[p5]), 200 - (800 * yu[p5]), 0),
-                new Vector3D((800 * xu[p6]), 200 - (800 * yu[p6]), 0),
-                new Vector3D((800 * xu[p7]), 200 - (800 * yu[p7]), 0),
-                new Vector3D((800 * xu[p8]), 200 - (800 * yu[p8]), 0),
-            };
-            /*List<Vector3D> airfoil = new List<Vector3D>
-            {
-                new Vector3D(100, 100, 0),
-                new Vector3D(200, 200, 0),
-                new Vector3D(300, 100, 0),
-                new Vector3D(400, 200, 0),
-                new Vector3D(500, 100, 0),
-                new Vector3D(600, 200, 0),
-                new Vector3D(700, 100, 0),
-                new Vector3D(800, 200, 0),
-            };*/
-
-
-            List<Vector3D> camber = new List<Vector3D>
-            {
-                new Vector3D(8 * 0, 200 - (800 * yc[0]), 0),
-                new Vector3D(8 * 5, 200 - (800 * yc[5]), 0),
-                new Vector3D(8 * 20, 200 - (800 * yc[20]), 0),
-                new Vector3D(8 * 50, 200 - (800 * yc[50]), 0),
-                new Vector3D(8 * 100, 200 - (800 * yc[100]), 0),
-            };
-
-            GameObject airfoilSpline = new NaturalSpline(airfoil);
-            GameObject camberSpline = new NaturalSpline(camber);
-
-            airfoilSpline.Render(g);
-            camberSpline.Render(g);
 
             xl1 = 0;
             yl1 = 200;
@@ -237,6 +197,57 @@ namespace comb1
                 g.DrawLine(System.Drawing.Pens.Blue, xc1, yc1, xc2, yc2);
                 xc1 = xc2;
                 yc1 = yc2;
+            }
+
+            int u0 = 100;
+            int u1 = 70;
+            int u2 = 45;
+            int u3 = 20;
+            int u4 = 6;
+            int u5 = 2;
+            int u6 = 0;
+            int l1 = 2;
+            int l2 = 6;
+            int l3 = 25;
+            int l4 = 60;
+            int l5 = 80;
+            int l6 = 100;
+
+            // Control points for the curve.
+            List<Vector3D> airfoil = new List<Vector3D>
+            {
+                new Vector3D((800 * xu[u0]), 200 - (800 * yu[u0]), 0),
+                new Vector3D((800 * xu[u1]), 200 - (800 * yu[u1]), 0),
+                new Vector3D((800 * xu[u2]), 200 - (800 * yu[u2]), 0),
+                new Vector3D((800 * xu[u3]), 200 - (800 * yu[u3]), 0),
+                new Vector3D((800 * xu[u4]), 200 - (800 * yu[u4]), 0),
+                new Vector3D((800 * xu[u5]), 200 - (800 * yu[u5]), 0),
+                new Vector3D((800 * xu[u6]), 200 - (800 * yu[u6]), 0),
+                new Vector3D((800 * xl[l1]), 200 - (800 * yl[l1]), 0),
+                new Vector3D((800 * xl[l2]), 200 - (800 * yl[l2]), 0),
+                new Vector3D((800 * xl[l3]), 200 - (800 * yl[l3]), 0),
+                new Vector3D((800 * xl[l4]), 200 - (800 * yl[l4]), 0),
+                new Vector3D((800 * xl[l5]), 200 - (800 * yl[l5]), 0),
+                new Vector3D((800 * xl[l6]), 200 - (800 * yl[l6]), 0),
+            };
+
+            List<Vector3D> camber = new List<Vector3D>
+            {
+                new Vector3D(8 * 0, 200 - (800 * yc[0]), 0),
+                new Vector3D(8 * 20, 200 - (800 * yc[20]), 0),
+                new Vector3D(8 * 60, 200 - (800 * yc[60]), 0),
+                new Vector3D(8 * 100, 200 - (800 * yc[100]), 0),
+            };
+
+            GameObject airfoilSpline = new NaturalSpline(airfoil);
+            GameObject camberSpline = new NaturalSpline(camber);
+
+            airfoilSpline.Render(g);
+            camberSpline.Render(g);
+
+            foreach (Vector3D point in airfoil)
+            {
+                g.FillEllipse(brush, (int)point.X - 3, (int)point.Y - 3, 6, 6);
             }
         }
     }
