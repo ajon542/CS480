@@ -7,12 +7,14 @@ namespace comb1
     public class NaturalSpline : GameObject
     {
         private List<Vector3D> controlPoints;
+        private int numberOfPoints;
 
         private TridiagonalMatrix m;
 
         public NaturalSpline(List<Vector3D> controlPoints)
         {
             this.controlPoints = controlPoints;
+            numberOfPoints = controlPoints.Count;
 
             // Create a tridiagonal matrix using 5 control points and invert.
             m = new TridiagonalMatrix(5);
@@ -22,39 +24,47 @@ namespace comb1
             m.Invert();
 
             // Obtain the tangents for each of the control points.
-            Vector3D t0;
-            Vector3D t1;
-            Vector3D t2;
-            Vector3D t3;
-            Vector3D t4;
-            GetTangent(out t0, 0);
-            GetTangent(out t1, 1);
-            GetTangent(out t2, 2);
-            GetTangent(out t3, 3);
-            GetTangent(out t4, 4);
+            List<Vector3D> tangents = new List<Vector3D>();
+            for (int i = 0; i < numberOfPoints; ++i)
+            {
+                Vector3D t;
+                GetTangent(out t, i);
+                tangents.Add(t);
+            }
 
             // Generate a curve between each of the points using the Hermite basis functions.
-            GameObject h0 = new HermiteCurve(controlPoints[0], controlPoints[1], t0, t1);
-            GameObject h1 = new HermiteCurve(controlPoints[1], controlPoints[2], t1, t2);
-            GameObject h2 = new HermiteCurve(controlPoints[2], controlPoints[3], t2, t3);
-            GameObject h3 = new HermiteCurve(controlPoints[3], controlPoints[4], t3, t4);
-
             // Add the points to the overall curve.
             Points = new List<Vector3D>();
-            Points.AddRange(h0.Points);
-            Points.AddRange(h1.Points);
-            Points.AddRange(h2.Points);
-            Points.AddRange(h3.Points);
+            for (int i = 0; i < numberOfPoints - 1; ++i)
+            {
+                GameObject h = new HermiteCurve(
+                    controlPoints[i],
+                    controlPoints[i + 1],
+                    tangents[i],
+                    tangents[i + 1]);
+                Points.AddRange(h.Points);
+            }
         }
 
         private void GetTangent(out Vector3D t, int i)
         {
             t = new Vector3D();
-            t += m.Inverse[i, 0].Value * 3 * (controlPoints[1] - controlPoints[0]);
-            t += m.Inverse[i, 1].Value * 3 * (controlPoints[2] - controlPoints[0]);
-            t += m.Inverse[i, 2].Value * 3 * (controlPoints[3] - controlPoints[1]);
-            t += m.Inverse[i, 3].Value * 3 * (controlPoints[4] - controlPoints[2]);
-            t += m.Inverse[i, 4].Value * 3 * (controlPoints[4] - controlPoints[3]);
+
+            for (int j = 0; j < numberOfPoints; ++j)
+            {
+                if (j == 0)
+                {
+                    t += m.Inverse[i, j].Value * 3 * (controlPoints[j + 1] - controlPoints[j]);
+                }
+                else if (j == numberOfPoints - 1)
+                {
+                    t += m.Inverse[i, j].Value * 3 * (controlPoints[j] - controlPoints[j - 1]);
+                }
+                else
+                {
+                    t += m.Inverse[i, j].Value * 3 * (controlPoints[j + 1] - controlPoints[j - 1]);
+                }
+            }
         }
 
         public override void Render(Graphics graphics)
