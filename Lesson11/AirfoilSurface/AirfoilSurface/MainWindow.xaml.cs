@@ -20,11 +20,6 @@ namespace AirfoilSurface
             // Create a basic material.
             material = ShapeGenerator.GetSimpleMaterial(Colors.LightGray);
 
-            // Create a sphere.
-            Transform3DGroup transformGroup = new Transform3DGroup();
-            ModelVisual3D sphere = ShapeGenerator.GenerateUnitSphere(30, 30, material);
-            mainViewport.Children.Add(sphere);
-
             // Create and assign the camera.
             GameCamera camera = new GameCamera();
             mainViewport.Camera = camera.Camera;
@@ -33,6 +28,7 @@ namespace AirfoilSurface
             MouseMove += camera.MouseMoveEventHandler;
             MouseWheel += camera.MouseWheelHandler;
 
+            // Create the airfoil sections.
             List<Point3D> section1 = new List<Point3D>
             {
                 new Point3D(0, 0, 0),
