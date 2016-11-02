@@ -43,6 +43,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.DrawRegion = new System.Windows.Forms.PictureBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
+            this.Interactive = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.DrawRegion)).BeginInit();
             this.SuspendLayout();
             // 
@@ -204,11 +205,24 @@
             this.listBox1.Size = new System.Drawing.Size(574, 446);
             this.listBox1.TabIndex = 14;
             // 
+            // Interactive
+            // 
+            this.Interactive.AutoSize = true;
+            this.Interactive.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Interactive.Location = new System.Drawing.Point(5, 178);
+            this.Interactive.Name = "Interactive";
+            this.Interactive.Size = new System.Drawing.Size(76, 17);
+            this.Interactive.TabIndex = 15;
+            this.Interactive.Text = "Interactive";
+            this.Interactive.UseVisualStyleBackColor = true;
+            this.Interactive.CheckedChanged += new System.EventHandler(this.Interactive_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1570, 532);
+            this.Controls.Add(this.Interactive);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.DrawRegion);
             this.Controls.Add(this.label2);
@@ -249,6 +263,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.PictureBox DrawRegion;
         private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.CheckBox Interactive;
     }
 }
 

@@ -13,20 +13,16 @@ namespace comb1
         float[] xu, xl, yu, yl, yc;
         bool initialized;
 
-        private Point mousePos = new Point();
         private SolidBrush brush = new SolidBrush(Color.Red);
-
         private List<Vector3D> controlPoints = new List<Vector3D>();
 
         public Form1()
         {
             InitializeComponent();
-
-            DrawRegion.MouseMove += DrawRegion_MouseMove;
             DrawRegion.MouseDown += DrawRegion_MouseDown;
         }
 
-        private void CalculateCurve()
+        private void GenerateAirfoilPoints()
         {
             float x, c, yt, temp, ts, tt, tf, r, dycdx, theta;
 
@@ -122,32 +118,9 @@ namespace comb1
             DrawRegion.Invalidate();
         }
 
-        private void DrawRegion_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (initialized == false)
-            {
-                return;
-            }
-
-            mousePos.X = e.X;
-
-            int index = (int)((float)100.0f / DrawRegion.Width * e.X);
-
-            if (e.Y < DrawRegion.Height / 2)
-            {
-                mousePos.Y = 200 - (int)(800 * yu[index]);
-            }
-            else
-            {
-                mousePos.Y = 200 - (int)(800 * yl[index]);
-            }
-
-            DrawRegion.Invalidate();
-        }
-
         private void Design_Click(object sender, EventArgs e)
         {
-            CalculateCurve();
+            GenerateAirfoilPoints();
         }
 
         private void Exit_Click(object sender, EventArgs e)
@@ -155,10 +128,8 @@ namespace comb1
             Application.Exit();
         }
 
-        private void DrawRegion_Paint(object sender, PaintEventArgs e)
+        private void DrawAirfoil(Graphics g)
         {
-            Graphics g = e.Graphics;
-
             // Draw a string on the PictureBox.
             g.DrawString("Y", new Font("Arial", 10), System.Drawing.Brushes.Blue, new Point(0, 0));
             g.DrawString("X", new Font("Arial", 10), System.Drawing.Brushes.Blue, new Point(800, 200));
@@ -247,8 +218,44 @@ namespace comb1
 
             foreach (Vector3D point in airfoil)
             {
-                g.FillEllipse(brush, (int)point.X - 3, (int)point.Y - 3, 6, 6);
+                g.FillEllipse(brush, (int)point.X - 4, (int)point.Y - 4, 8, 8);
             }
+        }
+
+        private void DrawInteractive(Graphics g)
+        {
+            if (controlPoints.Count >= 3)
+            {
+                GameObject points = new NaturalSpline(controlPoints);
+
+                points.Render(g);
+            }
+
+            foreach (Vector3D point in controlPoints)
+            {
+                g.FillEllipse(brush, (int)point.X - 4, (int)point.Y - 4, 8, 8);
+            }
+        }
+
+        private void DrawRegion_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+
+            if (Interactive.Checked)
+            {
+                DrawInteractive(g);
+            }
+            else
+            {
+                DrawAirfoil(g);
+            }
+        }
+
+        private void Interactive_CheckedChanged(object sender, EventArgs e)
+        {
+            controlPoints.Clear();
+            DrawRegion.BackColor = System.Drawing.Color.White;
+            DrawRegion.Invalidate();
         }
     }
 }
