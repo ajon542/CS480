@@ -49,8 +49,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Fraction.cs" />
     <Compile Include="GameCamera.cs" />
+    <Compile Include="GameObject.cs" />
+    <Compile Include="HermiteCurve.cs" />
+    <Compile Include="NaturalSpline.cs" />
     <Compile Include="ShapeGenerator.cs" />
+    <Compile Include="TridiagonalMatrix.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

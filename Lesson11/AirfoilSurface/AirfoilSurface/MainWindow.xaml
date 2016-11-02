@@ -5,16 +5,17 @@
         Height="700"
         Width="860">
     <DockPanel LastChildFill="True">
-
-        <Viewport3D Name="mainViewport" ClipToBounds="True" DockPanel.Dock="Right" Width="600" Height="600">
-            <ModelVisual3D>
-                <ModelVisual3D.Content>
-                    <DirectionalLight
+        <Border Background="LightBlue">
+            <Viewport3D Name="mainViewport" ClipToBounds="True" DockPanel.Dock="Right" Width="600" Height="600">
+                <ModelVisual3D>
+                    <ModelVisual3D.Content>
+                        <DirectionalLight
                         Color="White"
                         Direction="-2,-3,-1" />
-                </ModelVisual3D.Content>
-            </ModelVisual3D>
-        </Viewport3D>
+                    </ModelVisual3D.Content>
+                </ModelVisual3D>
+            </Viewport3D>
+        </Border>
 
     </DockPanel>
 </Window>
