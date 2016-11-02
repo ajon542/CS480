@@ -59,6 +59,7 @@ namespace AirfoilSurface
 
             // Create the model.
             GeometryModel3D model = new GeometryModel3D(mesh, material);
+            model.BackMaterial = material;
             Model3DGroup quad = new Model3DGroup();
             quad.Children.Add(model);
             return quad;

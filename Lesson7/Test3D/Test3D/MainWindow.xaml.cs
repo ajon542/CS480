@@ -28,10 +28,10 @@ namespace Test3D
             // Create Bezier patch.
             Vector3D[,] controlPoints = new Vector3D[,]
             {
-                { new Vector3D(0, -10, 0), new Vector3D(2, 0, 0), new Vector3D(8, 0, 0), new Vector3D(10, -10, 0) },
-                { new Vector3D(-20, -10, -10), new Vector3D(2, 5, 2), new Vector3D(8, 5, 2), new Vector3D(20, -10, -10) },
-                { new Vector3D(-20, -10, 20), new Vector3D(2, 7, 4), new Vector3D(8, 6, 4), new Vector3D(20, -10, 20) },
-                { new Vector3D(0, -10, 6), new Vector3D(2, 0, 6), new Vector3D(8, 0, 6), new Vector3D(10, -10, 6) },
+                { new Vector3D(0, 0, 0), new Vector3D(10, 0, 0), new Vector3D(20, 0, 0), new Vector3D(30, 0, 0) },
+                { new Vector3D(0, 0, 10), new Vector3D(10, 0, 10), new Vector3D(20, 0, 10), new Vector3D(30, 0, 10) },
+                { new Vector3D(0, 0, 20), new Vector3D(10, 0, 20), new Vector3D(20, 0, 20), new Vector3D(30, 0, 20) },
+                { new Vector3D(0, 0, 30), new Vector3D(10, 0, 30), new Vector3D(20, 0, 30), new Vector3D(30, 0, 30) },
             };
 
             // Add the control points to the model.
@@ -50,6 +50,32 @@ namespace Test3D
 
             BezierPatch patch = new BezierPatch(controlPoints);
             mainViewport.Children.Add(patch.Model);
+
+            // Create Bezier patch.
+            Vector3D[,] controlPoints1 = new Vector3D[,]
+            {
+                { new Vector3D(0, 0, 30), new Vector3D(10, 0, 30), new Vector3D(20, 0, 30), new Vector3D(30, 0, 30) },
+                { new Vector3D(0, 0, 40), new Vector3D(10, 0, 40), new Vector3D(20, 0, 40), new Vector3D(30, 0, 40) },
+                { new Vector3D(0, 0, 50), new Vector3D(10, 0, 50), new Vector3D(20, 0, 50), new Vector3D(30, 0, 50) },
+                { new Vector3D(0, 0, 60), new Vector3D(10, 0, 60), new Vector3D(20, 0, 60), new Vector3D(30, 0, 60) },
+            };
+
+            // Add the control points to the model.
+            for (int i = 0; i < 4; ++i)
+            {
+                for (int j = 0; j < 4; ++j)
+                {
+                    Transform3DGroup transformGroup = new Transform3DGroup();
+                    ModelVisual3D sphere = ShapeGenerator.GenerateUnitSphere(30, 30, material);
+                    transformGroup.Children.Add(new ScaleTransform3D(0.2, 0.2, 0.2));
+                    transformGroup.Children.Add(new TranslateTransform3D(controlPoints1[i, j].X, controlPoints1[i, j].Y, controlPoints1[i, j].Z));
+                    sphere.Transform = transformGroup;
+                    mainViewport.Children.Add(sphere);
+                }
+            }
+
+            BezierPatch patch1 = new BezierPatch(controlPoints1);
+            mainViewport.Children.Add(patch1.Model);
 
             // Create ground.
             ModelVisual3D ground = ShapeGenerator.CreatePlane(50, ShapeGenerator.GetSimpleMaterial(Colors.LightGray));
