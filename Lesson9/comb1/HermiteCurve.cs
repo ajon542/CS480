@@ -22,10 +22,6 @@ namespace comb1
             float t = 0;
             for (int i = 0; i <= 20; ++i, t += 0.05f)
             {
-                //f0(t) = -t^3 + 3t^2 - 3t + 1
-                //f1(t) =  3t^3 - 6t^2 + 3t
-                //f2(t) = -3t^3 + 3t^2
-                //f3(t) =  t^3
                 float t2 = t * t;
                 float t3 = t2 * t;
                 float f0 = (2 * t3) - (3 * t2) + 1;
