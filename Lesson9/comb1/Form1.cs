@@ -22,6 +22,9 @@ namespace comb1
             DrawRegion.MouseDown += DrawRegion_MouseDown;
         }
 
+        /// <summary>
+        /// Generate the original NACA airfoil points.
+        /// </summary>
         private void GenerateAirfoilPoints()
         {
             float x, c, yt, temp, ts, tt, tf, r, dycdx, theta;
@@ -112,28 +115,16 @@ namespace comb1
             initialized = true;
         }
 
-        private void DrawRegion_MouseDown(object sender, MouseEventArgs e)
-        {
-            controlPoints.Add(new Vector3D(e.X, e.Y, 0));
-            DrawRegion.Invalidate();
-        }
-
-        private void Design_Click(object sender, EventArgs e)
-        {
-            GenerateAirfoilPoints();
-        }
-
-        private void Exit_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
+        /// <summary>
+        /// Draw the original NACA airfoil along with the approximate natural spline.
+        /// </summary>
         private void DrawAirfoil(Graphics g)
         {
-            // Draw a string on the PictureBox.
+            // Label the x and y axes.
             g.DrawString("Y", new Font("Arial", 10), System.Drawing.Brushes.Blue, new Point(0, 0));
             g.DrawString("X", new Font("Arial", 10), System.Drawing.Brushes.Blue, new Point(800, 200));
 
+            // Draw th x and y axes.
             g.DrawLine(System.Drawing.Pens.Red, 0, 200, 800, 200);
             g.DrawLine(System.Drawing.Pens.Red, 0, 0, 0, 400);
 
@@ -142,6 +133,7 @@ namespace comb1
                 return;
             }
 
+            // Draw the original NACA airfoil.
             xl1 = 0;
             yl1 = 200;
             xu1 = 0;
@@ -170,6 +162,7 @@ namespace comb1
                 yc1 = yc2;
             }
 
+            // Specify sample points for the natural spline.
             int u0 = 100;
             int u1 = 70;
             int u2 = 45;
@@ -184,7 +177,7 @@ namespace comb1
             int l5 = 80;
             int l6 = 100;
 
-            // Control points for the curve.
+            // Index the points from the original.
             List<Vector3D> airfoil = new List<Vector3D>
             {
                 new Vector3D((800 * xu[u0]), 200 - (800 * yu[u0]), 0),
@@ -210,20 +203,27 @@ namespace comb1
                 new Vector3D(8 * 100, 200 - (800 * yc[100]), 0),
             };
 
+            // Generate the natural splines.
             GameObject airfoilSpline = new NaturalSpline(airfoil);
             GameObject camberSpline = new NaturalSpline(camber);
 
+            // Draw the natural splines.
             airfoilSpline.Render(g);
             camberSpline.Render(g);
 
+            // Draw the control points.
             foreach (Vector3D point in airfoil)
             {
                 g.FillEllipse(brush, (int)point.X - 4, (int)point.Y - 4, 8, 8);
             }
         }
 
+        /// <summary>
+        /// Draw the user input control points and natural spline.
+        /// </summary>
         private void DrawInteractive(Graphics g)
         {
+            // Generate natural spline using the control points.
             if (controlPoints.Count >= 3)
             {
                 GameObject points = new NaturalSpline(controlPoints);
@@ -231,24 +231,48 @@ namespace comb1
                 points.Render(g);
             }
 
+            // Draw the control points.
             foreach (Vector3D point in controlPoints)
             {
                 g.FillEllipse(brush, (int)point.X - 4, (int)point.Y - 4, 8, 8);
             }
         }
 
+        /// <summary>
+        /// Draw the scene.
+        /// </summary>
         private void DrawRegion_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
 
             if (Interactive.Checked)
             {
+                // Draw natural spline based on user input.
                 DrawInteractive(g);
             }
             else
             {
+                // Draw the NACA airfoil and matching natural spline.
                 DrawAirfoil(g);
             }
+        }
+
+        #region Form Controls
+
+        private void DrawRegion_MouseDown(object sender, MouseEventArgs e)
+        {
+            controlPoints.Add(new Vector3D(e.X, e.Y, 0));
+            DrawRegion.Invalidate();
+        }
+
+        private void Design_Click(object sender, EventArgs e)
+        {
+            GenerateAirfoilPoints();
+        }
+
+        private void Exit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
 
         private void Interactive_CheckedChanged(object sender, EventArgs e)
@@ -257,5 +281,7 @@ namespace comb1
             DrawRegion.BackColor = System.Drawing.Color.White;
             DrawRegion.Invalidate();
         }
+
+        #endregion
     }
 }
