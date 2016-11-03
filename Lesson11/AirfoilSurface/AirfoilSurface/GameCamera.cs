@@ -10,7 +10,7 @@ namespace AirfoilSurface
         private double vAngle = 60;
         private double hAngle = 60;
         private double prevX = 0, prevY = 0;
-        private double distance = 30;
+        private double distance = 7;
 
         public PerspectiveCamera Camera { get; private set; }
 

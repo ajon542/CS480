@@ -31,6 +31,11 @@ namespace AirfoilSurface
             MouseMove += camera.MouseMoveEventHandler;
             MouseWheel += camera.MouseWheelHandler;
 
+            Generate();
+        }
+
+        private void Generate()
+        {
             GenerateAirfoilPoints();
 
             // Specify sample points for the natural spline.
@@ -101,7 +106,7 @@ namespace AirfoilSurface
             p = 0.0;
             t = 0.0;
             m = 0.0;
-            naca = 2412;
+            naca = 6412;
 
             mask = (float)naca;
             mask = (float)(mask / 100.0);
@@ -183,6 +188,12 @@ namespace AirfoilSurface
             model.Content = airfoil;
 
             mainViewport.Children.Add(model);
+        }
+
+        private void GenerateButton_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO: Need to figure out how to clean up..
+            Generate();
         }
     }
 }
