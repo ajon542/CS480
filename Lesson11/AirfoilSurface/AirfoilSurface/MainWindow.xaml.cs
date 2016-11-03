@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 
@@ -14,11 +15,65 @@ namespace AirfoilSurface
         private double t, p, m;
         private float[] xu, xl, yu, yl, yc;
 
+        private ModelVisual3D airfoilModel = new ModelVisual3D();
         private Material material;
+
+        private int nacaNumber;
+        private readonly CollectionView nacaNumbers;
+
+        public int NacaNumber
+        {
+            get { return nacaNumber; }
+            set
+            {
+                nacaNumber = value;
+                Generate();
+            }
+        }
+
+        public CollectionView NacaNumbers
+        {
+            get { return nacaNumbers; }
+        }
 
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
+
+            mainViewport.Children.Add(airfoilModel);
+
+            IList<string> list = new List<string>();
+            list.Add("0006");
+            list.Add("0008");
+            list.Add("0009");
+            list.Add("0010");
+            list.Add("0012");
+            list.Add("0015");
+            list.Add("0018");
+            list.Add("0021");
+            list.Add("0024");
+            list.Add("1408");
+            list.Add("1410");
+            list.Add("1412");
+            list.Add("2408");
+            list.Add("2410");
+            list.Add("2411");
+            list.Add("2412");
+            list.Add("2414");
+            list.Add("2415");
+            list.Add("2418");
+            list.Add("2421");
+            list.Add("2424");
+            list.Add("4412");
+            list.Add("4415");
+            list.Add("4418");
+            list.Add("4421");
+            list.Add("4424");
+            list.Add("6409");
+            list.Add("6412");
+
+            nacaNumbers = new CollectionView(list);
 
             // Create a basic material.
             material = ShapeGenerator.GetSimpleMaterial(Colors.LightGray);
@@ -106,7 +161,7 @@ namespace AirfoilSurface
             p = 0.0;
             t = 0.0;
             m = 0.0;
-            naca = 6412;
+            naca = NacaNumber;
 
             mask = (float)naca;
             mask = (float)(mask / 100.0);
@@ -175,7 +230,6 @@ namespace AirfoilSurface
                 throw new Exception("Each section must have same number of points to be able to make a mesh");
             }
 
-            ModelVisual3D model = new ModelVisual3D();
             Model3DGroup airfoil = new Model3DGroup();
 
             for (int i = 1; i < section1.Length; ++i)
@@ -185,9 +239,7 @@ namespace AirfoilSurface
                 airfoil.Children.Add(quad);
             }
 
-            model.Content = airfoil;
-
-            mainViewport.Children.Add(model);
+            airfoilModel.Content = airfoil;
         }
 
         private void GenerateButton_Click(object sender, RoutedEventArgs e)

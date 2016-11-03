@@ -13,17 +13,29 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-        <ComboBox Text="NACA" Grid.Column="0" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="120"/>
+        <Border Grid.Column="0" BorderBrush="#FF179AC8" BorderThickness="2" />
+        <ComboBox x:Name="NACAComboBox" Grid.Column="0" HorizontalAlignment="Center" Margin="10,10,10,0" VerticalAlignment="Top" Width="110"
+                  ItemsSource="{Binding Path=NacaNumbers}"
+                  SelectedValue="{Binding Path=NacaNumber}"/>
 
+        <Border Grid.Column="1" BorderBrush="#FF179AC8" BorderThickness="2" />
         <Viewport3D Grid.Column="1" Name="mainViewport" ClipToBounds="True" DockPanel.Dock="Right" Width="600" Height="600">
-            <ModelVisual3D>
-                <ModelVisual3D.Content>
-                    <DirectionalLight
+            <Viewport3D.Children>
+                <ModelVisual3D>
+                    <ModelVisual3D.Content>
+                        <DirectionalLight
                         Color="White"
                         Direction="-2,-3,-1" />
-                </ModelVisual3D.Content>
-            </ModelVisual3D>
+                    </ModelVisual3D.Content>
+                </ModelVisual3D>
+                <ModelVisual3D>
+                    <ModelVisual3D.Content>
+                        <DirectionalLight
+                        Color="White"
+                        Direction="2,3,1" />
+                    </ModelVisual3D.Content>
+                </ModelVisual3D>
+            </Viewport3D.Children>
         </Viewport3D>
-        <Button Content="Generate" HorizontalAlignment="Left" Margin="10,43.149,0,0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.04,0.972" Click="GenerateButton_Click"/>
     </Grid>
 </Window>
