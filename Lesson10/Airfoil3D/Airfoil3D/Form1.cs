@@ -199,7 +199,7 @@ namespace Airfoil3D
                 }
             }
 
-            for (int j = 0; j < rasterCoords[0].Count / 2; j += 5)
+            for (int j = 0; j < rasterCoords[0].Count / 2; j += 3)
             {
                 for (int i = 0; i < MaxAirfoils - 1; ++i)
                 {
