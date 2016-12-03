@@ -3,6 +3,13 @@ using System.Windows.Media.Media3D;
 
 namespace Airfoil3D
 {
+    public enum ScaleType
+    {
+        Leading,
+        Trailing,
+        Center
+    }
+
     /// <summary>
     /// Represent a 3D model.
     /// </summary>
@@ -18,8 +25,16 @@ namespace Airfoil3D
         /// </summary>
         public Transform Transform { get; set; }
 
+        /// <summary>
+        /// Specify the pivot point for the scale.
+        /// Depending on the scale type, we translate the model coords toward the origin,
+        /// then scale and translate back.
+        /// </summary>
+        public ScaleType ScaleType { get; set; }
+
         public GameModel()
         {
+            ScaleType = ScaleType.Leading;
             Transform = new Transform();
             ModelCoordinates = new List<Point3D>();
         }
@@ -33,7 +48,24 @@ namespace Airfoil3D
             List<Point3D> worldCoordinates = new List<Point3D>();
 
             Matrix3D modelToWorldMatrix = new Matrix3D();
-            modelToWorldMatrix.Scale(Transform.Scale);
+
+            if (ScaleType == ScaleType.Leading)
+            {
+                modelToWorldMatrix.Scale(Transform.Scale);
+            }
+            else if (ScaleType == ScaleType.Trailing)
+            {
+                modelToWorldMatrix.Translate(new Vector3D(-1, 0, 0));
+                modelToWorldMatrix.Scale(Transform.Scale);
+                modelToWorldMatrix.Translate(new Vector3D(2, 0, 0));
+            }
+            else
+            {
+                modelToWorldMatrix.Translate(new Vector3D(-0.5f, 0, 0));
+                modelToWorldMatrix.Scale(Transform.Scale);
+                modelToWorldMatrix.Translate(new Vector3D(1, 0, 0));
+            }
+
             modelToWorldMatrix.Translate(Transform.Position);
             modelToWorldMatrix.Rotate(new Quaternion(new Vector3D(0, 0, 1), Transform.Rotation));
             foreach (Point3D modelCoord in ModelCoordinates)

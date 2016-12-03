@@ -56,6 +56,9 @@ namespace Airfoil3D
             OffsetUpDown.Maximum = 20;
             OffsetUpDown.Minimum = 0;
             OffsetUpDown.ValueChanged += OffsetUpDown_ValueChanged;
+
+            // Set the combo box data source for the color scheme.
+            ScaleTypeCombo.DataSource = Enum.GetValues(typeof(ScaleType));
         }
 
         #region Control Value Changed Handlers
@@ -82,7 +85,7 @@ namespace Airfoil3D
 
         private void ScaleUpDown_ValueChanged(object sender, EventArgs e)
         {
-            airfoils[(int)IndexUpDown.Value].Transform.Scale = 
+            airfoils[(int)IndexUpDown.Value].Transform.Scale =
                 new Vector3D((double)ScaleUpDown.Value, (double)ScaleUpDown.Value, 1);
 
             DrawRegion.Invalidate();
@@ -92,6 +95,19 @@ namespace Airfoil3D
         {
             airfoils[(int)IndexUpDown.Value].Transform.Position =
                 new Vector3D(-1, 0, (double)-OffsetUpDown.Value / 10);
+
+            DrawRegion.Invalidate();
+        }
+
+        private void ScaleTypeCombo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Set the scale type based on the combo box selection.
+            ScaleType scaleType = (ScaleType)ScaleTypeCombo.SelectedItem;
+
+            foreach (GameModel model in airfoils)
+            {
+                model.ScaleType = scaleType;
+            }
 
             DrawRegion.Invalidate();
         }
@@ -157,10 +173,18 @@ namespace Airfoil3D
         /// </summary>
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
+            e.Graphics.Clear(Color.SkyBlue);
+
+            // Obtain all the points to draw to screen.
+            List<List<Point>> rasterCoords = new List<List<Point>>();
             for (int i = 0; i < MaxAirfoils; ++i)
             {
-                List<Point> rasterCoords = GetRasterPoints(airfoils[i].ComputeWorldCoordinates());
+                List<Point> coords = GetRasterPoints(airfoils[i].ComputeWorldCoordinates());
+                rasterCoords.Add(coords);
+            }
 
+            for (int i = 0; i < MaxAirfoils; ++i)
+            {
                 // Choose a different color for the currently selected airfoil section.
                 Pen pen = Pens.DarkGray;
                 if (i == (int)IndexUpDown.Value)
@@ -169,9 +193,17 @@ namespace Airfoil3D
                 }
 
                 // Draw the airfoil section.
-                for (int j = 0; j < rasterCoords.Count - 1; ++j)
+                for (int j = 0; j < rasterCoords[i].Count - 1; ++j)
                 {
-                    e.Graphics.DrawLine(pen, rasterCoords[j], rasterCoords[j + 1]);
+                    e.Graphics.DrawLine(pen, rasterCoords[i][j], rasterCoords[i][j + 1]);
+                }
+            }
+
+            for (int j = 0; j < rasterCoords[0].Count / 2; j += 5)
+            {
+                for (int i = 0; i < MaxAirfoils - 1; ++i)
+                {
+                    e.Graphics.DrawLine(Pens.DarkGray, rasterCoords[i][j], rasterCoords[i + 1][j]);
                 }
             }
         }

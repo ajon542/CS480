@@ -37,6 +37,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.OffsetUpDown = new System.Windows.Forms.NumericUpDown();
+            this.ScaleTypeCombo = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.DrawRegion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.IndexUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RotationUpDown)).BeginInit();
@@ -117,11 +118,21 @@
             this.OffsetUpDown.Size = new System.Drawing.Size(49, 20);
             this.OffsetUpDown.TabIndex = 8;
             // 
+            // ScaleTypeCombo
+            // 
+            this.ScaleTypeCombo.FormattingEnabled = true;
+            this.ScaleTypeCombo.Location = new System.Drawing.Point(12, 134);
+            this.ScaleTypeCombo.Name = "ScaleTypeCombo";
+            this.ScaleTypeCombo.Size = new System.Drawing.Size(121, 21);
+            this.ScaleTypeCombo.TabIndex = 9;
+            this.ScaleTypeCombo.SelectedIndexChanged += new System.EventHandler(this.ScaleTypeCombo_SelectedIndexChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(981, 820);
+            this.Controls.Add(this.ScaleTypeCombo);
             this.Controls.Add(this.OffsetUpDown);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -154,6 +165,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown OffsetUpDown;
+        private System.Windows.Forms.ComboBox ScaleTypeCombo;
     }
 }
 
